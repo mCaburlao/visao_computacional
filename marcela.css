@@ -49,7 +49,7 @@ body{
 
 .about-wrapper{
   height: 100vh;
-  margin-left: 200px;
+  width: 100%;
 }
 .about-left{
   display: flex;
