@@ -1,0 +1,173 @@
+:root{
+    --color_back_1 : #4f1e10;
+    --color_back_2 : #3c053f;
+    --color_back_3 : #093849;
+    --color_back_4 : #04392d;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, 
+                var(--color_back_1), var(--color_back_2), var(--color_back_3), var(--color_back_4));
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    -webkit-animation: gradient 10s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.audio{
+    position: absolute;
+    top: 20px;
+    left: 1200px
+    
+}
+
+.section-heading {
+    font-family: "Dancing Script", cursive;
+    text-align: center;
+    font-size: 64px;
+    color: #fff;
+    margin: 0 0 70px;
+}
+
+.container2 {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    max-width: 1440px;
+    margin: 80px auto 80px 160px;
+}
+
+.profile {
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile:hover {
+    transform: translateY(25px);
+}
+
+.profile img {
+    --s: 280px;   /* the size of the image */
+    --b: 5px;     /* the border thickness*/
+    --g: 14px;    /* the gap */
+    --c: #F92F5F; /* the color */
+    
+    width: var(--s);
+    height: var(--s);
+    object-fit: cover;
+    outline: calc(var(--s)/2) solid #0000;
+    outline-offset: calc(var(--s)/-2);
+    border-radius: 50%;
+    filter: drop-shadow(-20px 0 10px rgba(0, 0, 0, 0.1));
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+        outline: var(--b) solid var(--c);
+        outline-offset: var(--g);
+    }
+}
+
+.profile:not(:first-child) img {
+    margin-left: -20px;
+}
+
+.profile .nome {
+    --url:url(caio/caio_nome.jpg);
+    
+    background: var(--url);
+    background-position: center;
+    background-size: 100%;
+    width: 60px;
+    height: 15px;
+    position: absolute;
+    background-color: #000;
+    padding: 45px 100px;
+    border-radius: 10px;
+    bottom: -80px; left: 50%;
+    white-space: nowrap;
+    transform: translate(-50%, -50px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile:not(:first-child) .nome {
+    margin-left: -20px;
+}
+
+.profile .nome::before {
+    content: "";
+    position: absolute;
+    width: 10px; height: 10px;
+    background-color: #000;
+    top: 0; left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.profile a:hover + .nome {
+    opacity: 1;
+    transform: translateX(-50%);
+    box-shadow: 0 10px 20px rgba(86, 86, 198, 0.3);
+}
+
+
+
+@media only screen and (min-width: 1200px) {
+    .container2 {
+        //display: table;
+    }
+}
+
+@media only screen and (min-width: 960px) and (max-width: 1199px) {
+    .container2 {
+        //display: table;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+    .container2 {
+        display: table;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .container2 {
+        margin: 0 auto;
+        display: table;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .container2 {
+        margin: 0 auto;
+        display: table;
+    }
+}
