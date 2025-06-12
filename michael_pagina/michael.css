@@ -1,0 +1,241 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; 
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #ee7752, #12192c, #02c2fd, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 10s ease infinite;
+  -webkit-animation: gradient 10s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+.about-wrapper{
+    height: 100vh;
+}
+.about-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color:#fff
+}
+.about-left-content > div{
+    background: #12192c;
+    padding: 4rem 4rem 2.5rem 5rem;
+    text-align: center;
+    border-radius: 12px 12px 0 0;
+}
+.about-left-content{
+    box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
+    -webkit-box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
+    -moz-box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
+    border-radius: 12px;
+    width:80%;
+}
+
+
+.shadow {
+    display: flex;
+    justify-content: center;
+    gap: 0px;
+    width: 500px;
+    margin: 0 auto;
+    height: 300px;
+    position: relative;
+    transform: translateX(-30px);
+  }
+  
+  .about-img {
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 20%;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+  }
+  
+  .about-img img {
+    display: block;
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+  }
+  
+  .about-img.left {
+    margin-top: 60px;
+    z-index: 2; 
+    transform: translateX(30px); 
+  }
+  
+  
+  .about-img.right {
+    z-index: 1;
+}
+
+.about-left-content h2{
+    font-size: 2rem;
+    margin: 2.2rem 0 0.6rem 0;
+    line-height: 1.2;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #02c2fd;;
+}
+.about-left-content h3{
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 5px;
+    margin-top: 1.2rem;
+}
+.icons{
+    background: #12192c;
+    display: flex;
+    justify-content: center;
+    padding: 0.8rem 0;
+    border-radius: 0 0 12px 12px;
+}
+.icons a{
+    text-decoration: none;
+}
+.icons li{
+    list-style-type: none;
+    background: #02c2fd;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    margin: 0 0.5rem;
+    background: linear-gradient(45deg, #02c2fd, #004792);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+.icons li:hover{
+    background: #edffec;
+    color: #000;
+    filter: drop-shadow(0 0 0.5rem #fccaff);
+}
+.about-right{
+    background: #12192c;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5rem;
+    text-align: center;
+    color:#fff
+}
+.about-right h1{
+    font-size: 1.5rem;
+    text-align: left;    
+}
+.about-right h1 span{
+    color: #02c2fd;;
+}
+.about-right h2{
+    font-size: 1.5rem;
+    
+}
+
+.about-right a {
+    text-align: left;
+    width: 200px;
+    height: 200px;
+}
+
+.about-para p{
+    font-weight: 300;
+    padding: 0.5rem;
+    opacity: 0.8;
+}
+
+.about-para a{
+    text-decoration: none;
+    color:#02c2fd;;
+    font-weight: bold;
+}
+
+.about-para a:hover{
+    background: #edffec;
+    color: #000;
+    filter: drop-shadow(0 0 0.5rem #fccaff);
+}
+
+
+@media screen and (min-width: 992px){
+    .about-wrapper{
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+
+    .about-left{
+        position: relative;
+    }
+    .about-left-content{
+        position: absolute;
+        width:80%
+    
+    }
+}
+
+.linha {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+  }
+
+.harry {
+    width: 150px;
+    height: 150px;
+    background-image: url("harry.gif");
+    background-size: cover;
+    margin-left: 100px;
+}
+
+.audio-box {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+  
+  .audio-title {
+    font-size: 12px;
+    font-weight: arial;
+    margin-bottom: 5px;
+  }
+
+.about-right h5{
+    font-size: 0.9rem;
+    text-align: left;    
+}
