@@ -438,3 +438,26 @@ button.btn.btn-pink {
     opacity: 1.0;
   }
 }
+
+.btn-voltar {
+  position: absolute;
+  top: 15px;
+  left: 80px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}

@@ -42,13 +42,6 @@ body {
 	}
 }
 
-.audio{
-    position: absolute;
-    top: 20px;
-    left: 1200px
-    
-}
-
 .section-heading {
     font-family: "Dancing Script", cursive;
     text-align: center;
@@ -170,4 +163,24 @@ body {
         margin: 0 auto;
         display: table;
     }
+}
+
+.audio-box {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  position: absolute;
+  top: 20px;
+  left: 1200px;
+}
+
+.audio-title {
+  font-weight: arial;
+  margin-bottom: 5px;
+  color:#fff;
+}
+
+.audio-player {
+  width: 300px;
+  height: 40px;
 }

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #4f1e10, #3c053f, #093849, #04392d);
+	background-size: 400% 400%;
+	animation: gradient 10s ease infinite;
+    -webkit-animation: gradient 10s ease infinite;
+	height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.titulo {
+    font-family: "Dancing Script", cursive;
+    font-size: 54px;
+    color: #ffffff;
+    margin: 10px 5rem 70px;
+    position: absolute;
+  }
