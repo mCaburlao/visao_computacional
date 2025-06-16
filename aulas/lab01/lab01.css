@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #4f1e10, #3c053f, #093849, #04392d);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    -webkit-animation: gradient 10s ease infinite;
+    height: 200vh;
+    margin: 0;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@-webkit-keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.principal {
+    margin-left: 200px;
+    margin-right: 50px;
+    width: 85%;
+    position: absolute;
+}
+
+.principal a {
+    text-decoration: none;
+}
+
+.titulo {
+    margin: 50px 5rem 30px;
+    text-align: left;
+}
+
+.audio {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+
+}
+
+img {
+    height: auto;
+    min-width: 35%;
+    max-width: 238px;
+    max-height: 100%;
+    margin: 0 50px 0px;
+}
+
+h1 {
+    font-family: "Dancing Script", cursive;
+    font-size: 60px;
+    color: #fff;
+    margin: 0 0 0px;
+    text-align: center;
+}
+
+h2 {
+    font-family: "Dancing Script", cursive;
+    font-size: 40px;
+    color: #fff;
+    margin: 0 50px 0px;
+    text-align: left;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #fff;
+    margin: 0 20px 0px;
+    text-align: justify;
+}

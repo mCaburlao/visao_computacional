@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lab.01</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="lab01.css">
+    <link rel="stylesheet" href="../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <ul class="mcd-menu">
+                <li>
+                    <a href="">
+                        <i class="fa fa-home"></i>
+                        <strong>Home</strong>
+                        <small>em desenvolvimento</small>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../index.html">
+                        <i class="fa fa-edit"></i>
+                        <strong>Sobre nós</strong>
+                        <small>Completo</small>
+                    </a>
+                </li>
+                <li>
+                    <a href="../aulas.html" class="active">
+                        <i class="fa fa-archive"></i>
+                        <strong>Aulas</strong>
+                        <small>em desenvolvimento</small>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="principal">
+
+        <h1 class="titulo">Relatório </h1>
+        <!-- <br>
+        <div class = "about-btns">
+            <button 
+                onclick="document.location='lab2.html'" type = "button" 
+                class = "btn btn-pink">Fotos e Vídeos</button>
+        </div>
+        <br> -->
+
+        <h2>(A) Leitura de imagem em arquivo</h2>
+        <br>
+        <p>
+            &emsp; A janela não mostra a imagem colorida porque a imagem está sendo lida com o segundo parâmetro igual a
+            0 na função cv2.imread no código python (img = cv.imread('messi5.jpg',0)).
+        </p>
+        <br>
+        <img src="arquivos/a_codigo.png" alt="Código python">
+        <br>
+        <br>
+        <h2>(B) Leitura de vídeo em arquivo</h2>
+        <br>
+        <p>
+            &emsp; O parte do programa que foi alterada para deixar o vídeo mais rápido ou mais lento foi o time.sleep
+            que é o tempo que o programa irá esperar entre a leitura de uma imagem e outra. Para deixar o vídeo mais
+            lento foi necessário diminuir o valor de 25fps assim o valor da divisão se tornava maior e consequentemente
+            o vídeo mais lento, e para aumentar a velocidade foi necessário aumentar o valor de 25fps assim o valor da
+            divisão se tornava menor e consequentemente o vídeo mais rápido.
+        </p>
+        <br>
+        <img src="arquivos/b_codigo.png" alt="Código python">
+        <br>
+    </div>
+
+</body>
+
+</html>
