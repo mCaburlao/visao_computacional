@@ -4,26 +4,44 @@ $(function(){
     const $wrap = $(this).parent('.slider-main_wrap');
     const $thumbs = $wrap.siblings('.slider-thumbs');
     
-    $(this).find('img').each(function() {
+    // Clear thumbs in case of re-init
+    $thumbs.empty();
+
+    // Add thumbs
+    $(this).find('img').each(function(idx) {
       const $src = $(this).attr('src'),
             $alt = $(this).attr('alt');
-      $thumbs.append(`<img src="${$src}" alt="${$alt}">`);
+      $thumbs.append(`<img src="${$src}" alt="${$alt}" data-index="${idx}">`);
     });
-    
-    $(this).slick({
+
+    // Init main slider
+    $main.slick({
       arrows: false,
-      asNavFor: $thumbs
+      dots: false,
+      // Remove asNavFor
+      // asNavFor: $thumbs
     });
+
+    // Thumb click: go to slide
+    $thumbs.on('click', 'img', function() {
+      const idx = $(this).data('index');
+      $main.slick('slickGoTo', idx);
+    });
+
+    // Highlight active thumb
+    $main.on('afterChange', function(event, slick, currentSlide){
+      $thumbs.find('img').removeClass('active');
+      $thumbs.find(`img[data-index="${currentSlide}"]`).addClass('active');
+    });
+
+    // Set initial active thumb
+    $thumbs.find('img').first().addClass('active');
   });
-  
-  // Ajustando o slider-thumbs
+
+  // Remove Slick from thumbs (if previously initialized)
   $('.slider-thumbs').each(function(){
-    const $main = $(this).siblings('.slider-main_wrap').children('.slider-main');
-    $(this).slick({
-      focusOnSelect: true,
-      arrows: false,
-      asNavFor: $main,
-      slidesToShow: 12      // sempre mostrar 2
-    });
+    if ($(this).hasClass('slick-initialized')) {
+      $(this).slick('unslick');
+    }
   });
 });

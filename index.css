@@ -9,14 +9,17 @@ body {
     margin: 0;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     background: linear-gradient(-45deg, 
                 var(--color_back_1), var(--color_back_2), var(--color_back_3), var(--color_back_4));
     background-size: 400% 400%;
     animation: gradient 10s ease infinite;
     -webkit-animation: gradient 10s ease infinite;
 	height: 100vh;
+    
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 @keyframes gradient {
@@ -42,12 +45,17 @@ body {
 	}
 }
 
+.principal {
+    display: grid;
+    align-items: center;
+}
+
 .section-heading {
     font-family: "Dancing Script", cursive;
-    text-align: center;
-    font-size: 64px;
+    font-size: 60px;
     color: #fff;
-    margin: 0 0 70px;
+    margin: 50px 5rem 30px;
+    text-align: left;
 }
 
 .container2 {
@@ -55,7 +63,7 @@ body {
     justify-content: center;
     width: 90%;
     max-width: 1440px;
-    margin: 80px auto 80px 160px;
+    margin: 80px auto 160px;
 }
 
 .profile {
@@ -129,20 +137,6 @@ body {
     opacity: 1;
     transform: translateX(-50%);
     box-shadow: 0 10px 20px rgba(86, 86, 198, 0.3);
-}
-
-
-
-@media only screen and (min-width: 1200px) {
-    .container2 {
-        //display: table;
-    }
-}
-
-@media only screen and (min-width: 960px) and (max-width: 1199px) {
-    .container2 {
-        //display: table;
-    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {

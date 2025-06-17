@@ -9,9 +9,13 @@ body{
     -webkit-animation: gradient 10s ease infinite;
 	height: 100vh;
     margin: 0;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: start; */
+    
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 @keyframes gradient {
@@ -37,24 +41,17 @@ body{
 	}
 }
 
-.principal{
-    display: flex;
-    margin-left: 100px;   
-}
-
 
 h1{
     font-family: "Dancing Script", cursive;
-    font-size: 54px;
+    font-size: 60px;
     color: #fff;
     margin: 0 0 0px;
 }
 
 .titulo {
-    font-family: "Dancing Script", cursive;
-    font-size: 54px;
-    color: #ffffff;
-    margin: 10px 5rem 70px;
+    margin: 50px 5rem 30px;
+    text-align: left;
     position: absolute;
   }
 
@@ -97,7 +94,7 @@ h1{
 
 button {
     position: relative;
-    width: 140vh;
+    width: 100%;
     background: #272822;
     color: #fff;
     text-decoration: none;
