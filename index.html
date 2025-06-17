@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap"
-      rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <title>Sobre nós || CV - 2025.2 </title>
 </head>
+
 <body>
+    <!-- Place this right after <body> -->
+    <button class="menu-toggle" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+    </button>
 
     <div class="container">
         <nav>
@@ -20,22 +27,28 @@
                 <li>
                     <a href="">
                         <i class="fa fa-home"></i>
-                        <strong>Home</strong>
-                        <small>Incompleto</small>
+                        <div>
+                            <strong>Home</strong>
+                            <small>Incompleto</small>
+                        </div>
                     </a>
                 </li>
                 <li>
                     <a href="index.html" class="active">
                         <i class="fa fa-edit"></i>
-                        <strong>Sobre nós</strong>
-                        <small>Completo</small>
+                        <div>
+                            <strong>Sobre nós</strong>
+                            <small>Completo</small>
+                        </div>
                     </a>
                 </li>
                 <li>
                     <a href="aulas/aulas.html">
                         <i class="fa fa-archive"></i>
-                        <strong>Aulas</strong>
-                        <small>Incompleto</small>
+                        <div>
+                            <strong>Aulas</strong>
+                            <small>Incompleto</small>
+                        </div>
                     </a>
                 </li>
             </ul>
@@ -43,29 +56,40 @@
     </div>
 
     <section class="principal">
-      <h1 class="section-heading">Quem Somos?</h1>
+        <h1 class="section-heading">Quem Somos?</h1>
 
-      <div class="audio-box">
-        <p class="audio-title">Acessibilidade auditiva</p>
+        <div class="audio-box">
+            <p class="audio-title">Acessibilidade auditiva</p>
             <audio controls class="audio-player">
                 <source src="index_audio.ogg" type="audio/ogg">
                 Seu navegador não suporta áudio.
             </audio>
-      </div>
+        </div>
 
-      <div class="container2">
-        <div class="profile">
-            <a href="lucas/lucas.html"><img src="lucas/lucas_bitencourt.jpeg" alt=""/></a><div class='nome' style='--url:url(lucas/lucas_nome.jpg)'></div>
+        <div class="container2">
+            <div class="profile">
+                <a href="lucas/lucas.html"><img src="lucas/lucas_bitencourt.jpeg" alt="" /></a>
+                <div class='nome' style='--url:url(lucas/lucas_nome.jpg)'></div>
+            </div>
+
+            <div class="profile">
+                <a href="marcela/marcela.html"><img src="marcela/marcela_foto.jpg" alt="" /></a>
+                <div class='nome' style='--url:url(marcela/marcela_nome.jpg)'></div>
+            </div>
+            <div class="profile">
+                <a href="michael/michael.html"><img src="michael/michael_foto.jpg" alt="" /></a>
+                <div class='nome' style='--url:url(michael/michael_nome.jpg)'></div>
+            </div>
         </div>
-    
-        <div class="profile">
-            <a href="marcela/marcela.html"><img src="marcela/marcela_foto.jpg" alt=""/></a><div class='nome' style='--url:url(marcela/marcela_nome.jpg)'></div>
-        </div>
-        <div class="profile">
-            <a href="michael/michael.html"><img src="michael/michael_foto.jpg" alt=""/></a><div class='nome' style='--url:url(michael/michael_nome.jpg)'></div>
-        </div>
-      </div>
     </section>
 
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuContainer = document.querySelector('.container');
+        menuToggle.addEventListener('click', () => {
+            menuContainer.classList.toggle('expanded');
+        });
+    </script>
 </body>
+
 </html>
