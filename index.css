@@ -1,8 +1,8 @@
-:root{
-    --color_back_1 : #4f1e10;
-    --color_back_2 : #3c053f;
-    --color_back_3 : #093849;
-    --color_back_4 : #04392d;
+:root {
+    --color_back_1: #4f1e10;
+    --color_back_2: #3c053f;
+    --color_back_3: #093849;
+    --color_back_4: #04392d;
 }
 
 body {
@@ -11,38 +11,43 @@ body {
     display: flex;
     /* justify-content: center; */
     /* align-items: center; */
-    background: linear-gradient(-45deg, 
-                var(--color_back_1), var(--color_back_2), var(--color_back_3), var(--color_back_4));
+    background: linear-gradient(-45deg,
+            var(--color_back_1), var(--color_back_2), var(--color_back_3), var(--color_back_4));
     background-size: 400% 400%;
     animation: gradient 10s ease infinite;
     -webkit-animation: gradient 10s ease infinite;
-	height: 100vh;
-    
+    height: 100vh;
+
     flex-direction: row;
     align-items: flex-start;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
+
 @-webkit-keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .principal {
@@ -63,7 +68,7 @@ body {
     justify-content: center;
     width: 90%;
     max-width: 1440px;
-    margin: 80px auto 160px;
+    margin: 5% auto 15%;
 }
 
 .profile {
@@ -76,11 +81,15 @@ body {
 }
 
 .profile img {
-    --s: 280px;   /* the size of the image */
-    --b: 5px;     /* the border thickness*/
-    --g: 14px;    /* the gap */
-    --c: #F92F5F; /* the color */
-    
+    --s: 280px;
+    /* the size of the image */
+    --b: 5px;
+    /* the border thickness*/
+    --g: 14px;
+    /* the gap */
+    --c: #F92F5F;
+    /* the color */
+
     width: var(--s);
     height: var(--s);
     object-fit: cover;
@@ -102,8 +111,8 @@ body {
 }
 
 .profile .nome {
-    --url:url(caio/caio_nome.jpg);
-    
+    --url: url(caio/caio_nome.jpg);
+
     background: var(--url);
     background-position: center;
     background-size: 100%;
@@ -113,7 +122,8 @@ body {
     background-color: #000;
     padding: 45px 100px;
     border-radius: 10px;
-    bottom: -80px; left: 50%;
+    bottom: -80px;
+    left: 50%;
     white-space: nowrap;
     transform: translate(-50%, -50px);
     opacity: 0;
@@ -127,13 +137,15 @@ body {
 .profile .nome::before {
     content: "";
     position: absolute;
-    width: 10px; height: 10px;
+    width: 10px;
+    height: 10px;
     background-color: #000;
-    top: 0; left: 50%;
+    top: 0;
+    left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.profile a:hover + .nome {
+.profile a:hover+.nome {
     opacity: 1;
     transform: translateX(-50%);
     box-shadow: 0 10px 20px rgba(86, 86, 198, 0.3);
@@ -160,21 +172,19 @@ body {
 }
 
 .audio-box {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  position: absolute;
-  top: 20px;
-  left: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 .audio-title {
-  font-weight: arial;
-  margin-bottom: 5px;
-  color:#fff;
+    font-weight: arial;
+    margin-top: 1px;
+    margin-bottom: 5px;
+    color: #fff;
 }
 
 .audio-player {
-  width: 300px;
-  height: 40px;
+    width: 300px;
+    height: 40px;
 }

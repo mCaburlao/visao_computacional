@@ -65,13 +65,13 @@
                 Seu navegador não suporta áudio.
             </audio>
         </div>
-
+        
         <div class="container2">
             <div class="profile">
                 <a href="lucas/lucas.html"><img src="lucas/lucas_bitencourt.jpeg" alt="" /></a>
                 <div class='nome' style='--url:url(lucas/lucas_nome.jpg)'></div>
             </div>
-
+            
             <div class="profile">
                 <a href="marcela/marcela.html"><img src="marcela/marcela_foto.jpg" alt="" /></a>
                 <div class='nome' style='--url:url(marcela/marcela_nome.jpg)'></div>
@@ -89,6 +89,19 @@
         menuToggle.addEventListener('click', () => {
             menuContainer.classList.toggle('expanded');
         });
+
+        // Make the menu container follow the user's scrolling (fluid and mobile-friendly)
+        function updateMenuPosition() {
+            // Only apply on desktop (fixed menu), not on mobile where menu is overlay
+            if (window.innerWidth < 768) {
+                document.querySelector('.container').style.top = '0';
+            } else {
+                document.querySelector('.container').style.top = window.scrollY + 'px';
+            }
+        }
+        window.addEventListener('scroll', updateMenuPosition);
+        window.addEventListener('resize', updateMenuPosition);
+        updateMenuPosition();
     </script>
 </body>
 

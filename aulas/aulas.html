@@ -63,6 +63,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Make the menu container follow the user's scrolling (fluid and mobile-friendly)
+        function updateMenuPosition() {
+            // Only apply on desktop (fixed menu), not on mobile where menu is overlay
+            if (window.innerWidth < 768) {
+                document.querySelector('.container').style.top = '0';
+            } else {
+                document.querySelector('.container').style.top = window.scrollY + 'px';
+            }
+        }
+        window.addEventListener('scroll', updateMenuPosition);
+        window.addEventListener('resize', updateMenuPosition);
+        updateMenuPosition();
+    </script>
 </body>
 
 </html>

@@ -44,4 +44,16 @@ $(function(){
       $(this).slick('unslick');
     }
   });
+
+  // Make the menu container follow the user's scrolling (fluid and mobile-friendly)
+  function updateMenuPosition() {
+    // Only apply on desktop (fixed menu), not on mobile where menu is overlay
+    if (window.innerWidth < 768) {
+      $('.container').css('top', '0');
+    } else {
+      $('.container').css('top', $(window).scrollTop() + 'px');
+    }
+  }
+  $(window).on('scroll resize', updateMenuPosition);
+  updateMenuPosition();
 });
