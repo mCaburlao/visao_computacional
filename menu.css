@@ -33,31 +33,31 @@ body {
 }
 
 @keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
+  }
 
-    50% {
-        background-position: 100% 50%;
-    }
+  50% {
+    background-position: 100% 50%;
+  }
 
-    100% {
-        background-position: 0% 50%;
-    }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @-webkit-keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
+  }
 
-    50% {
-        background-position: 100% 50%;
-    }
+  50% {
+    background-position: 100% 50%;
+  }
 
-    100% {
-        background-position: 0% 50%;
-    }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .menu-toggle {
@@ -107,8 +107,7 @@ body {
   margin-right: 0;
   position: relative;
   width: 100%;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 80px;
 }
 
 .container.expanded {
@@ -117,7 +116,7 @@ body {
 
 .mcd-menu {
   width: 100%;
-  padding: 0;
+  padding: 10px 0px;
   margin: 0;
   list-style: none;
   display: flex;
@@ -190,6 +189,10 @@ body {
   .menu-toggle {
     top: 24px;
     left: 24px;
+  }
+
+  .principal {
+    padding-right: 80px;
   }
 
   .container {
