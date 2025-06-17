@@ -2,6 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
+  --color_back_1: #4f1e10;
+  --color_back_2: #3c053f;
+  --color_back_3: #093849;
+  --color_back_4: #04392d;
+
   --background_colour: #181c2f;
   --font_colour: #fff;
   --selected_colour: #ee7752;
@@ -12,8 +17,47 @@
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
   font-family: 'Poppins', sans-serif;
+  background: linear-gradient(-45deg, #4f1e10, #3c053f, #093849, #04392d);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  -webkit-animation: gradient 10s ease infinite;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@-webkit-keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .menu-toggle {
