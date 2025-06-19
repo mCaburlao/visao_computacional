@@ -8,7 +8,8 @@ body {
     height: 100vh;
     display: flex;
     align-items: flex-start;
-    width: 220px; /* fixed width for menu */
+    width: 220px;
+    /* fixed width for menu */
     position: relative;
     margin: 0;
     padding: 0;
@@ -32,14 +33,10 @@ body {
 
 }
 
-.slider-main_wrap {
-    position: relative;
-    height: auto;
-    max-height: 238px;
-    max-width: 500px;
-}
-
-img {
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 100%;
     height: auto;
 }
@@ -72,6 +69,37 @@ p {
 
 .slider-main_wrap {
     position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    height: 200px; /* altura fixa igual à menor imagem */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-main_wrap,
+.slider-thumbs {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    /* largura máxima opcional para melhor visual */
+    max-width: 600px;
+}
+
+.slider-main_wrap img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+    /* Remova width/height fixos para as imagens do slider */
+    max-width: 100%;
+    max-height: 200px;
+    width: auto;
+    height: auto;
 }
 
 /* arrows */
@@ -127,18 +155,19 @@ p {
 }
 
 .slider-thumbs img.active {
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3c053f;
-  opacity: 1;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #3c053f;
+    opacity: 1;
 }
+
 .slider-thumbs img {
-  opacity: 0.7;
-  cursor: pointer;
-  margin-right: 5px;
-  border-radius: 5px;
-  transition: opacity 0.2s, border 0.2s;
-  max-height: 50px;
-  max-width: 50px;
+    opacity: 0.7;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 5px;
+    transition: opacity 0.2s, border 0.2s;
+    max-height: 50px;
+    max-width: 50px;
 }
 
 .slick-track:after,

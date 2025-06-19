@@ -82,7 +82,7 @@
             0 na função cv2.imread no código python (img = cv.imread('messi5.jpg',0)).
         </p>
         <br>
-        <img src="arquivos/a_codigo.png" alt="Código python">
+        <img class="centered" src="arquivos/a_codigo.png" alt="Código python">
         <br>
         <br>
         <h2>(B) Leitura de vídeo em arquivo</h2>
@@ -95,7 +95,7 @@
             divisão se tornava menor e consequentemente o vídeo mais rápido.
         </p>
         <br>
-        <img src="arquivos/b_codigo.png" alt="Código python">
+        <img class="centered" src="arquivos/b_codigo.png" alt="Código python">
         <br>
         <br>
         <h2>(C) Leitura de imagem de câmera</h2>
@@ -116,6 +116,39 @@
             </div>
             <div class="arrow_box"></div>
         </div>
+        <br>
+        <br>
+        <h2>(D) Gravação de vídeo da câmera</h2>
+        <br>
+        <p>
+            &emsp; Para deixar o vídeo “normal” foi necessário alterar o valor dentro do cv.flip() que anteriormente era
+            0 e alteramos para 1, assim a imagem não ficou mais invertida. E para ajustar a velocidade do vídeo para que
+            ficasse natural, foi alterado o valor de fps para 25.0 que anteriormente era 10.0, deixando o vídeo lento.
+        </p>
+        <br>
+        <img class="centered" src="arquivos/d_codigo.png" alt="Código python">
+        <br>
+        <p>
+            &emsp; A fim de melhorar a compatibilidade do vídeo com diversos navegadores, utilizamos o FFMEG para
+            converter o vídeo para MP4. Para essa conversão, utilizamos o seguinte comando:
+        </p>
+        <br>
+        <p>&emsp; &emsp;<code>ffmpeg -i saida.avi -c:v libx264 -c:a aac saida.mp4</code></p>
+        <br>
+        <video class="centered" width="640" height="360" controls>
+            <source src="arquivos/saida.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <br>
+        <h2>EXTRA</h2>
+        <br>
+        <p>
+            &emsp; L1_1_img.py:	após cv.imread()
+        </p>
+        <br>
+        <p>&emsp; &emsp;<code># Aqui você pode aplicar o processamento</code></p>
+        <p>&emsp; &emsp;<code># img = cv.GaussianBlur(img, (5, 5), 0)</code></p>
+        <br>
         <br>
     </div>
 
