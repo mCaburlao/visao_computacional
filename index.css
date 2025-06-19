@@ -1,5 +1,6 @@
 body {
     height: 100vh;
+
 }
 
 .principal {
@@ -124,9 +125,19 @@ body {
 }
 
 .audio-box {
+    /*display: flex;
+    flex-direction: column;
+    align-items: start;*/
+
+    position: fixed;
+    top: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
 }
 
 .audio-title {
@@ -139,4 +150,17 @@ body {
 .audio-player {
     width: 300px;
     height: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  .audio-box {
+    position: static;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: transparent;
+  }
+
+  .audio-player {
+    width: 100%;
+  }
 }
