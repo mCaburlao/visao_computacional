@@ -206,6 +206,7 @@ pre code {
 .principal {
   margin-left: 0;
   margin-right: 0;
+  padding-bottom: 40px;
   position: relative;
   width: 80%;
   padding-left: 80px;
