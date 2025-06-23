@@ -110,7 +110,9 @@
         <h2>(C) Leitura de imagem de câmera</h2>
         <br>
         <p>
-            &emsp; Adicionar descrição aqui.
+            &emsp; O programa foi alterado para que a imagem da câmera fosse salva em um arquivo. Abaixo, se encontra a
+            alteração realizada no código, bem como a foto tirada. Cada uma pode ser visualizada ao clicar na miniatura
+            correspondente.
         </p>
         <br>
         <!-- <div class="slick-slider">
@@ -144,7 +146,7 @@
         <br>
         <p>&emsp; &emsp;<code>ffmpeg -i saida.avi -c:v libx264 -c:a aac saida.mp4</code></p>
         <br>
-        <video class="centered" width="640" height="360" controls>
+        <video class="centered" width="480" height="270" controls>
             <source src="arquivos/saida.mp4" type="video/mp4">
             Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -152,11 +154,55 @@
         <h2>EXTRA</h2>
         <br>
         <p>
-            &emsp; L1_1_img.py:	após cv.imread()
+            &emsp; Em seguida, são mostradas as partes de cada código que precisam ser alteradas:
+        </p>
+        <br>
+        <p>
+            &emsp; <bold>L1_1_img.py:</bold> após cv.imread()
         </p>
         <br>
         <p>&emsp; &emsp;<code># Aqui você pode aplicar o processamento</code></p>
         <p>&emsp; &emsp;<code># img = cv.GaussianBlur(img, (5, 5), 0)</code></p>
+        <br>
+        <p>
+            &emsp; <bold>L1_2_video.py:</bold> após cap.read() e antes de cv.imshow()
+        </p>
+        <br>
+        <p>&emsp; &emsp;<code># Aqui aplica o processamento</code></p>
+        <p>&emsp; &emsp;<code># frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)</code></p>
+        <p>&emsp; &emsp;<code># cv.imshow('frame', frame)</code></p>
+        <br>
+        <p>
+            &emsp; <bold>L1_3_webcam.py:</bold> após cap.read() e antes de cv.imshow()
+        </p>
+        <br>
+        <p>&emsp; &emsp;<code># Aqui aplica o processamento</code></p>
+        <p>&emsp; &emsp;<code># frame = cv.Canny(frame, 100, 200)</code></p>
+        <p>&emsp; &emsp;<code># cv.imshow('frame', frame)</code></p>
+        <br>
+        <p>
+            &emsp; <bold>L1_4_webcap.py:</bold> após cv.flip(...) e antes de out.write()
+        </p>
+        <br>
+        <p>&emsp; &emsp;<code># Aqui você pode aplicar o processamento</code></p>
+        <p>&emsp; &emsp;<code># frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)</code></p>
+        <br>
+        <h2>PARTE 2: Obtenção de Fotos e Vídeos</h2>
+        <br>
+        <p>
+            &emsp; Foto de todos integrantes da equipe:
+        </p>
+        <br>
+        <div class="videos-row">
+            <video width="400" height="300" controls>
+                <source src="arquivos/rapido_edit.avi" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+            <video width="400" height="300" controls>
+                <source src="arquivos/lento_edit.avi" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+        </div>
         <br>
         <br>
     </div>

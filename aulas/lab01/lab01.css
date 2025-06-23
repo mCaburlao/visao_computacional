@@ -2,6 +2,7 @@
 
 body {
     height: 200vh;
+    color: #fff;
 }
 
 .container {
@@ -44,7 +45,6 @@ body {
 h1 {
     font-family: "Dancing Script", cursive;
     font-size: 60px;
-    color: #fff;
     margin: 0 0 0px;
     text-align: center;
 }
@@ -52,7 +52,6 @@ h1 {
 h2 {
     font-family: "Dancing Script", cursive;
     font-size: 40px;
-    color: #fff;
     margin: 0 50px 0px;
     text-align: left;
 }
@@ -60,9 +59,20 @@ h2 {
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
-    color: #fff;
     margin: 0 20px 0px;
     text-align: justify;
+}
+
+p bold {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.videos-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
 /* slider-main */
@@ -74,7 +84,8 @@ p {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    height: 200px; /* altura fixa igual à menor imagem */
+    height: 200px;
+    /* altura fixa igual à menor imagem */
     display: flex;
     align-items: center;
     justify-content: center;
