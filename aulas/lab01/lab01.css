@@ -16,10 +16,6 @@ body {
     padding: 0;
 }
 
-.principal a {
-    text-decoration: none;
-}
-
 .titulo {
     margin: 50px 5rem 30px;
     text-align: left;
@@ -70,6 +66,11 @@ p {
     text-align: justify;
 }
 
+a {
+    color: #fff;
+    text-decoration: underline;
+}
+
 p bold {
     font-weight: 600;
     font-size: 1rem;
@@ -82,6 +83,21 @@ p bold {
     flex-wrap: wrap;
 }
 
+.language-python {
+    background: #23272e;
+    color: #e3e3e3;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+    font-size: 12px;
+    padding: 1em 1.5em;
+    max-width: 800px;
+    border-radius: 10px;
+    overflow-x: auto;
+    display: block;
+    margin: 24px auto;
+    line-height: 1.6;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
 /* slider-main */
 
 .slider-main_wrap {
@@ -91,7 +107,7 @@ p bold {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    height: 200px;
+    height: 300px;
     /* altura fixa igual à menor imagem */
     display: flex;
     align-items: center;
@@ -115,7 +131,7 @@ p bold {
     object-fit: contain;
     /* Remova width/height fixos para as imagens do slider */
     max-width: 100%;
-    max-height: 200px;
+    max-height: 300px;
     width: auto;
     height: auto;
 }

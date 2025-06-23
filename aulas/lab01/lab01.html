@@ -83,6 +83,24 @@
                 class = "btn btn-pink">Fotos e Vídeos</button>
         </div>
         <br> -->
+        <div class="integrantes-list">
+            <div class="integrante-card">
+                <span class="integrante-nome">Lucas Sanchez Bitencourt</span>
+                <span class="integrante-ra">RA 11201921617</span>
+            </div>
+            <div class="integrante-card">
+                <span class="integrante-nome">Marcela Ceschim Caburlão</span>
+                <span class="integrante-ra">RA 11201920483</span>
+            </div>
+            <div class="integrante-card">
+                <span class="integrante-nome">Michael Franklin Saito</span>
+                <span class="integrante-ra">RA 11201810988</span>
+            </div>
+            <div class="integrante-card">
+                <span class="integrante-nome">Datas de execução:</span>
+                <span class="integrante-ra">16/06/2025 e 18/06/2025</span>
+            </div>
+        </div>
 
         <h2>Introdução</h2>
         <br>
@@ -96,6 +114,8 @@
             futuras.
         </p>
         <br>
+        <h2>Procedimentos Experimentais</h2>
+        <br>
         <h3>(A) Leitura de imagem em arquivo</h3>
         <br>
         <p>
@@ -105,6 +125,22 @@
         <br>
         <img class="centered" src="arquivos/a_codigo.png" alt="Código python">
         <br>
+        <p>
+            &emsp; Abaixo, se encontra a transcrição do código final:
+        </p>
+        <pre><code class="language-python">
+import numpy as np
+import cv2 as cv
+
+img = cv.imread('messi5.jpg',0)
+cv.imshow('image',img)
+k = cv.waitKey(0)
+if k == 27:         # wait for ESC key to exit
+    cv.destroyAllWindows()
+elif k == ord('s'): # wait for 's' key to save and exit
+    cv.imwrite('messigray.png',img)
+    cv.destroyAllWindows()
+    </code></pre>
         <br>
         <h3>(B) Leitura de vídeo em arquivo</h3>
         <br>
@@ -118,6 +154,35 @@
         <br>
         <img class="centered" src="arquivos/b_codigo.png" alt="Código python">
         <br>
+        <p>
+            &emsp; Abaixo, se encontra a transcrição do código final. Esse código também foi utilizado em outras partes
+            do experimento.
+        </p>
+        <pre><code class="language-python">
+import time
+import numpy as np
+import cv2 as cv
+
+cap = cv.VideoCapture('big_buck_bunny.mp4')
+
+while(cap.isOpened()):
+    ret, frame = cap.read()
+    
+    if ret==True:
+        # show the frame
+        cv.imshow('frame',frame)
+
+        #wait next frame by 40ms - 25fps
+        time.sleep(1/25.0) 
+        
+        if cv.waitKey(1) & 0xFF == ord('q'):
+            break
+    else:
+        break
+               
+cap.release()
+cv.destroyAllWindows()
+    </code></pre>
         <br>
         <h3>(C) Leitura de imagem de câmera</h3>
         <br>
@@ -127,10 +192,6 @@
             correspondente.
         </p>
         <br>
-        <!-- <div class="slick-slider">
-            <div><img src="arquivos/c_codigo.png" alt="Código python"></div>
-            <div><img src="arquivos/c_foto.png" alt="Imagem da câmera"></div>
-        </div> -->
         <div class="slider-thumbs"></div>
         <div class="slider-main_wrap">
             <div class="slider-main">
@@ -140,6 +201,50 @@
             <div class="arrow_box"></div>
         </div>
         <br>
+        <p>
+            &emsp; Abaixo, se encontra a transcrição do código final. Esse código também foi utilizado em outras partes
+            do experimento.
+        </p>
+        <pre><code class="language-python">
+import numpy as np
+import cv2 as cv
+
+cap = cv.VideoCapture(0)
+
+if not cap.isOpened():
+    print("Cannot open camera")
+    exit()
+    
+while True:
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    # if frame is read correctly ret is True
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+    
+    # Display the resulting frame
+    cv.imshow('frame', frame)
+    
+     # Lê uma tecla pressionada a cada 1ms
+    key = cv.waitKey(1)
+    
+    # ADICIONADO - Desafio de tirar foto com tecla 'x'
+    # Se for 'x', salva a imagem no arquivo "foto1.png"
+    if key == ord('x'): 
+        cv.imwrite('foto1.png', frame) # Salva o frame atual (imagem da câmera) no arquivo "foto1.png"
+        print("Imagem salva como foto1.png")
+        break
+
+    # Se for 'q', apenas sai do loop
+    elif key == ord('q'):
+        break
+
+# Libera a câmera e fecha janelas
+cap.release()
+cv.destroyAllWindows()
+
+    </code></pre>
         <br>
         <h3>(D) Gravação de vídeo da câmera</h3>
         <br>
@@ -162,6 +267,70 @@
             <source src="arquivos/saida.mp4" type="video/mp4">
             Seu navegador não suporta o elemento de vídeo.
         </video>
+        <br>
+        <p>
+            &emsp; Abaixo, se encontra a transcrição do código final. Esse código também foi utilizado em outras partes
+            do experimento.
+        </p>
+        <pre><code class="language-python">
+import numpy as np
+import cv2 as cv
+cap = cv.VideoCapture(0)
+
+# Get current width of frame
+width = cap.get(cv.CAP_PROP_FRAME_WIDTH)   # float
+# Get current height of frame
+height = cap.get(cv.CAP_PROP_FRAME_HEIGHT) # float
+# Define Video Frame Rate in fps
+fps = 20.0
+
+# Define thimport numpy as np
+import cv2 as cv
+
+cap = cv.VideoCapture(0)
+
+if not cap.isOpened():
+    print("Cannot open camera")
+    exit()
+    
+while True:
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    # if frame is read correctly ret is True
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+    
+    # Display the resulting frame
+    cv.imshow('frame', frame)
+    
+    if cv.waitKey(1) == ord('q'):
+        break
+
+# When everything done, release the capture
+cap.release()
+cv.destroyAllWindows()
+e codec and create VideoWriter object
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+out = cv.VideoWriter('saida.avi', fourcc, fps, (int(width),int(height)) )
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+    frame = cv.flip(frame, 1)
+    # write the flipped frame
+    out.write(frame)
+    cv.imshow('frame', frame)
+    if cv.waitKey(1) == ord('q'):
+        break
+
+# Release everything if job is finished
+cap.release()
+out.release()
+cv.destroyAllWindows()
+    </code></pre>
         <br>
         <h3>EXTRA</h3>
         <br>
@@ -202,21 +371,99 @@
         <h3>PARTE 2: Obtenção de Fotos e Vídeos</h3>
         <br>
         <p>
-            &emsp; Foto de todos integrantes da equipe:
+            &emsp; Foto dos integrantes do grupo, juntamente com a montagem usando os avatares:
+        </p>
+        <br>
+        <div class="slider-thumbs"></div>
+        <div class="slider-main_wrap">
+            <div class="slider-main">
+                <img src="arquivos/nos_3.png" alt="img300">
+                <img src="arquivos/nos_avatar.jpg" alt="img400">
+            </div>
+            <div class="arrow_box"></div>
+        </div>
+        <br>
+        <p>
+            &emsp; Vídeos dos integrantes, com movimentos rápidos e lentos:
         </p>
         <br>
         <div class="videos-row">
             <video width="400" height="300" controls>
-                <source src="arquivos/rapido_edit.avi" type="video/mp4">
+                <source src="arquivos/rapido_edit.mp4" type="video/mp4">
                 Seu navegador não suporta o elemento de vídeo.
             </video>
             <video width="400" height="300" controls>
-                <source src="arquivos/lento_edit.avi" type="video/mp4">
+                <source src="arquivos/lento_edit.mp4" type="video/mp4">
                 Seu navegador não suporta o elemento de vídeo.
             </video>
         </div>
         <br>
+        <p>
+            &emsp; Vídeos dos objetos, com movimentos rápidos e lentos:
+        </p>
         <br>
+        <div class="videos-row">
+            <video width="400" height="300" controls>
+                <source src="arquivos/objeto_rapido_edit.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+            <video width="400" height="300" controls>
+                <source src="arquivos/objeto_lento.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+        </div>
+        <br>
+        <h2>Análise e Discussão</h2>
+        <br>
+        <p>
+            &emsp; Durante a execução dos experimentos, foram compreendidos os fundamentos da captura e processamento de
+            imagens e vídeos com OpenCV, incluindo:
+        </p>
+        <ul>
+            <li>Leitura e exibição de arquivos estáticos e dinâmicos.</li>
+            <li>Manipulação de parâmetros como FPS e resolução.</li>
+            <li>A importância da iluminação e posição da câmera na qualidade das capturas.</li>
+            <li>Aplicação prática da biblioteca em tarefas reais, como salvar imagens com comandos do teclado e ajustar
+                a fluidez dos vídeos.</li>
+        </ul>
+        <p>
+            &emsp; Além disso, as modificações exigiram interpretação do código em Python e uso correto das funções da
+            OpenCV, o que fortaleceu o entendimento da lógica de programação e manipulação de dados visuais.
+        </p>
+        <br>
+        <h2>Conclusões</h2>
+        <br>
+        <p>
+            &emsp; O Laboratório 1 proporcionou uma introdução prática e eficiente ao uso da biblioteca OpenCV,
+            destacando sua versatilidade em tarefas de visão computacional. Através da implementação e modificação dos
+            programas fornecidos, os discentes puderam compreender conceitos fundamentais de captura e gravação de
+            imagens e vídeos, além de aplicar o conhecimento adquirido para gerar conteúdos próprios.
+        </p>
+        <br>
+        <h2>Referências</h2>
+        <p>
+        <ul>
+            <li>MINICHINO, J. HOWSE, J., <i>Learning OpenCV 3 Computer Vision with Python</i>, 2nd Ed, Packt Publishing,
+                2015.</li>
+            <li>Tutorial OpenCV e Python: <a href="https://docs.opencv.org/master/d6/d00/tutorial_py_root.html"
+                    target="_blank">https://docs.opencv.org/master/d6/d00/tutorial_py_root.html</a>
+            </li>
+            <li>Getting Started with Images: <a href="https://docs.opencv.org/4.x/db/deb/tutorial_display_image.html"
+                    target="_blank">https://docs.opencv.org/4.x/db/deb/tutorial_display_image.html</a>
+            </li>
+            <li>Getting Started with Videos: <a href="https://docs.opencv.org/4.x/dd/d43/tutorial_py_video_display.html"
+                    target="_blank">https://docs.opencv.org/4.x/dd/d43/tutorial_py_video_display.html</a>
+            </li>
+            <li>Sugestão de Ferramenta para converter vídeo para o formato mp4: <a
+                    href="https://convertio.co/pt/download/d7eb0266a724e277f8adc4397b56ba98acf727/"
+                    target="_blank">https://convertio.co/pt/download/d7eb0266a724e277f8adc4397b56ba98acf727/</a>
+            </li>
+
+            <li>FFMPEG Documentation: <a href="https://ffmpeg.org/ffmpeg.html"
+                    target="_blank">https://ffmpeg.org/ffmpeg.html</a>
+            </li>
+        </ul>
+        </p>
     </div>
 
 </body>
