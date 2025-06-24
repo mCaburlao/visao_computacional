@@ -1,27 +1,139 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Página em Construção</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #12192c;
-      color: white;
-      text-align: center;
-      padding-top: 100px;
-    }
-    h1 {
-      font-size: 3rem;
-    }
-    p {
-      font-size: 1.2rem;
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aulas || CV - 2025.2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="trabalho.css">
+    <link rel="stylesheet" href="../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap">
+
 </head>
+
 <body>
-  <h1>🚧 Página em Construção</h1>
-  <p>Esta seção ainda está sendo desenvolvida. Volte em breve!</p>
-  <a href="../index.html" style="color: #02c2fd;">← Voltar para a página inicial</a>
+
+    <div class="container">
+        <nav>
+            <ul class="mcd-menu">
+                <!-- <li>
+                    <a href="">
+                        <i class="fa fa-home"></i>
+                        <div>
+                            <strong>Home</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="../index.html">
+                        <i class="fa fa-edit"></i>
+                        <div>
+                            <strong>Sobre nós</strong>
+                            <small>Completo</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../aulas/aulas.html">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Aulas</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../trabalho/trabalho.html" class="active">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Trabalho</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="principal">
+        <h1 class="titulo">Atividades do Trabalho</h1>
+
+        <div class="aulas">
+            <div class="class column">
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 1: Contexto e Cenário de Aplicação (CA)</span><i></i>
+                  </button>
+                </div>
+            
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 2: Modelagem Funcional do Sistema (MF)</span><i></i>
+                  </button>
+                </div>
+            
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 3: Seminário S1 dos Trabalhos - Apresentação</span><i></i>
+                  </button>
+                </div>
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 4: Desenvolvimento Sistema de Processamento Visual (SPV)</span><i></i>
+                  </button>
+                </div>
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 5: Desenvolvimento do Laboratório Experimental (LEx)</span><i></i>
+                  </button>
+                </div>
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 6: Teste de Campo do SPV (TC)</span><i></i>
+                  </button>
+                </div>
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 7: Relatório Final do Trabalho (RFT)</span><i></i>
+                  </button>
+                </div>
+
+                <div class="aula_x">
+                  <button style="--clr:#ffffff;" onclick="document.location='atividades/trabalho.html'">
+                    <span>Etapa 8: Seminário S2 dos Trabalhos - Apresentação</span><i></i>
+                  </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Make the menu container follow the user's scrolling (fluid and mobile-friendly)
+        function updateMenuPosition() {
+            // Only apply on desktop (fixed menu), not on mobile where menu is overlay
+            if (window.innerWidth < 768) {
+                document.querySelector('.container').style.top = '0';
+            } else {
+                document.querySelector('.container').style.top = window.scrollY + 'px';
+            }
+        }
+        window.addEventListener('scroll', updateMenuPosition);
+        window.addEventListener('resize', updateMenuPosition);
+        updateMenuPosition();
+    </script>
 </body>
+
 </html>
