@@ -112,21 +112,72 @@
         </h3>
         <br>
 
-        <h2>Modelagem Funcional do Sistema</h2>
+        <h2>.2 Modelagem Funcional do Sistema</h2>
 
         <br>
-        <h3>Visão Geral da Solução</h3>
-
+        <h3>Cenário Funcional e Conceito do Sistema</h3>
         <br>
         <p>
-            &emsp;O sistema tem como objetivo detectar a cor predominante de um objeto em tempo real 
-            utilizando a câmera de um dispositivo. A cor identificada será convertida em uma resposta sonora, 
-            facilitando o acesso à informação visual por parte de pessoas com deficiência visual.
+            &emsp;O sistema proposto realiza o reconhecimento de cores visuais capturadas por uma webcam, 
+            exibindo o nome da cor detectada na tela e oferecendo feedback por voz sintetizada. 
+            O sistema tem como foco a acessibilidade para pessoas com deficiência visual, 
+            permitindo que objetos coloridos sejam identificados por meio de um retorno auditivo simples.
         </p>
+        <p>
+            &emsp;A concepção do sistema está estruturada de forma modular, permitindo fácil expansão de funcionalidades, 
+            como detecção de múltiplas cores, registro de histórico, ou integração com dispositivos móveis. 
+            A interface gráfica foi desenvolvida com botões e saída de vídeo em tempo real, permitindo interatividade mesmo para usuários leigos.
+        </p>
+
+        <br>
+        <h3>Componentes Funcionais e Fluxo</h3>
         <br>
 
-        <h3>Fluxograma Geral do Sistema</h3>
+        <p>📥 1. Captura de Imagem</p>
+        <ul>
+            <li>Entrada: Sinal de vídeo da webcam (quadro por quadro)</li>
+            <li>Processamento: Captura do frame atual da câmera</li>
+            <li>Saída: Imagem colorida do tipo BGR (OpenCV)</li>
+        </ul>
         <br>
+
+        <p>📊 2. Pré-processamento e Análise da Cor</p>
+        <ul>
+            <li>Entrada: Imagem BGR do frame</li>
+            <li>Processamento:
+                <ul>
+                    <li>Conversão de cor de BGR para HSV</li>
+                    <li>Seleção de região central (ROI)</li>
+                    <li>Extração dos valores de matiz (Hue), saturação (S) e brilho (V)</li>
+                    <li>Mapeamento do valor de H para o nome da cor com base em limiares</li>
+                </ul>
+            </li>
+            <li>Saída: String com o nome da cor (ex: "azul", "vermelho")</li>
+        </ul>
+        <br>
+
+        <p>🖥️ 3. Interface Gráfica</p>
+        <ul>
+            <li>Entrada: Imagem com informações da cor detectada</li>
+            <li>Processamento:
+                <ul>
+                    <li>Desenho de círculo no centro</li>
+                    <li>Exibição do nome da cor</li>
+                    <li>Apresentação da imagem em uma janela GUI</li>
+                </ul>
+            </li>
+            <li>Saída: Exibição em tempo real da câmera com sobreposição gráfica</li>
+        </ul>
+        <br>
+
+        <p>🔊 4. Síntese de Voz</p>
+        <ul>
+            <li>Entrada: Nome da cor como string</li>
+            <li>Processamento: Geração de voz sintetizada (pyttsx3)</li>
+            <li>Saída: Áudio pronunciando “Cor [nome da cor (ex: 'Cor azul')]”</li>
+        </ul>
+        <br>
+
         
        
     </div>
