@@ -91,6 +91,31 @@ h3 {
   letter-spacing: 0.5px;
 }
 
+.titulo-proj {
+  font-family: serif;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 20px;
+  color: #a7e3ff;
+  transition: all 0.3s ease;
+}
+
+.sem-efect {
+  color: #a7e3ff;
+}
+
+.com-efect {
+  transition: all 0.3s ease;
+  color: #a7e3ff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 23px;
+}
+
+.com-efect:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+}
+
 p,
 ul,
 ol {
