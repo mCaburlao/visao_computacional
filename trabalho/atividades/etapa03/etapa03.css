@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+body {
+    height: 200vh;
+    color: #fff;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    width: 220px;
+    /* fixed width for menu */
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
