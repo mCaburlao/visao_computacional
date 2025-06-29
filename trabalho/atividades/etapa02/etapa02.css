@@ -16,5 +16,22 @@ body {
     padding: 0;
 }
 
+.fluxo{
+    width: 50%;
+    max-width: 350px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+}
 
+.mouse-fluxo {
+    display: block;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    padding: 5px; /* para o fundo branco ter espaço para aparecer */
+    border-radius: 8px; /* opcional: cantos arredondados */
+}
 
+.mouse-fluxo:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* branco translúcido */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
