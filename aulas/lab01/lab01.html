@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
+    <script type="module" src="../image-slider.js"></script>
 </head>
 
 <!-- JQuery + Slick JS -->
@@ -192,14 +192,15 @@ cv.destroyAllWindows()
             correspondente.
         </p>
         <br>
-        <div class="slider-thumbs"></div>
+        <!-- <div class="slider-thumbs"></div>
         <div class="slider-main_wrap">
             <div class="slider-main">
                 <img src="arquivos/c_codigo.png" alt="img300">
                 <img src="arquivos/c_foto.png" alt="img400">
             </div>
             <div class="arrow_box"></div>
-        </div>
+        </div> -->
+        <image-slider images='[{"src":"arquivos/c_codigo.png","alt":"img300"},{"src":"arquivos/c_foto.png","alt":"img400"}]'></image-slider>
         <br>
         <p>
             &emsp; Abaixo, se encontra a transcrição do código final. Esse código também foi utilizado em outras partes
@@ -374,14 +375,18 @@ cv.destroyAllWindows()
             &emsp; Foto dos integrantes do grupo, juntamente com a montagem usando os avatares:
         </p>
         <br>
-        <div class="slider-thumbs"></div>
+        <!-- <div class="slider-thumbs"></div>
         <div class="slider-main_wrap">
             <div class="slider-main">
                 <img src="arquivos/nos_3.png" alt="img300">
                 <img src="arquivos/nos_avatar.jpg" alt="img400">
             </div>
             <div class="arrow_box"></div>
-        </div>
+        </div> -->
+        <image-slider images='[
+            {"src":"arquivos/nos_3.png","alt":"img300"},
+            {"src":"arquivos/nos_avatar.jpg","alt":"img400"}
+        ]'></image-slider>
         <br>
         <p>
             &emsp; Vídeos dos integrantes, com movimentos rápidos e lentos:

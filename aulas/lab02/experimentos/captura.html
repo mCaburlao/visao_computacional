@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lab.02 || CV - 2025.2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../lab02.css">
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap">
+    <!-- Slick CSS no <head> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script type="module" src="../../image-slider.js"></script>
+</head>
+
+<!-- JQuery + Slick JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Arquivo JS externo -->
+<script src="lab02.js"></script>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul class="mcd-menu">
+                <!-- <li>
+                    <a href="">
+                        <i class="fa fa-home"></i>
+                        <div>
+                            <strong>Home</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="../../../index.html">
+                        <i class="fa fa-edit"></i>
+                        <div>
+                            <strong>Sobre nós</strong>
+                            <small>Completo</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../aulas.html" class="active">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Aulas</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../../trabalho/trabalho.html">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Projeto</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="principal">
+        <h1 class="titulo">Lab 02: Calibração de Imagens Próprias</h1>
+        <h2>Parâmetros obtidos na calibração</h2>
+        <br>
+        <p>
+            <strong>Matriz da Câmera (Matriz Intrínseca – K):</strong><br>
+            A matriz da câmera representa os parâmetros intrínsecos do sistema de imagem.
+        </p>
+        <pre>
+            k = [[687.15739404   0.           327.88632325]
+                [  0.         686.58122503  218.20316833]
+                [  0.           0.           1.        ]]
+        </pre>
+        <p>
+            <strong>Vetor de Distorção:</strong><br>
+            Esses são os coeficientes de distorção da lente, incluindo distorção radial e tangencial.
+        </p>
+        <pre>
+            [[ 0.03252166 -0.03574951 -0.00105629 -0.00199292  0.02978971]]
+        </pre>
+        <p>
+            <strong>Vetores de Rotação (rvecs):</strong><br>
+            Cada vetor de rotação é uma rotação do sistema de coordenadas do tabuleiro em relação à câmera. Você tem 15
+            vetores, um para cada imagem:
+        </p>
+        <pre>
+            r1 = [ 0.0316      0.1589      0.0252    ]
+            r2 = [-0.69051361  0.58063156  0.92646416]
+            r3 = [-0.5846879   0.41533926  1.2362369 ]
+            r4 = [0.95741286 0.06864039 0.05020602]
+            r5 = [0.02519681 0.10636367 1.35669329]
+            r6 = [-0.42621966  0.0182279  -0.98638315]
+            r7 = [-0.8786235  -0.04083394 -0.52172533]
+            r8 = [-0.9508908  -0.03938287 -0.08007786]
+            r9 = [-0.43323173 -0.28723769 -1.3165269 ]
+            r10 = [0.02389006 0.04745032 0.89331946]
+            r11 = [ 0.66292301 -0.06625302  1.30228057]
+            r12 = [-0.11751854  0.15487484  0.43943993]
+            r13 = [-0.35879501  0.51141684  0.9318174 ]
+            r14 = [-0.73255282  0.20733789  0.94635801]
+            r15 = [ 0.0865208  -0.45689774 -1.20464591]
+        </pre>
+        <p>
+            <strong>Vetores de Translação (tvecs):</strong><br>
+            Representam a posição do centro do tabuleiro em relação à câmera, em coordenadas 3D (X, Y, Z).
+        </p>
+        <pre>
+            t1  = [-3.06189937 -3.06217535 14.99807839]
+            t2  = [ 1.88584088 -3.13170246 15.08288823]
+            t3  = [ 2.77481823 -2.2329245  17.15913099]
+            t4  = [-3.09751299 -1.28109647  8.22407241]
+            t5  = [ 2.7611076  -2.87978623 11.88459323]
+            t6  = [-4.73569576  0.33406318 15.5655032 ]
+            t7  = [-4.30341521 -1.44197531 13.27673149]
+            t8  = [-2.67700834 -2.63118108 14.51184667]
+            t9  = [-3.80204895  1.25956834 11.51094308]
+            t10 = [ 1.75438066 -3.68067771 14.03440025]
+            t11 = [ 2.35278376 -1.80135119  9.24728629]
+            t12 = [-0.92318939 -3.87979593 15.7961807 ]
+            t13 = [ 1.04021056 -3.23364008 16.01040493]
+            t14 = [ 0.58674979 -2.54962102 17.28415965]
+            t15 = [-4.10341924  1.55243385 11.12935278]
+        </pre>
+        <br>
+        <h2>Imagens capturadas</h2>
+        <br>
+        <!-- Slider com imagens da calibração própria -->
+        <image-slider images='[
+            {"src":"../arquivos/fotos_proprias/marcela_0.jpg","alt":"Calibração própria 0"},
+            {"src":"../arquivos/fotos_proprias/marcela_1.jpg","alt":"Calibração própria 1"},
+            {"src":"../arquivos/fotos_proprias/marcela_2.jpg","alt":"Calibração própria 2"},
+            {"src":"../arquivos/fotos_proprias/marcela_3.jpg","alt":"Calibração própria 3"},
+            {"src":"../arquivos/fotos_proprias/marcela_4.jpg","alt":"Calibração própria 4"},
+            {"src":"../arquivos/fotos_proprias/marcela_5.jpg","alt":"Calibração própria 5"},
+            {"src":"../arquivos/fotos_proprias/marcela_6.jpg","alt":"Calibração própria 6"},
+            {"src":"../arquivos/fotos_proprias/marcela_7.jpg","alt":"Calibração própria 7"},
+            {"src":"../arquivos/fotos_proprias/marcela_8.jpg","alt":"Calibração própria 8"},
+            {"src":"../arquivos/fotos_proprias/marcela_9.jpg","alt":"Calibração própria 9"},
+            {"src":"../arquivos/fotos_proprias/marcela_10.jpg","alt":"Calibração própria 10"},
+            {"src":"../arquivos/fotos_proprias/marcela_11.jpg","alt":"Calibração própria 11"},
+            {"src":"../arquivos/fotos_proprias/marcela_12.jpg","alt":"Calibração própria 12"},
+            {"src":"../arquivos/fotos_proprias/marcela_13.jpg","alt":"Calibração própria 13"},
+            {"src":"../arquivos/fotos_proprias/marcela_14.jpg","alt":"Calibração própria 14"}
+        ]'></image-slider>
+        <br>
+        <h2>Imagens corrigidas</h2>
+        <br>
+        <!-- Slider com imagens da calibração própria -->
+        <image-slider images='[
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_0.png","alt":"Calibração própria 0"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_1.png","alt":"Calibração própria 1"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_2.png","alt":"Calibração própria 2"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_3.png","alt":"Calibração própria 3"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_4.png","alt":"Calibração própria 4"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_5.png","alt":"Calibração própria 5"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_6.png","alt":"Calibração própria 6"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_7.png","alt":"Calibração própria 7"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_8.png","alt":"Calibração própria 8"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_9.png","alt":"Calibração própria 9"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_10.png","alt":"Calibração própria 10"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_11.png","alt":"Calibração própria 11"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_12.png","alt":"Calibração própria 12"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_13.png","alt":"Calibração própria 13"},
+            {"src":"../arquivos/fotos_proprias_calib/calibresult_14.png","alt":"Calibração própria 14"}
+        ]'></image-slider>
+        <br>
+    </div>
+</body>
+
+</html>

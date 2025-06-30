@@ -16,6 +16,10 @@ body {
     padding: 0;
 }
 
+a.blue-link {
+    color: #a7e3ff;
+}
+
 .audio {
     position: absolute;
     top: 20px;

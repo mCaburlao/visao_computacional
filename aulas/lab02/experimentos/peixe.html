@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lab.02 || CV - 2025.2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../lab02.css">
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap">
+    <!-- Slick CSS no <head> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script type="module" src="../../image-slider.js"></script>
+</head>
+
+<!-- JQuery + Slick JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Arquivo JS externo -->
+<script src="lab02.js"></script>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul class="mcd-menu">
+                <!-- <li>
+                    <a href="">
+                        <i class="fa fa-home"></i>
+                        <div>
+                            <strong>Home</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="../../../index.html">
+                        <i class="fa fa-edit"></i>
+                        <div>
+                            <strong>Sobre nós</strong>
+                            <small>Completo</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../aulas.html" class="active">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Aulas</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../../trabalho/trabalho.html">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Projeto</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="principal">
+        <h1 class="titulo">Lab 02: Calibração de Câmera com Distorção</h1>
+        <br>
+        <h2>Imagens capturadas</h2>
+        <br>
+        <!-- Slider com imagens da calibração disorcida -->
+        <image-slider images='[
+            {"src":"../arquivos/camera_peixe/board_01.jpg","alt":"Calibração disorcida 1"},
+            {"src":"../arquivos/camera_peixe/board_02.jpg","alt":"Calibração disorcida 2"},
+            {"src":"../arquivos/camera_peixe/board_03.jpg","alt":"Calibração disorcida 3"},
+            {"src":"../arquivos/camera_peixe/board_04.jpg","alt":"Calibração disorcida 4"},
+            {"src":"../arquivos/camera_peixe/board_05.jpg","alt":"Calibração disorcida 5"},
+            {"src":"../arquivos/camera_peixe/board_06.jpg","alt":"Calibração disorcida 6"},
+            {"src":"../arquivos/camera_peixe/board_07.jpg","alt":"Calibração disorcida 7"},
+            {"src":"../arquivos/camera_peixe/board_08.jpg","alt":"Calibração disorcida 8"},
+            {"src":"../arquivos/camera_peixe/board_09.jpg","alt":"Calibração disorcida 9"},
+            {"src":"../arquivos/camera_peixe/board_10.jpg","alt":"Calibração disorcida 10"},
+            {"src":"../arquivos/camera_peixe/board_11.jpg","alt":"Calibração disorcida 11"},
+            {"src":"../arquivos/camera_peixe/board_12.jpg","alt":"Calibração disorcida 12"},
+            {"src":"../arquivos/camera_peixe/board_13.jpg","alt":"Calibração disorcida 13"},
+            {"src":"../arquivos/camera_peixe/board_14.jpg","alt":"Calibração disorcida 14"},
+            {"src":"../arquivos/camera_peixe/board_15.jpg","alt":"Calibração disorcida 15"}
+        ]'></image-slider>
+        <br>
+        <h2>Imagens corrigidas</h2>
+        <br>
+        <!-- Slider com imagens da calibração disorcida -->
+        <image-slider images='[
+            {"src":"../arquivos/camera_peixe_calib/calibresult_0.png","alt":"Calibração disorcida 0"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_1.png","alt":"Calibração disorcida 1"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_2.png","alt":"Calibração disorcida 2"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_3.png","alt":"Calibração disorcida 3"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_4.png","alt":"Calibração disorcida 4"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_5.png","alt":"Calibração disorcida 5"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_6.png","alt":"Calibração disorcida 6"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_7.png","alt":"Calibração disorcida 7"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_8.png","alt":"Calibração disorcida 8"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_9.png","alt":"Calibração disorcida 9"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_10.png","alt":"Calibração disorcida 10"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_11.png","alt":"Calibração disorcida 11"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_12.png","alt":"Calibração disorcida 12"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_13.png","alt":"Calibração disorcida 13"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_14.png","alt":"Calibração disorcida 14"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_15.png","alt":"Calibração disorcida 15"}
+        ]'></image-slider>
+        <br>
+        <h2>Fotos dos Integrantes Distorcidas</h2>
+        <br>
+        <!-- Slider com imagens da calibração disorcida -->
+        <image-slider images='[
+            {"src":"../arquivos/camera_peixe/aluno_01.jpg","alt":"Calibração disorcida 1"},
+            {"src":"../arquivos/camera_peixe/aluno_02.jpg","alt":"Calibração disorcida 2"},
+            {"src":"../arquivos/camera_peixe/aluno_03.jpg","alt":"Calibração disorcida 3"},
+            {"src":"../arquivos/camera_peixe/aluno_04.jpg","alt":"Calibração disorcida 4"},
+            {"src":"../arquivos/camera_peixe/aluno_05.jpg","alt":"Calibração disorcida 5"},
+            {"src":"../arquivos/camera_peixe/aluno_06.jpg","alt":"Calibração disorcida 6"},
+            {"src":"../arquivos/camera_peixe/aluno_07.jpg","alt":"Calibração disorcida 7"},
+            {"src":"../arquivos/camera_peixe/aluno_08.jpg","alt":"Calibração disorcida 8"},
+            {"src":"../arquivos/camera_peixe/aluno_09.jpg","alt":"Calibração disorcida 9"}
+        ]'></image-slider>
+        <br>
+        <h2>Fotos corrigidas</h2>
+        <br>
+        <!-- Slider com imagens da calibração disorcida -->
+        <image-slider images='[
+            {"src":"../arquivos/camera_peixe_calib/calibresult_16.png","alt":"Calibração disorcida 16"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_17.png","alt":"Calibração disorcida 17"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_18.png","alt":"Calibração disorcida 18"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_19.png","alt":"Calibração disorcida 19"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_20.png","alt":"Calibração disorcida 20"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_21.png","alt":"Calibração disorcida 21"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_22.png","alt":"Calibração disorcida 22"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_23.png","alt":"Calibração disorcida 23"},
+            {"src":"../arquivos/camera_peixe_calib/calibresult_24.png","alt":"Calibração disorcida 24"}
+        ]'></image-slider>
+    </div>
+</body>
+</html>
