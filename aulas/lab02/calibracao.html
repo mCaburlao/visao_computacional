@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lab.02 || CV - 2025.2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="lab02.css">
+    <link rel="stylesheet" href="../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap">
+    <!-- Slick CSS no <head> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+</head>
+
+<!-- JQuery + Slick JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Arquivo JS externo -->
+<script src="lab02.js"></script>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul class="mcd-menu">
+                <!-- <li>
+                    <a href="">
+                        <i class="fa fa-home"></i>
+                        <div>
+                            <strong>Home</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="../../index.html">
+                        <i class="fa fa-edit"></i>
+                        <div>
+                            <strong>Sobre nós</strong>
+                            <small>Completo</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../aulas.html" class="active">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Aulas</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../trabalho/trabalho.html">
+                        <i class="fa fa-archive"></i>
+                        <div>
+                            <strong>Projeto</strong>
+                            <small>Incompleto</small>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="principal">
+        <h1 class="titulo">Lab 02: Calibração das câmeras - Imagens Fornecidas</h1>
+        <!-- Cole aqui todo o conteúdo da seção removida do lab02.html -->
+        <p>
+            &emsp; Usando o arquivo <code>L2_cal.py</code> e imagens fornecidas, realizamos a calibração de câmeras. O
+            processo de calibração é essencial para corrigir distorções ópticas e melhorar a precisão das medições em
+            visão computacional. A calibração envolve a captura de imagens de um padrão conhecido, como um tabuleiro de
+            xadrez, e o uso dessas imagens para calcular os parâmetros intrínsecos e extrínsecos da câmera.
+        </p>
+        <br>
+        <p>
+            &emsp; Executando o código <code>python3 L2_cal.py</code> no terminal, obtivemos o seguinte resultado:
+        </p>
+        <br>
+        <p>
+            &emsp; <strong>Matriz Intrínseca – K</strong>: Informações como distância focal e centro óptico<br>
+            &emsp; Forma esperada da matriz K:
+        </p>
+        <br>
+        <pre>
+            K = | fx   0  cx |
+                |  0  fy  cy |
+                |  0   0   1 |
+        </pre>
+        <br>
+        <p>
+            &emsp; <strong>Resultado obtido do experimento:</strong>
+        </p>
+        <br>
+        <pre>
+            K = [[536.07345295   0.         342.37047283]
+                [  0.         536.01636331 235.53687701]
+                [  0.           0.           1.        ]]
+        </pre>
+        <br>
+        <p>
+            &emsp; <strong>Interpretação:</strong>
+        </p>
+        <br>
+        <p>
+        <ul>
+            <li><strong>fx = 536.07</strong>: distância focal no eixo x (em pixels)</li>
+            <li><strong>fy = 536.02</strong>: distância focal no eixo y (em pixels)</li>
+            <li><strong>cx = 342.37</strong>: coordenada x do centro óptico da imagem</li>
+            <li><strong>cy = 235.54</strong>: coordenada y do centro óptico da imagem</li>
+        </ul>
+        </p>
+        <br>
+        <p>
+            &emsp; <strong>Coeficientes de Distorção – dist:</strong> Corrigem curvaturas na imagem causadas pela lente.
+        </p>
+        <br>
+        <p>
+            &emsp; <strong>Forma esperada do vetor dist:</strong>
+        </p>
+        <pre>
+            dist = [k1, k2, p1, p2, k3]
+        </pre>
+        <p>
+            &emsp; <strong>Resultado obtido do experimento:</strong>
+        </p>
+        <pre>
+            dist = [[-0.26509044, -0.04674186, 0.00183301, -0.00031469, 0.25231154]]
+        </pre>
+        <p>
+            &emsp; <strong>Interpretação:</strong>
+        <ul>
+            <li><strong>k1, k2, k3</strong>: coeficientes de distorção radial</li>
+            <li><strong>p1, p2</strong>: coeficientes de distorção tangencial</li>
+        </ul>
+        </p>
+        <br>
+        <p>
+            &emsp; Esses valores são usados para corrigir a curvatura (barril ou almofada) causada pela lente.
+        </p>
+        <br>
+        <p>
+            &emsp; <strong>Matrizes de Rotação – R:</strong> A matriz R descreve a orientação da câmera em relação ao
+            tabuleiro de xadrez.
+        </p>
+        <br>
+        <div class="matrizes-rotacao-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; margin: 24px 0;">
+            <div>
+                <strong>Imagem 1:</strong>
+                <pre>
+[[-0.00980077  0.96222056  0.27209471]
+ [-0.98583134  0.03626968 -0.16377143]
+ [-0.16745303 -0.26984458  0.94823171]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 2:</strong>
+                <pre>
+[[ 0.01109734  0.971425    0.23708715]
+ [-0.99389249 -0.01531807  0.10928436]
+ [ 0.10979327 -0.2368519   0.96532203]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 3:</strong>
+                <pre>
+[[-0.9759021   0.0976268   0.19515146]
+ [-0.20013528 -0.75683746 -0.6222081 ]
+ [ 0.08695375 -0.64627089  0.75813784]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 4:</strong>
+                <pre>
+[[ 0.80843739  0.15714697 -0.56721584]
+ [-0.18787626  0.98218312  0.00433858]
+ [ 0.55779162  0.10305892  0.82355775]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 5:</strong>
+                <pre>
+[[ 0.90092991 -0.31968741  0.29347105]
+ [ 0.28776872  0.94628897  0.14739861]
+ [-0.3248299  -0.04834403  0.94453607]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 6:</strong>
+                <pre>
+[[ 0.36632319  0.92116245  0.13140422]
+ [-0.90067927  0.3155757   0.298645  ]
+ [ 0.23363258 -0.22775365  0.94527461]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 7:</strong>
+                <pre>
+[[ 0.89614282 -0.08983267  0.43457812]
+ [ 0.118484    0.99218072 -0.03922963]
+ [-0.42765592  0.0866459   0.89977936]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 8:</strong>
+                <pre>
+[[ 0.95029417  0.30860531  0.0412766 ]
+ [-0.25110403  0.838022   -0.48442327]
+ [-0.18408629  0.44997988  0.87385945]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 9:</strong>
+                <pre>
+[[ 0.9974061   0.00598239  0.07173068]
+ [-0.03182649  0.93048684  0.36494014]
+ [-0.06456124 -0.36627646  0.92826365]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 10:</strong>
+                <pre>
+[[ 0.94999608 -0.24359885  0.1953639 ]
+ [ 0.16012684  0.91715415  0.36494884]
+ [-0.26807993 -0.31541696  0.91029956]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 11:</strong>
+                <pre>
+[[ 0.9711167   0.19478528  0.13780804]
+ [-0.23627664  0.86552415  0.44163479]
+ [-0.03325223 -0.46143974  0.88654817]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 12:</strong>
+                <pre>
+[[ 0.89499694  0.14628379 -0.42140423]
+ [-0.22739734  0.96235225 -0.14889123]
+ [ 0.38375893  0.2290834   0.89456687]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 13:</strong>
+                <pre>
+[[ 0.16943175  0.90322679 -0.39430222]
+ [-0.97122197  0.08506949 -0.22246589]
+ [-0.16739406  0.42064777  0.89164717]]
+        </pre>
+            </div>
+        </div>
+        <br>
+        <p>
+            &emsp; <strong>Vetores de Translação - t:</strong> O vetor <strong>t</strong> representa a posição da câmera
+            no espaço 3D em relação ao tabuleiro. Ele indica quanto a câmera está deslocada em x, y e z em relação à
+            origem do tabuleiro.
+        </p>
+        <div class="vetores-translacao-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; margin: 24px 0;">
+            <div>
+                <strong>Imagem 1:</strong>
+                <pre>
+[[-2.96218417]
+ [ 0.57158932]
+ [16.83013775]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 2:</strong>
+                <pre>
+[[-3.99388098]
+ [ 2.27704343]
+ [12.68878108]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 3:</strong>
+                <pre>
+[[ 2.53399419]
+ [ 4.31999128]
+ [13.71919122]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 4:</strong>
+                <pre>
+[[-2.16838794]
+ [-3.50011196]
+ [10.73694991]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 5:</strong>
+                <pre>
+[[-3.72585434]
+ [-4.3108485 ]
+ [17.20439703]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 6:</strong>
+                <pre>
+[[-3.427436  ]
+ [ 0.4873819 ]
+ [11.56153507]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 7:</strong>
+                <pre>
+[[ 2.20741839]
+ [-3.21446613]
+ [15.60125394]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 8:</strong>
+                <pre>
+[[-3.40557514]
+ [-2.41042315]
+ [12.58706804]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 9:</strong>
+                <pre>
+[[-2.95848731]
+ [-3.94417974]
+ [13.21423743]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 10:</strong>
+                <pre>
+[[-1.59004095]
+ [-4.31771235]
+ [14.01040668]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 11:</strong>
+                <pre>
+[[-2.51791826]
+ [-3.43069105]
+ [12.85702135]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 12:</strong>
+                <pre>
+[[-2.67642941]
+ [-3.18945602]
+ [10.58262241]]
+        </pre>
+            </div>
+            <div>
+                <strong>Imagem 13:</strong>
+                <pre>
+[[-3.50264637]
+ [ 1.61595404]
+ [11.97222152]]
+        </pre>
+            </div>
+        </div>
+        <br>
+    </div>
+</body>
+</html>
