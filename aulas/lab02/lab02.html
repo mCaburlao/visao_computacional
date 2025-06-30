@@ -104,9 +104,6 @@
 
         <br>
         <br>
-        <p><mark>- Título do relatório</mark></p>
-        <p><mark>- Nome completo dos autores do relatório</mark></p>
-        <p><mark>- Data de realização dos experimentos</mark></p>
         <p><mark>- Data de publicação do relatório</mark></p>
         <p><mark>- Introdução – apresentando o que será descrito e relatado, bem como uma breve introdução ao assunto</mark></p>
         <p><mark>- Procedimentos experimentais – explicando como realizar e executar as atividades</mark></p>
@@ -124,7 +121,28 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; 
+            &emsp; Neste laboratório, exploramos o processo de calibração de câmeras. 
+            Tal calibração permite que uma câmera "entenda" como ela enxerga o mundo, ajustando e corrigindo distorções causadas pelas lentes, 
+            como as deformações que fazem linhas retas parecerem curvas nas bordas das imagens.
+        </p>
+        <p>
+            &emsp; O objetivo principal da atividade foi aprender a obter os parâmetros intrínsecos e extrínsecos de uma câmera,
+            que são essenciais para converter pontos do mundo real em pontos na imagem, permitindo aplicações como reconstrução 3D, 
+            realidade aumentada, rastreamento de objetos, entre outros.
+        </p>
+        <p>
+            &emsp; Durante o experimento, utilizamos imagens de um padrão de tabuleiro de xadrez para identificar automaticamente 
+            pontos de referência na cena. A partir dessas imagens, rodamos scripts em Python com a biblioteca OpenCV para:
+        </p>
+        <ul>
+            <li>Obter os parâmetros de calibração usando imagens fornecidas.</li>
+            <li>Calibrar uma webcam real com imagens capturadas.</li>
+            <li>Comparar resultados com diferentes câmeras.</li>
+            <li>Realizar correções de distorção nas imagens.</li>
+        </ul>
+        <p>
+            &emsp; Com isso, este relatório apresenta o passo a passo dos procedimentos realizados, 
+            os resultados obtidos e uma análise dos efeitos da calibração sobre a qualidade das imagens capturadas.
         </p>
 
         <br>
