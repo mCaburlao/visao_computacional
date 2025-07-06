@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
+    <script type="module" src="../image-slider-2x.js"></script>
 </head>
 
 <!-- JQuery + Slick JS -->
@@ -53,7 +53,7 @@
                 </li>
                 <li>
                     <a href="../aulas.html" class="active">
-                        <i class="fa fa-archive"></i>
+                        <i class="fa fa-id-card"></i>
                         <div>
                             <strong>Aulas</strong>
                             <small>Incompleto</small>
@@ -125,15 +125,119 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; 
+            &emsp;
         </p>
-        
+
 
         <br>
         <h2>Procedimentos Experimentais</h2>
         <br>
-      
+
+        <!-- Slider de imagens estéreo -->
+        <div style="margin: 16px 0;">
+            <h3>Pares de imagens estéreo de exemplo</h3>
+            <image-slider-2x images='[
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img1.png&quot;,&quot;alt&quot;:&quot;Direita 1&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img2.png&quot;,&quot;alt&quot;:&quot;Esquerda 2&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img2.png&quot;,&quot;alt&quot;:&quot;Direita 2&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img3.png&quot;,&quot;alt&quot;:&quot;Esquerda 3&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img3.png&quot;,&quot;alt&quot;:&quot;Direita 3&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img4.png&quot;,&quot;alt&quot;:&quot;Esquerda 4&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img4.png&quot;,&quot;alt&quot;:&quot;Direita 4&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img5.png&quot;,&quot;alt&quot;:&quot;Esquerda 5&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img5.png&quot;,&quot;alt&quot;:&quot;Direita 5&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img6.png&quot;,&quot;alt&quot;:&quot;Esquerda 6&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img6.png&quot;,&quot;alt&quot;:&quot;Direita 6&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img7.png&quot;,&quot;alt&quot;:&quot;Esquerda 7&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img7.png&quot;,&quot;alt&quot;:&quot;Direita 7&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img8.png&quot;,&quot;alt&quot;:&quot;Esquerda 8&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img8.png&quot;,&quot;alt&quot;:&quot;Direita 8&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img9.png&quot;,&quot;alt&quot;:&quot;Esquerda 9&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img9.png&quot;,&quot;alt&quot;:&quot;Direita 9&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img10.png&quot;,&quot;alt&quot;:&quot;Esquerda 10&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img10.png&quot;,&quot;alt&quot;:&quot;Direita 10&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img11.png&quot;,&quot;alt&quot;:&quot;Esquerda 11&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img11.png&quot;,&quot;alt&quot;:&quot;Direita 11&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img12.png&quot;,&quot;alt&quot;:&quot;Esquerda 12&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img12.png&quot;,&quot;alt&quot;:&quot;Direita 12&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img13.png&quot;,&quot;alt&quot;:&quot;Esquerda 13&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img13.png&quot;,&quot;alt&quot;:&quot;Direita 13&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img14.png&quot;,&quot;alt&quot;:&quot;Esquerda 14&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img14.png&quot;,&quot;alt&quot;:&quot;Direita 14&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img15.png&quot;,&quot;alt&quot;:&quot;Esquerda 15&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img15.png&quot;,&quot;alt&quot;:&quot;Direita 15&quot;}
+            ]'></image-slider-2x>
+        </div>
+        <div style="margin: 16px 0;">
+            <h3>Pares de imagens estéreo capturadas</h3>
+            <image-slider-2x images='[
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img1.png&quot;,&quot;alt&quot;:&quot;Direita 1&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img2.png&quot;,&quot;alt&quot;:&quot;Esquerda 2&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img2.png&quot;,&quot;alt&quot;:&quot;Direita 2&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img3.png&quot;,&quot;alt&quot;:&quot;Esquerda 3&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img3.png&quot;,&quot;alt&quot;:&quot;Direita 3&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img4.png&quot;,&quot;alt&quot;:&quot;Esquerda 4&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img4.png&quot;,&quot;alt&quot;:&quot;Direita 4&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img5.png&quot;,&quot;alt&quot;:&quot;Esquerda 5&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img5.png&quot;,&quot;alt&quot;:&quot;Direita 5&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img6.png&quot;,&quot;alt&quot;:&quot;Esquerda 6&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img6.png&quot;,&quot;alt&quot;:&quot;Direita 6&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img7.png&quot;,&quot;alt&quot;:&quot;Esquerda 7&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img7.png&quot;,&quot;alt&quot;:&quot;Direita 7&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img8.png&quot;,&quot;alt&quot;:&quot;Esquerda 8&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img8.png&quot;,&quot;alt&quot;:&quot;Direita 8&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img9.png&quot;,&quot;alt&quot;:&quot;Esquerda 9&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img9.png&quot;,&quot;alt&quot;:&quot;Direita 9&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img10.png&quot;,&quot;alt&quot;:&quot;Esquerda 10&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img10.png&quot;,&quot;alt&quot;:&quot;Direita 10&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img11.png&quot;,&quot;alt&quot;:&quot;Esquerda 11&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img11.png&quot;,&quot;alt&quot;:&quot;Direita 11&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img12.png&quot;,&quot;alt&quot;:&quot;Esquerda 12&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img12.png&quot;,&quot;alt&quot;:&quot;Direita 12&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img13.png&quot;,&quot;alt&quot;:&quot;Esquerda 13&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img13.png&quot;,&quot;alt&quot;:&quot;Direita 13&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img14.png&quot;,&quot;alt&quot;:&quot;Esquerda 14&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img14.png&quot;,&quot;alt&quot;:&quot;Direita 14&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img15.png&quot;,&quot;alt&quot;:&quot;Esquerda 15&quot;},
+                {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img15.png&quot;,&quot;alt&quot;:&quot;Direita 15&quot;}
+            ]'></image-slider-2x>
+        </div>
         <br>
+
+        <!-- Stereo synchronized video players -->
+        <div style="margin: 16px 0;">
+            <h3>Pares de vídeos estéreo sincronizados</h3>
+            <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
+                <div style="text-align:center;">
+                    <video id="stereoL_ex" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/stereoL2.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+                <div style="text-align:center;">
+                    <video id="stereoR_ex" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/stereoR2.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+            </div>
+            <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
+                <div style="text-align:center;">
+                    <video id="stereoL" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/stereoL.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+                <div style="text-align:center;">
+                    <video id="stereoR" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/stereoR.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+            </div>
+        </div>
 
         <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%% Análise e discussão dos estudos realizados %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
 
@@ -169,9 +273,12 @@
             <li>
                 <p>[2] Introduction to Epipolar Geometry and Stereo Vision:</p>
                 <p><a href="https://learnopencv.com/introduction-to-epipolar-geometry-and-stereo-vision/"
-                        target="_blank">https://learnopencv.com/introduction-to-epipolar-geometry-and-stereo-vision/</a></p>
-                <p>Código: <a href="https://github.com/spmallick/learnopencv/tree/master/EpipolarGeometryAndStereoVision"
-                        target="_blank">https://github.com/spmallick/learnopencv/tree/master/EpipolarGeometryAndStereoVision</a></p>
+                        target="_blank">https://learnopencv.com/introduction-to-epipolar-geometry-and-stereo-vision/</a>
+                </p>
+                <p>Código: <a
+                        href="https://github.com/spmallick/learnopencv/tree/master/EpipolarGeometryAndStereoVision"
+                        target="_blank">https://github.com/spmallick/learnopencv/tree/master/EpipolarGeometryAndStereoVision</a>
+                </p>
             </li>
             <br>
 
@@ -180,7 +287,8 @@
                 <p><a href="https://learnopencv.com/understanding-lens-distortion/"
                         target="_blank">https://learnopencv.com/understanding-lens-distortion/</a></p>
                 <p>Código: <a href="https://github.com/spmallick/learnopencv/tree/master/UnderstandingLensDistortion"
-                        target="_blank">https://github.com/spmallick/learnopencv/tree/master/UnderstandingLensDistortion</a></p>
+                        target="_blank">https://github.com/spmallick/learnopencv/tree/master/UnderstandingLensDistortion</a>
+                </p>
             </li>
             <br>
 
@@ -201,5 +309,54 @@
     </div>
 
 </body>
+<script>
+// Stereo example videos sync (no DOMContentLoaded needed since script is at end of body)
+const vL_ex = document.getElementById('stereoL_ex');
+const vR_ex = document.getElementById('stereoR_ex');
+let seeking_ex = false;
+function syncPlayPauseEx(src, dest) {
+    src.addEventListener('play', () => { if (dest.paused) dest.play(); });
+    src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
+}
+function syncSeekEx(src, dest) {
+    src.addEventListener('seeking', () => {
+        if (!seeking_ex) {
+            seeking_ex = true;
+            dest.currentTime = src.currentTime;
+        }
+    });
+    src.addEventListener('seeked', () => { seeking_ex = false; });
+}
+if (vL_ex && vR_ex) {
+    syncPlayPauseEx(vL_ex, vR_ex);
+    syncPlayPauseEx(vR_ex, vL_ex);
+    syncSeekEx(vL_ex, vR_ex);
+    syncSeekEx(vR_ex, vL_ex);
+}
+
+// Stereo user videos sync
+const vL = document.getElementById('stereoL');
+const vR = document.getElementById('stereoR');
+let seeking = false;
+function syncPlayPause(src, dest) {
+    src.addEventListener('play', () => { if (dest.paused) dest.play(); });
+    src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
+}
+function syncSeek(src, dest) {
+    src.addEventListener('seeking', () => {
+        if (!seeking) {
+            seeking = true;
+            dest.currentTime = src.currentTime;
+        }
+    });
+    src.addEventListener('seeked', () => { seeking = false; });
+}
+if (vL && vR) {
+    syncPlayPause(vL, vR);
+    syncPlayPause(vR, vL);
+    syncSeek(vL, vR);
+    syncSeek(vR, vL);
+}
+</script>
 
 </html>

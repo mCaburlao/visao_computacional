@@ -53,7 +53,7 @@
                 </li>
                 <li>
                     <a href="../aulas.html" class="active">
-                        <i class="fa fa-archive"></i>
+                        <i class="fa fa-id-card"></i>
                         <div>
                             <strong>Aulas</strong>
                             <small>Incompleto</small>
@@ -107,36 +107,41 @@
         </div>
 
         <br>
-        <br>
+        <!-- <br> -->
         <!-- <p><mark>- Título do relatório</mark></p> -->
         <!-- <p><mark>- Nome completo dos autores do relatório</mark></p> -->
         <!-- <p><mark>- Data de realização dos experimentos</mark></p> -->
-        <p><mark>- Data de publicação do relatório</mark></p>
+        <!-- <p><mark>- Data de publicação do relatório</mark></p>
         <p><mark>- Introdução – apresentando o que será descrito e relatado, bem como uma breve introdução ao
                 assunto</mark></p>
         <p><mark>- Procedimentos experimentais – explicando como realizar e executar as atividades</mark></p>
         <p><mark>- Análise e discussão dos estudos realizados</mark></p>
         <p><mark>- Conclusões</mark></p>
-        <p><mark>- Referências consultadas e indicadas</mark></p>
-        <br>
-        <br>
+        <p><mark>- Referências consultadas e indicadas</mark></p> -->
+        <!-- <br>
+        <br> -->
 
 
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; Neste laboratório, exploramos o processo de calibração de câmeras. 
-            Tal calibração permite que uma câmera "entenda" como ela enxerga o mundo, ajustando e corrigindo distorções causadas pelas lentes, 
+            &emsp; Neste laboratório, exploramos o processo de calibração de câmeras.
+            Tal calibração permite que uma câmera "entenda" como ela enxerga o mundo, ajustando e corrigindo distorções
+            causadas pelas lentes,
             como as deformações que fazem linhas retas parecerem curvas nas bordas das imagens.
         </p>
         <p>
-            &emsp; O objetivo principal da atividade foi aprender a obter os parâmetros intrínsecos e extrínsecos de uma câmera,
-            que são essenciais para converter pontos do mundo real em pontos na imagem, permitindo aplicações como reconstrução 3D, 
+            &emsp; O objetivo principal da atividade foi aprender a obter os parâmetros intrínsecos e extrínsecos de uma
+            câmera,
+            que são essenciais para converter pontos do mundo real em pontos na imagem, permitindo aplicações como
+            reconstrução 3D,
             realidade aumentada, rastreamento de objetos, entre outros.
         </p>
         <p>
-            &emsp; Durante o experimento, utilizamos imagens de um padrão de tabuleiro de xadrez para identificar automaticamente 
-            pontos de referência na cena. A partir dessas imagens, rodamos scripts em Python com a biblioteca OpenCV para:
+            &emsp; Durante o experimento, utilizamos imagens de um padrão de tabuleiro de xadrez para identificar
+            automaticamente
+            pontos de referência na cena. A partir dessas imagens, rodamos scripts em Python com a biblioteca OpenCV
+            para:
         </p>
         <ul>
             <li>Obter os parâmetros de calibração usando imagens fornecidas.</li>
@@ -145,7 +150,7 @@
             <li>Realizar correções de distorção nas imagens.</li>
         </ul>
         <p>
-            &emsp; Com isso, este relatório apresenta o passo a passo dos procedimentos realizados, 
+            &emsp; Com isso, este relatório apresenta o passo a passo dos procedimentos realizados,
             os resultados obtidos e uma análise dos efeitos da calibração sobre a qualidade das imagens capturadas.
         </p>
 
@@ -153,7 +158,8 @@
         <h2>Procedimentos Experimentais</h2>
         <br>
         <h3>
-            <a class="blue-link" href="experimentos/calibracao.html"><strong>Calibração de Imagens Fornecidas</strong></a>
+            <a class="blue-link" href="experimentos/calibracao.html"><strong>Calibração de Imagens
+                    Fornecidas</strong></a>
         </h3>
         <br>
         <h3>
@@ -170,7 +176,12 @@
         <h2>Análise e discussão dos estudos realizados</h2>
         <br>
         <p>
-            &emsp;
+            &emsp; A primeira câmera utilizada tem boa simetria (aspect ratio ≈ 1), baixa distorção, e um centro óptico
+            bem localizado. Os valores de translação (tvec) da calibração mostram que o tabuleiro estava a diferentes
+            distâncias da
+            câmera, em torno de 9 a 17 unidades (provavelmente cm ou alguma escala conhecida). A variedade nos vetores
+            rvec e tvec mostra que o tabuleiro foi bem posicionado em ângulos diversos, o que é fundamental para uma boa
+            calibração.
         </p>
 
         <br>
