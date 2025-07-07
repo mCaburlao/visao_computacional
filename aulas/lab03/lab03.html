@@ -125,17 +125,77 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp;
+            &emsp; A estereoscopia é uma técnica de visão computacional que busca reconstruir a percepção tridimensional
+            a partir de imagens capturadas por duas câmeras posicionadas em paralelo, simulando a visão binocular
+            humana. Essa técnica é fundamental para uma variedade de aplicações modernas, incluindo navegação de robôs
+            autônomos, sistemas avançados de assistência ao motorista (ADAS), realidade aumentada e reconstrução 3D em
+            modelagem digital.
+        </p>
+        <p>
+            &emsp; No Laboratório 3 da disciplina de Visão Computacional, o objetivo foi compreender os conceitos
+            fundamentais da geometria epipolar, realizar a montagem e calibração de uma câmera estéreo utilizando duas
+            webcams e gerar imagens 3D em anáglifo. Este relatório detalha os procedimentos realizados, os resultados
+            obtidos e uma análise crítica das etapas envolvidas.
         </p>
 
 
         <br>
         <h2>Procedimentos Experimentais</h2>
         <br>
+        <p>
+            &emsp; O experimento foi dividido em três etapas principais, conforme as orientações do laboratório:
+        </p>
+        <br>
+        <h3>1. Estudo teórico</h3>
+        <br>
+        <p>
+            &emsp; Antes de iniciar os experimentos, foi realizado um estudo sobre:
+        </p>
+        <p>
+            &emsp; <b>Geometria Epipolar:</b> descreve a relação geométrica entre os pontos correspondentes em imagens
+            capturadas por duas câmeras. A linha epipolar define onde o ponto correspondente deve estar na segunda
+            imagem, reduzindo a busca de correspondências de 2D para 1D.
+        </p>
+        <p>
+            &emsp; <b>Calibração de câmeras:</b> processo para determinar os parâmetros intrínsecos (foco, centro
+            óptico, coeficientes de distorção) e extrínsecos (posição e orientação relativas entre as câmeras).
+            As referências principais foram os tutoriais disponíveis no LearnOpenCV e os artigos indicados no PDF do
+            laboratório.
+        </p>
+        <br>
+        <h3>2. Montagem do sistema estéreo</h3>
+        <br>
+        <p>
+            &emsp; Duas webcams idênticas foram posicionadas paralelamente com um espaçamento aproximado de 5 cm entre
+            os eixos ópticos. As câmeras foram fixadas em uma superfície plana e rígida para evitar movimentos durante o
+            processo de calibração.
+        </p>
+        <br>
+        <h3>3. Execução prática com OpenCV</h3>
+        <br>
+        <p>
+            &emsp; <b>Captura de imagens para calibração:</b> usando o script capture_images_abc.py, capturamos 15
+            imagens de
+            um padrão de tabuleiro de xadrez em diferentes ângulos e posições.
+        </p>
+        <p>
+            &emsp; <b>Calibração da câmera estéreo:</b> o script calibrate_abc.py foi executado para extrair as matrizes
+            de calibração (M1, M2), os vetores de distorção (D1, D2), a matriz de rotação (R), o vetor de translação (T)
+            e as matrizes de retificação (R1, R2).
+        </p>
+        <p>
+            &emsp; <b>Geração de imagens 3D:</b> utilizando o script movie3d_abc.py, visualizamos a cena com efeito 3D
+            em tempo real com óculos anáglifos.
+        </p>
+        <p>
+            &emsp; <b>Gravação de vídeo 3D:</b> modificamos o código para salvar um vídeo com os resultados.
+        </p>
+
 
         <!-- Slider de imagens estéreo -->
         <div style="margin: 16px 0;">
-            <h3>Pares de imagens estéreo de exemplo</h3>
+            <h3>Resultados: Pares de imagens estéreo de exemplo</h3>
+            <br>
             <image-slider-2x images='[
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoR/img1.png&quot;,&quot;alt&quot;:&quot;Direita 1&quot;},
@@ -170,7 +230,8 @@
             ]'></image-slider-2x>
         </div>
         <div style="margin: 16px 0;">
-            <h3>Pares de imagens estéreo capturadas</h3>
+            <h3>Resultados: Pares de imagens estéreo capturadas</h3>
+            <br>
             <image-slider-2x images='[
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoR/img1.png&quot;,&quot;alt&quot;:&quot;Direita 1&quot;},
@@ -208,7 +269,8 @@
 
         <!-- Stereo synchronized video players -->
         <div style="margin: 16px 0;">
-            <h3>Pares de vídeos estéreo sincronizados</h3>
+            <h3>Resultados: Pares de vídeos estéreo sincronizados</h3>
+            <br>
             <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
                 <div style="text-align:center;">
                     <video id="stereoL_ex" width="400" controls>
@@ -223,6 +285,7 @@
                     </video>
                 </div>
             </div>
+            <br>
             <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
                 <div style="text-align:center;">
                     <video id="stereoL" width="400" controls>
@@ -244,14 +307,39 @@
         <h2>Análise e discussão dos estudos realizados</h2>
         <br>
         <p>
-            &emsp;
+            &emsp; A calibração resultou em parâmetros que permitiram a correção das distorções ópticas das lentes das
+            webcams. A retificação das imagens foi eficaz, alinhando as linhas epipolares e facilitando a geração do
+            mapa de disparidade.
         </p>
+        <p>
+            &emsp; Observações e desafios:
+        </p>
+        <ul>
+            <li>A fixação das câmeras é crítica; pequenos desalinhamentos podem gerar erros na profundidade.</li>
+            <li>O efeito 3D ao vivo apresentou boa percepção de profundidade, especialmente em objetos localizados a
+                menos de 1 metro.
+            </li>
+            <li>A gravação em vídeo apresentou uma ligeira perda de qualidade no efeito anáglifo devido à compressão
+                mp4.
+            </li>
+            <li>As diferenças entre os resultados ao vivo e o vídeo gravado foram discutidas pela equipe, e alguns
+                integrantes relataram maior conforto visual com a cena ao vivo.
+            </li>
+        </ul>
 
         <br>
         <h2>Conclusões</h2>
         <br>
         <p>
-            &emsp;
+            &emsp; A atividade permitiu consolidar conceitos teóricos e práticos sobre visão estéreo e geometria
+            epipolar. Demonstramos a viabilidade de construir um sistema estéreo com recursos acessíveis, utilizando
+            webcams comuns e a biblioteca OpenCV. O experimento destacou a importância da calibração e da retificação
+            para obtenção de um efeito 3D satisfatório.
+        </p>
+        <p>
+            &emsp; Aplicações potenciais do aprendizado incluem sistemas de navegação autônoma, reconstrução 3D para
+            engenharia reversa e aplicações em realidade aumentada. Como limitação, ressalta-se a sensibilidade do
+            sistema a desalinhamentos físicos e variações de iluminação.
         </p>
 
 
@@ -310,53 +398,53 @@
 
 </body>
 <script>
-// Stereo example videos sync (no DOMContentLoaded needed since script is at end of body)
-const vL_ex = document.getElementById('stereoL_ex');
-const vR_ex = document.getElementById('stereoR_ex');
-let seeking_ex = false;
-function syncPlayPauseEx(src, dest) {
-    src.addEventListener('play', () => { if (dest.paused) dest.play(); });
-    src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
-}
-function syncSeekEx(src, dest) {
-    src.addEventListener('seeking', () => {
-        if (!seeking_ex) {
-            seeking_ex = true;
-            dest.currentTime = src.currentTime;
-        }
-    });
-    src.addEventListener('seeked', () => { seeking_ex = false; });
-}
-if (vL_ex && vR_ex) {
-    syncPlayPauseEx(vL_ex, vR_ex);
-    syncPlayPauseEx(vR_ex, vL_ex);
-    syncSeekEx(vL_ex, vR_ex);
-    syncSeekEx(vR_ex, vL_ex);
-}
+    // Stereo example videos sync (no DOMContentLoaded needed since script is at end of body)
+    const vL_ex = document.getElementById('stereoL_ex');
+    const vR_ex = document.getElementById('stereoR_ex');
+    let seeking_ex = false;
+    function syncPlayPauseEx(src, dest) {
+        src.addEventListener('play', () => { if (dest.paused) dest.play(); });
+        src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
+    }
+    function syncSeekEx(src, dest) {
+        src.addEventListener('seeking', () => {
+            if (!seeking_ex) {
+                seeking_ex = true;
+                dest.currentTime = src.currentTime;
+            }
+        });
+        src.addEventListener('seeked', () => { seeking_ex = false; });
+    }
+    if (vL_ex && vR_ex) {
+        syncPlayPauseEx(vL_ex, vR_ex);
+        syncPlayPauseEx(vR_ex, vL_ex);
+        syncSeekEx(vL_ex, vR_ex);
+        syncSeekEx(vR_ex, vL_ex);
+    }
 
-// Stereo user videos sync
-const vL = document.getElementById('stereoL');
-const vR = document.getElementById('stereoR');
-let seeking = false;
-function syncPlayPause(src, dest) {
-    src.addEventListener('play', () => { if (dest.paused) dest.play(); });
-    src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
-}
-function syncSeek(src, dest) {
-    src.addEventListener('seeking', () => {
-        if (!seeking) {
-            seeking = true;
-            dest.currentTime = src.currentTime;
-        }
-    });
-    src.addEventListener('seeked', () => { seeking = false; });
-}
-if (vL && vR) {
-    syncPlayPause(vL, vR);
-    syncPlayPause(vR, vL);
-    syncSeek(vL, vR);
-    syncSeek(vR, vL);
-}
+    // Stereo user videos sync
+    const vL = document.getElementById('stereoL');
+    const vR = document.getElementById('stereoR');
+    let seeking = false;
+    function syncPlayPause(src, dest) {
+        src.addEventListener('play', () => { if (dest.paused) dest.play(); });
+        src.addEventListener('pause', () => { if (!dest.paused) dest.pause(); });
+    }
+    function syncSeek(src, dest) {
+        src.addEventListener('seeking', () => {
+            if (!seeking) {
+                seeking = true;
+                dest.currentTime = src.currentTime;
+            }
+        });
+        src.addEventListener('seeked', () => { seeking = false; });
+    }
+    if (vL && vR) {
+        syncPlayPause(vL, vR);
+        syncPlayPause(vR, vL);
+        syncSeek(vL, vR);
+        syncSeek(vR, vL);
+    }
 </script>
 
 </html>
