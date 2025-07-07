@@ -121,3 +121,38 @@ body {
   from {opacity: .4}
   to {opacity: 1}
 }
+
+.fullscreen-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s;
+}
+.fullscreen-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+/* Optional: make slideshow fill screen in fullscreen mode */
+.slideshow-container:fullscreen,
+.slideshow-container:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slideshow-container:fullscreen img,
+.slideshow-container:-webkit-full-screen img {
+  max-height: 90vh;
+  object-fit: contain;
+}
