@@ -151,8 +151,24 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+/* Garante que as imagens do slideshow nunca ultrapassem a tela */
+.slideshow-container img {
+  max-width: 100vw;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* Em fullscreen, limite ainda mais para não sair da tela */
 .slideshow-container:fullscreen img,
 .slideshow-container:-webkit-full-screen img {
+  max-width: 100vw;
   max-height: 90vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
