@@ -188,7 +188,29 @@
         <h2>Conclusões</h2>
         <br>
         <p>
-            &emsp;
+            &emsp;Neste relatório, desenvolvemos e executamos o processo completo de calibração de câmeras utilizando o padrão de tabuleiro 
+            de xadrez e a biblioteca OpenCV em Python. Os principais objetivos foram atingidos, incluindo a extração dos parâmetros intrínsecos 
+            (matriz K), distorções da lente (vetor dist), e os parâmetros extrínsecos (vetores de rotação R e translação t), aplicáveis em cada imagem utilizada.
+        </p>
+        <p>
+            &emsp;Foi possível observar que:
+        </p>
+        <ul>
+            <li>A matriz K caracteriza a câmera de forma clara, descrevendo o foco, 
+                o centro da imagem e a escala que os pixels representam no sensor.</li>
+            <li>O vetor de distorção dist permitiu corrigir as deformações provocadas pela lente, 
+                reduzindo significativamente os efeitos de curvatura nas bordas das imagens.</li>
+            <li>Os vetores R e t mostraram como a câmera se posicionou em cada instalação do tabuleiro de xadrez, 
+                demonstrando a variação de orientação e deslocamento que contribui para uma calibração robusta.</li>
+        </ul>
+        <p>
+            &emsp;Além da parte técnica, o experimento destacou a importância de coletar várias imagens em diferentes angulações 
+            para garantir que o algoritmo de calibração consiga lidar com a variabilidade na geometria da cena.
+        </p>
+        <p>
+            &emsp;De modo geral, o laboratório demonstrou que uma calibração bem-feita é essencial para garantir que a câmera 
+            interprete corretamente o mundo real, permitindo que projetos baseados em visão — seja em robótica, automação industrial 
+            ou aplicações interativas — se tornem mais confiáveis e precisos.
         </p>
 
 
