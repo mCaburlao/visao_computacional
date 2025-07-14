@@ -183,6 +183,10 @@ pre code {
   word-break: break-word;
 }
 
+.language-python {
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
 .language-python:hover {
   transform: translateY(-4px) scale(1.03);
   font-weight: bold;
