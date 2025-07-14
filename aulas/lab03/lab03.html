@@ -172,27 +172,355 @@
         <h3>3. Execução prática com OpenCV</h3>
         <br>
         <p>
-            &emsp; <b>Captura de imagens para calibração:</b> usando o script capture_images_abc.py, capturamos 15
+            &emsp; <b>Captura de imagens para calibração:</b> usando o script capture_images_you.py, capturamos 15
             imagens de
             um padrão de tabuleiro de xadrez em diferentes ângulos e posições.
         </p>
+        <pre><code class="language-python">
+import numpy as np 
+import cv2
+from tqdm import tqdm
+
+# Set the path to the images captured by the left and right cameras
+pathL = "./data_you/stereoL/"
+pathR = "./data_you/stereoR/"
+
+print("Extracting image coordinates of respective 3D pattern ....\n")
+
+# Termination criteria for refining the detected corners
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
+
+objp = np.zeros((8*6,3), np.float32)
+objp[:,:2] = np.mgrid[0:8,0:6].T.reshape(-1,2)
+
+img_ptsL = []
+img_ptsR = []
+obj_pts = []
+
+for i in tqdm(range(1,16)):
+	imgL = cv2.imread(pathL+"img%d.png"%i)
+	imgR = cv2.imread(pathR+"img%d.png"%i)
+	imgL_gray = cv2.imread(pathL+"img%d.png"%i,0)
+	imgR_gray = cv2.imread(pathR+"img%d.png"%i,0)
+
+	outputL = imgL.copy()
+	outputR = imgR.copy()
+
+	retR, cornersR =  cv2.findChessboardCorners(outputR,(8,6),None)
+	retL, cornersL = cv2.findChessboardCorners(outputL,(8,6),None)
+
+	if retR and retL:
+		obj_pts.append(objp)
+		cv2.cornerSubPix(imgR_gray,cornersR,(11,11),(-1,-1),criteria)
+		cv2.cornerSubPix(imgL_gray,cornersL,(11,11),(-1,-1),criteria)
+		cv2.drawChessboardCorners(outputR,(8,6),cornersR,retR)
+		cv2.drawChessboardCorners(outputL,(8,6),cornersL,retL)
+		cv2.imshow('cornersR',outputR)
+		cv2.imshow('cornersL',outputL)
+		cv2.waitKey(0)
+
+		img_ptsL.append(cornersL)
+		img_ptsR.append(cornersR)
+
+
+print("Calculating left camera parameters ... ")
+# Calibrating left camera
+retL, mtxL, distL, rvecsL, tvecsL = cv2.calibrateCamera(obj_pts,img_ptsL,imgL_gray.shape[::-1],None,None)
+hL,wL= imgL_gray.shape[:2]
+new_mtxL, roiL= cv2.getOptimalNewCameraMatrix(mtxL,distL,(wL,hL),1,(wL,hL))
+
+print("Calculating right camera parameters ... ")
+# Calibrating right camera
+retR, mtxR, distR, rvecsR, tvecsR = cv2.calibrateCamera(obj_pts,img_ptsR,imgR_gray.shape[::-1],None,None)
+hR,wR= imgR_gray.shape[:2]
+new_mtxR, roiR= cv2.getOptimalNewCameraMatrix(mtxR,distR,(wR,hR),1,(wR,hR))
+
+
+print("Stereo calibration .....")
+flags = 0
+flags |= cv2.CALIB_FIX_INTRINSIC
+# Here we fix the intrinsic camara matrixes so that only Rot, Trns, Emat and Fmat are calculated.
+# Hence intrinsic parameters are the same 
+
+criteria_stereo= (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
+
+# This step is performed to transformation between the two cameras and calculate Essential and Fundamenatl matrix
+retS, new_mtxL, distL, new_mtxR, distR, Rot, Trns, Emat, Fmat = cv2.stereoCalibrate(obj_pts,
+                                                          img_ptsL,
+                                                          img_ptsR,
+                                                          new_mtxL,
+                                                          distL,
+                                                          new_mtxR,
+                                                          distR,
+                                                          imgL_gray.shape[::-1],
+                                                          criteria_stereo,
+                                                          flags)
+
+# Once we know the transformation between the two cameras we can perform stereo rectification
+# StereoRectify function
+rectify_scale= 1 # if 0 image croped, if 1 image not croped
+rect_l, rect_r, proj_mat_l, proj_mat_r, Q, roiL, roiR= cv2.stereoRectify(new_mtxL, distL, new_mtxR, distR,
+                                                 imgL_gray.shape[::-1], Rot, Trns,
+                                                 rectify_scale,(0,0))
+
+# Use the rotation matrixes for stereo rectification and camera intrinsics for undistorting the image
+# Compute the rectification map (mapping between the original image pixels and 
+# their transformed values after applying rectification and undistortion) for left and right camera frames
+Left_Stereo_Map= cv2.initUndistortRectifyMap(new_mtxL, distL, rect_l, proj_mat_l,
+                                             imgL_gray.shape[::-1], cv2.CV_16SC2)
+Right_Stereo_Map= cv2.initUndistortRectifyMap(new_mtxR, distR, rect_r, proj_mat_r,
+                                              imgR_gray.shape[::-1], cv2.CV_16SC2)
+
+
+print("Saving paraeters ......")
+cv_file = cv2.FileStorage("data_you/params_py.xml", cv2.FILE_STORAGE_WRITE)
+cv_file.write("Left_Stereo_Map_x",Left_Stereo_Map[0])
+cv_file.write("Left_Stereo_Map_y",Left_Stereo_Map[1])
+cv_file.write("Right_Stereo_Map_x",Right_Stereo_Map[0])
+cv_file.write("Right_Stereo_Map_y",Right_Stereo_Map[1])
+cv_file.release()
+        </code></pre>
         <p>
-            &emsp; <b>Calibração da câmera estéreo:</b> o script calibrate_abc.py foi executado para extrair as matrizes
+            &emsp; <b>Calibração da câmera estéreo:</b> o script calibrate_images_you.py foi executado para extrair as
+            matrizes
             de calibração (M1, M2), os vetores de distorção (D1, D2), a matriz de rotação (R), o vetor de translação (T)
             e as matrizes de retificação (R1, R2).
         </p>
-        <p>
-            &emsp; <b>Geração de imagens 3D:</b> utilizando o script movie3d_abc.py, visualizamos a cena com efeito 3D
-            em tempo real com óculos anáglifos.
-        </p>
-        <p>
-            &emsp; <b>Gravação de vídeo 3D:</b> modificamos o código para salvar um vídeo com os resultados.
-        </p>
+        <pre><code class="language-python">
+import numpy as np
+import cv2
+import time
 
+print("Checking the right and left camera IDs:")
+print("Press (y) if IDs are correct and (n) to swap the IDs")
+print("Press enter to start the process >> ")
+input()
+
+# Check for left and right camera IDs
+CamL_id = 0
+CamR_id = 2
+
+CamL= cv2.VideoCapture(CamL_id)
+CamR= cv2.VideoCapture(CamR_id)
+
+for i in range(100):
+    retL, frameL= CamL.read()
+    retR, frameR= CamR.read()
+
+cv2.imshow('imgL',frameL)
+cv2.imshow('imgR',frameR)
+
+if cv2.waitKey(0) & 0xFF == ord('y') or cv2.waitKey(0) & 0xFF == ord('Y'):
+    CamL_id = 0
+    CamR_id = 2
+    print("Camera IDs maintained")
+
+elif cv2.waitKey(0) & 0xFF == ord('n') or cv2.waitKey(0) & 0xFF == ord('N'):
+    CamL_id = 2
+    CamR_id = 0
+    print("Camera IDs swapped")
+else:
+    print("Wrong input response")
+    exit(-1)
+CamR.release()
+CamL.release()
+
+CamL= cv2.VideoCapture(CamL_id)
+CamR= cv2.VideoCapture(CamR_id)
+output_path = "./data_you/"
+
+start = time.time()
+T = 10
+count = 0
+
+while True:
+    timer = T - int(time.time() - start)
+    retR, frameR= CamR.read()
+    retL, frameL= CamL.read()
+    
+    img1_temp = frameL.copy()
+    cv2.putText(img1_temp,"%r"%timer,(50,50),1,5,(55,0,0),5)
+    cv2.imshow('imgR',frameR)
+    cv2.imshow('imgL',img1_temp)
+
+    grayR= cv2.cvtColor(frameR,cv2.COLOR_BGR2GRAY)
+    grayL= cv2.cvtColor(frameL,cv2.COLOR_BGR2GRAY)
+
+    # Find the chess board corners
+    retR, cornersR = cv2.findChessboardCorners(grayR,(8,6),None)
+    retL, cornersL = cv2.findChessboardCorners(grayL,(8,6),None)
+
+    # If corners are detected in left and right image then we save it.
+    #if (retR == True) and (retL == True) and timer <=0:
+    if timer <=0:
+        count+=1
+        cv2.imwrite(output_path+'stereoR/img%d.png'%count,frameR)
+        cv2.imwrite(output_path+'stereoL/img%d.png'%count,frameL)
+    
+    if timer <=0:
+        start = time.time()
+    
+    # Press esc to exit
+    if cv2.waitKey(1) & 0xFF == 27:
+        print("Closing the cameras!")
+        break
+
+# Release the Cameras
+CamR.release()
+CamL.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <p>
+            &emsp; <b>Captura de vídeos:</b> utilizando o script capture_video_you.py, capturamos vídeos sincronizados
+            nas duas câmeras para posteriormente criar os vídeos em 3D.
+        </p>
+        <pre><code class="language-python">
+import numpy as np
+import cv2 as cv
+import os
+
+# Certifique-se de que o diretório existe
+output_dir = os.path.expanduser('~/data_you/')
+os.makedirs(output_dir, exist_ok=True)
+
+# Inicializa as câmeras
+capL = cv.VideoCapture(0)
+capR = cv.VideoCapture(2)
+
+# Verifica se ambas as câmeras foram abertas com sucesso
+if not capL.isOpened():
+    print("Não foi possível abrir a câmera esquerda (capL)")
+    exit()
+
+if not capR.isOpened():
+    print("Não foi possível abrir a câmera direita (capR)")
+    exit()
+
+# Obtém as propriedades das câmeras (usa a da esquerda como base)
+width = int(capL.get(cv.CAP_PROP_FRAME_WIDTH))
+height = int(capL.get(cv.CAP_PROP_FRAME_HEIGHT))
+fps = 20.0
+
+while True:
+    # Captura os frames de ambas as câmeras
+    retL, frameL = capL.read()
+    retR, frameR = capR.read()
+
+    if not retL or not retR:
+        print("Erro ao capturar frames. Encerrando...")
+        break
+
+
+    # Exibe os vídeos em janelas separadas
+    cv.imshow('frameL', frameL)
+    cv.imshow('frameR', frameR)
+
+    # Sai com 'q'
+    if cv.waitKey(1) == ord('q'):
+        break
+
+# Libera tudo
+#capL.release()
+#capR.release()
+#cv.destroyAllWindows()
+
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+outL = cv.VideoWriter('stereoL.avi', fourcc, fps, (width, height))
+outR = cv.VideoWriter('stereoR.avi', fourcc, fps, (width, height))
+
+while capL.isOpened():
+    retL, frameL = capL.read()
+    retR, frameR = capR.read()
+    if not retL:
+        print("Can't receive frame (stream end?). Exiting ...")
+        break
+    # write the flipped frame
+    outL.write(frameL)
+    outR.write(frameR)
+    cv.imshow('frameL', frameL)
+    cv.imshow('frameR', frameR)
+    if cv.waitKey(1) == ord('q'):
+        break
+
+# Release everything if job is finished
+capL.release()
+capR.release()
+outL.release()
+outR.release()
+cv.destroyAllWindows()
+        </code></pre>
+        <p>
+            &emsp; <b>Geração e gravação de vídeos 3D:</b> utilizando o script movie3d_you.py, visualizamos a cena com
+            efeito 3D
+            em tempo real com óculos anáglifos. Também modificamos o código para salvar os vídeos resultantes.
+        </p>
+        <pre><code class="language-python">
+import numpy as np 
+import cv2
+
+
+CamL_id = "data_you/stereoL.mp4"
+CamR_id = "data_you/stereoR.mp4"
+
+CamL= cv2.VideoCapture(CamL_id)
+CamR= cv2.VideoCapture(CamR_id)
+
+print("Reading parameters ......")
+cv_file = cv2.FileStorage("data_you/params_py.xml", cv2.FILE_STORAGE_READ)
+
+Left_Stereo_Map_x = cv_file.getNode("Left_Stereo_Map_x").mat()
+Left_Stereo_Map_y = cv_file.getNode("Left_Stereo_Map_y").mat()
+Right_Stereo_Map_x = cv_file.getNode("Right_Stereo_Map_x").mat()
+Right_Stereo_Map_y = cv_file.getNode("Right_Stereo_Map_y").mat()
+cv_file.release()
+
+print("Starting while ......")
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fps = 20.0
+out = cv2.VideoWriter('movie3d_1.avi', fourcc, fps, (700, 700))
+
+
+while True:
+	retR, imgR= CamR.read()
+	retL, imgL= CamL.read()
+	
+	if retL and retR:
+		imgR_gray = cv2.cvtColor(imgR,cv2.COLOR_BGR2GRAY)
+		imgL_gray = cv2.cvtColor(imgL,cv2.COLOR_BGR2GRAY)
+
+		Left_nice= cv2.remap(imgL,Left_Stereo_Map_x,Left_Stereo_Map_y, cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+		Right_nice= cv2.remap(imgR,Right_Stereo_Map_x,Right_Stereo_Map_y, cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
+
+		output = Right_nice.copy()
+		output[:,:,0] = Right_nice[:,:,0]
+		output[:,:,1] = Right_nice[:,:,1]
+		output[:,:,2] = Left_nice[:,:,2]
+
+		# output = Left_nice+Right_nice
+		output = cv2.resize(output,(700,700))
+		cv2.namedWindow("3D movie",cv2.WINDOW_NORMAL)
+		cv2.resizeWindow("3D movie",700,700)
+		out.write(output)
+		cv2.imshow("3D movie",output)
+
+		cv2.waitKey(1)
+	
+	else:
+		break
+
+out.release()
+cv2.destroyAllWindows()
+        </code></pre>
+        <br>
 
         <!-- Slider de imagens estéreo -->
         <div style="margin: 16px 0;">
-            <h3>Resultados: Pares de imagens estéreo de exemplo</h3>
+            <h3>3. Resultados</h3>
+        <br>
+            <h4>Pares de imagens estéreo de exemplo</h4>
             <br>
             <image-slider-2x images='[
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
@@ -228,7 +556,7 @@
             ]'></image-slider-2x>
         </div>
         <div style="margin: 16px 0;">
-            <h3>Resultados: Pares de imagens estéreo capturadas</h3>
+            <h4>Pares de imagens estéreo capturadas</h4>
             <br>
             <image-slider-2x images='[
                 {&quot;src&quot;:&quot;Lab3_stereo-camera/data_you/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
@@ -267,7 +595,7 @@
 
         <!-- Stereo synchronized video players -->
         <div style="margin: 16px 0;">
-            <h3>Resultados: Pares de vídeos estéreo sincronizados</h3>
+            <h4>Pares de vídeos estéreo sincronizados</h4>
             <br>
             <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
                 <div style="text-align:center;">
@@ -298,6 +626,27 @@
                     </video>
                 </div>
             </div>
+        </div>
+
+        <!-- Stereo synchronized video players -->
+        <div style="margin: 16px 0;">
+            <h4>Vídeos 3D resultantes</h4>
+            <br>
+            <div style="display: flex; gap: 16px; justify-content: center; align-items: flex-start;">
+                <div style="text-align:center;">
+                    <video id="stereoL_ex" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/movie3d_1.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+                <div style="text-align:center;">
+                    <video id="stereoR_ex" width="400" controls>
+                        <source src="Lab3_stereo-camera/data_you/movie3d_2.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                </div>
+            </div>
+            <br>
         </div>
 
         <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%% Análise e discussão dos estudos realizados %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->

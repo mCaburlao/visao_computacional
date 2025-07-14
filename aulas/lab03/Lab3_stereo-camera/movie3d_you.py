@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 
 
-CamL_id = "data_you/stereoL2.mp4"
-CamR_id = "data_you/stereoR2.mp4"
+CamL_id = "data_you/stereoL.mp4"
+CamR_id = "data_you/stereoR.mp4"
 
 CamL= cv2.VideoCapture(CamL_id)
 CamR= cv2.VideoCapture(CamR_id)
@@ -18,6 +18,10 @@ Right_Stereo_Map_y = cv_file.getNode("Right_Stereo_Map_y").mat()
 cv_file.release()
 
 print("Starting while ......")
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fps = 20.0
+out = cv2.VideoWriter('movie3d_1.avi', fourcc, fps, (700, 700))
 
 
 while True:
@@ -40,9 +44,13 @@ while True:
 		output = cv2.resize(output,(700,700))
 		cv2.namedWindow("3D movie",cv2.WINDOW_NORMAL)
 		cv2.resizeWindow("3D movie",700,700)
+		out.write(output)
 		cv2.imshow("3D movie",output)
 
 		cv2.waitKey(1)
 	
 	else:
 		break
+
+out.release()
+cv2.destroyAllWindows()
