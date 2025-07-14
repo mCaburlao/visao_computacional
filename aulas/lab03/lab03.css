@@ -16,3 +16,17 @@ body {
     padding: 0;
 }
 
+.videos-result {
+    margin: 16px 0;
+}
+
+.video-items {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.center-align-text {
+    text-align: center;
+}

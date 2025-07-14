@@ -73,31 +73,26 @@ h1 {
   text-align: left;
 }
 
-h2 {
+h2, h3, h4 {
   font-family: "Dancing Script", cursive;
-  font-size: 40px;
-  color: #f7c873;
   margin: 0 50px 0px;
   text-align: left;
   letter-spacing: 0.5px;
+}
+
+h2 {
+  font-size: 40px;
+  color: #f7c873;
 }
 
 h3 {
-  font-family: "Dancing Script", cursive;
   font-size: 32px;
   color: #a7e3ff;
-  margin: 0 50px 0px;
-  text-align: left;
-  letter-spacing: 0.5px;
 }
 
 h4 {
-  font-family: "Dancing Script", cursive;
   font-size: 28px;
   color: #f5f5f5;
-  margin: 0 50px 0px;
-  text-align: left;
-  letter-spacing: 0.5px;
 }
 
 .titulo-proj {
