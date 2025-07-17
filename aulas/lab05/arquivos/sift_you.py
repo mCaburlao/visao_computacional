@@ -1,56 +1,55 @@
-import numpy as np 
-import cv2
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+ 
+MIN_MATCH_COUNT = 10
+ 
+img1 = cv.imread('top_0.png', cv.IMREAD_GRAYSCALE)          # queryImage
+img2 = cv.imread('top_1.jpg', cv.IMREAD_GRAYSCALE) # trainImage
+ 
+# Initiate SIFT detector
+sift = cv.SIFT_create()
+ 
+# find the keypoints and descriptors with SIFT
+kp1, des1 = sift.detectAndCompute(img1,None)
+kp2, des2 = sift.detectAndCompute(img2,None)
+ 
+FLANN_INDEX_KDTREE = 1
+index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+search_params = dict(checks = 50)
+ 
+flann = cv.FlannBasedMatcher(index_params, search_params)
+ 
+matches = flann.knnMatch(des1,des2,k=2)
+ 
+# store all the good matches as per Lowe's ratio test.
+good = []
+for m,n in matches:
+    if m.distance < 0.7*n.distance:
+        good.append(m)
 
+if len(good)>MIN_MATCH_COUNT:
+    src_pts = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
+    dst_pts = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
+ 
+    M, mask = cv.findHomography(src_pts, dst_pts, cv.RANSAC,5.0)
+    matchesMask = mask.ravel().tolist()
+ 
+    h,w = img1.shape
+    pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
+    dst = cv.perspectiveTransform(pts,M)
+ 
+    img2 = cv.polylines(img2,[np.int32(dst)],True,255,3, cv.LINE_AA)
+ 
+else:
+    print( "Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT) )
+    matchesMask = None
 
-CamL_id = "data_you/stereoL.mp4"
-CamR_id = "data_you/stereoR.mp4"
-
-CamL= cv2.VideoCapture(CamL_id)
-CamR= cv2.VideoCapture(CamR_id)
-
-print("Reading parameters ......")
-cv_file = cv2.FileStorage("data_you/params_py.xml", cv2.FILE_STORAGE_READ)
-
-Left_Stereo_Map_x = cv_file.getNode("Left_Stereo_Map_x").mat()
-Left_Stereo_Map_y = cv_file.getNode("Left_Stereo_Map_y").mat()
-Right_Stereo_Map_x = cv_file.getNode("Right_Stereo_Map_x").mat()
-Right_Stereo_Map_y = cv_file.getNode("Right_Stereo_Map_y").mat()
-cv_file.release()
-
-print("Starting while ......")
-
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-fps = 20.0
-out = cv2.VideoWriter('movie3d_1.avi', fourcc, fps, (700, 700))
-
-
-while True:
-	retR, imgR= CamR.read()
-	retL, imgL= CamL.read()
-	
-	if retL and retR:
-		imgR_gray = cv2.cvtColor(imgR,cv2.COLOR_BGR2GRAY)
-		imgL_gray = cv2.cvtColor(imgL,cv2.COLOR_BGR2GRAY)
-
-		Left_nice= cv2.remap(imgL,Left_Stereo_Map_x,Left_Stereo_Map_y, cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
-		Right_nice= cv2.remap(imgR,Right_Stereo_Map_x,Right_Stereo_Map_y, cv2.INTER_LANCZOS4, cv2.BORDER_CONSTANT, 0)
-
-		output = Right_nice.copy()
-		output[:,:,0] = Right_nice[:,:,0]
-		output[:,:,1] = Right_nice[:,:,1]
-		output[:,:,2] = Left_nice[:,:,2]
-
-		# output = Left_nice+Right_nice
-		output = cv2.resize(output,(700,700))
-		cv2.namedWindow("3D movie",cv2.WINDOW_NORMAL)
-		cv2.resizeWindow("3D movie",700,700)
-		out.write(output)
-		cv2.imshow("3D movie",output)
-
-		cv2.waitKey(1)
-	
-	else:
-		break
-
-out.release()
-cv2.destroyAllWindows()
+draw_params = dict(matchColor = (0,255,0), # draw matches in green color
+                   singlePointColor = None,
+                   matchesMask = matchesMask, # draw only inliers
+                   flags = 2)
+ 
+img3 = cv.drawMatches(img1,kp1,img2,kp2,good,None,**draw_params)
+ 
+plt.imshow(img3, 'gray'),plt.show()
