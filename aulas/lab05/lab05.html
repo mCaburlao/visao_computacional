@@ -25,6 +25,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+<script src="lab05.js"></script>
+
 <!-- Arquivo JS externo -->
 <!-- <script src="lab03.js"></script> -->
 
@@ -102,7 +104,7 @@
             </div>
             <div class="integrante-card">
                 <span class="integrante-nome">Data de publicação:</span>
-                <span class="integrante-ra">XX/07/2025</span>
+                <span class="integrante-ra">21/07/2025</span>
             </div>
         </div>
 
@@ -123,32 +125,147 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; 
+            &emsp; Neste laboratório, exploramos técnicas fundamentais de detecção e descrição de características (features) em imagens digitais. 
+            A detecção de features é uma etapa essencial em tarefas de visão computacional como reconhecimento de objetos, 
+            reconstrução 3D e realidade aumentada.
         </p>
+        <p>
+            &emsp; Primeiramente, foi realizado um estudo teórico sobre os principais métodos de detecção e descrição de características, 
+            incluindo os detectores Harris, Shi-Tomasi e o descritor SIFT (Scale-Invariant Feature Transform). 
+            Estes algoritmos permitem localizar pontos de interesse (keypoints) em uma imagem e gerar descritores robustos para comparação 
+            entre diferentes cenas.
+        </p>
+        <p>
+            &emsp; Na segunda etapa, foi implementado um programa utilizando o algoritmo SIFT para realizar Feature Matching 
+            entre duas imagens, seguido de uma versão adaptada para processar vídeo em tempo real a partir de uma câmera estéreo. 
+            Por fim, aplicamos a Transformada de Hough para detecção de linhas e círculos em imagens e vídeos.
+        </p>
+
         <br>
         <h2>Procedimentos Experimentais</h2>
         <br>
+
+        <h4>Parte 1 – Estudo teórico</h4>
+        <br>
         <p>
-            &emsp; 
+            &emsp; Foram estudados os seguintes conceitos e algoritmos:
         </p>
+        <ul>
+            <li>
+                Features em visão computacional: pontos ou regiões distintas em uma imagem que podem ser extraídas e 
+                comparadas entre imagens diferentes [1].
+            </li>
+            <li>
+                Detector de Harris: identifica cantos em uma imagem usando o cálculo da matriz de 
+                autocorrelação e análise dos autovalores [2].
+            </li>
+            <li>
+                Detector de Shi-Tomasi: melhoria do método de Harris que considera 
+                o menor autovalor para selecionar os melhores cantos [3].
+            </li>
+            <li>
+                SIFT (Scale-Invariant Feature Transform): detecta e descreve pontos de interesse invariantes a escala e rotação [4].
+            </li>
+        </ul>
+
+        <br>
+        <h4>Parte 2 – Implementação com SIFT</h4>
+        <br>
+
+        <ol type="A">
+            <li>
+                Um programa em Python com OpenCV foi implementado para:
+                <ul>
+                    <li>Carregar duas imagens contendo o mesmo objeto em posições diferentes.</li>
+                    <li>Detectar pontos de interesse usando SIFT.</li>
+                    <li>Realizar feature matching com FLANN e calcular a homografia para localizar o objeto na segunda imagem.</li>
+                </ul>
+            </li>
+
+            <li>
+                O código foi adaptado para capturar imagens de duas webcams (câmera estéreo) em tempo real e realizar o mesmo processo com fluxo contínuo de vídeo.
+            </li>
+
+            <li>
+                Um programa foi desenvolvido para aplicar a Transformada de Hough em imagens contendo linhas e círculos.
+            </li>
+
+            <li>
+                A solução foi adaptada para capturar imagens de duas webcams, detectando linhas e círculos em tempo real.
+            </li>
+        </ol>
+
         <br>
         <h2>Análise e discussão dos estudos realizados</h2>
         <br>
         <p>
-            &emsp; 
+            &emsp; A aplicação do algoritmo SIFT demonstrou-se eficiente para identificar o mesmo objeto em diferentes posições e escalas, 
+            evidenciando a robustez do método para tarefas de reconhecimento. As correspondências (matches) obtidas mostraram alta precisão 
+            quando as imagens eram bem iluminadas e apresentavam pouco ruído.
         </p>
+        <p>
+            &emsp; Na versão com webcams, a detecção em tempo real mostrou que o desempenho é afetado pela qualidade da calibração da câmera 
+            estéreo e pela presença de movimentos bruscos ou oclusões.
+        </p>
+        <p>
+            &emsp; A Transformada de Hough permitiu identificar com sucesso linhas e círculos nas imagens, 
+            sendo uma técnica eficaz para cenários com formas geométricas bem definidas. 
+            Contudo, mostrou limitações em casos com ruídos ou bordas pouco contrastantes.
+        </p>
+        <p>
+            &emsp; Essas técnicas possuem diversas aplicações no mundo real, como:
+        </p>
+        <ul>
+            <li>Reconhecimento de objetos (robótica, veículos autônomos).</li>
+            <li>Rastreamento de movimento (realidade aumentada).</li>
+            <li>Análise de imagens médicas (detecção de formas anatômicas).</li>
+        </ul>
+
+
         <br>
         <h2>Conclusões</h2>
         <br>
         <p>
-            &emsp; 
+            &emsp; O laboratório permitiu consolidar o conhecimento teórico e prático sobre técnicas de detecção e 
+            descrição de características em imagens digitais. Os algoritmos implementados, especialmente o SIFT e a Transformada de Hough, 
+            demonstraram como é possível automatizar o reconhecimento de padrões e a análise de formas em imagens e vídeos.
         </p>
-        <br>
-        
 
         <br>
         <h2>Referências</h2>
         <br>
+        <ul>
+            <li>
+                <p>[1] OpenCV – Feature Detection and Description:</p>
+                <p><a href="https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html"
+                        target="_blank">https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html</a></p>
+            </li>
+
+            <li>
+                <p>[2] OpenCV – Harris Corner Detection:</p>
+                <p><a href="https://docs.opencv.org/4.x/dc/d0d/tutorial_py_features_harris.html"
+                        target="_blank">https://docs.opencv.org/4.x/dc/d0d/tutorial_py_features_harris.html</a></p>
+            </li>
+
+            <li>
+                <p>[3] OpenCV – Shi-Tomasi Corner Detector:</p>
+                <p><a href="https://docs.opencv.org/4.x/d4/d8c/tutorial_py_shi_tomasi.html"
+                        target="_blank">https://docs.opencv.org/4.x/d4/d8c/tutorial_py_shi_tomasi.html</a></p>
+            </li>
+
+            <li>
+                <p>[4] OpenCV – SIFT:</p>
+                <p><a href="https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html"
+                        target="_blank">https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html</a></p>
+            </li>
+
+            <li>
+                <p>[5] LearnOpenCV – Hough Transform:</p>
+                <p><a href="https://learnopencv.com/hough-transform-with-opencv-c-python/"
+                        target="_blank">https://learnopencv.com/hough-transform-with-opencv-c-python/</a></p>
+            </li>
+
+        </ul>
     </div>
 
 </body>
