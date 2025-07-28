@@ -125,19 +125,25 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; Neste laboratório, exploramos técnicas fundamentais de detecção e descrição de características (features) em imagens digitais. 
-            A detecção de features é uma etapa essencial em tarefas de visão computacional como reconhecimento de objetos, 
+            &emsp; Neste laboratório, exploramos técnicas fundamentais de detecção e descrição de características
+            (features) em imagens digitais.
+            A detecção de features é uma etapa essencial em tarefas de visão computacional como reconhecimento de
+            objetos,
             reconstrução 3D e realidade aumentada.
         </p>
         <p>
-            &emsp; Primeiramente, foi realizado um estudo teórico sobre os principais métodos de detecção e descrição de características, 
-            incluindo os detectores Harris, Shi-Tomasi e o descritor SIFT (Scale-Invariant Feature Transform). 
-            Estes algoritmos permitem localizar pontos de interesse (keypoints) em uma imagem e gerar descritores robustos para comparação 
+            &emsp; Primeiramente, foi realizado um estudo teórico sobre os principais métodos de detecção e descrição de
+            características,
+            incluindo os detectores Harris, Shi-Tomasi e o descritor SIFT (Scale-Invariant Feature Transform).
+            Estes algoritmos permitem localizar pontos de interesse (keypoints) em uma imagem e gerar descritores
+            robustos para comparação
             entre diferentes cenas.
         </p>
         <p>
-            &emsp; Na segunda etapa, foi implementado um programa utilizando o algoritmo SIFT para realizar Feature Matching 
-            entre duas imagens, seguido de uma versão adaptada para processar vídeo em tempo real a partir de uma câmera estéreo. 
+            &emsp; Na segunda etapa, foi implementado um programa utilizando o algoritmo SIFT para realizar Feature
+            Matching
+            entre duas imagens, seguido de uma versão adaptada para processar vídeo em tempo real a partir de uma câmera
+            estéreo.
             Por fim, aplicamos a Transformada de Hough para detecção de linhas e círculos em imagens e vídeos.
         </p>
 
@@ -152,24 +158,25 @@
         </p>
         <ul>
             <li>
-                Features em visão computacional: pontos ou regiões distintas em uma imagem que podem ser extraídas e 
+                Features em visão computacional: pontos ou regiões distintas em uma imagem que podem ser extraídas e
                 comparadas entre imagens diferentes [1].
             </li>
             <li>
-                Detector de Harris: identifica cantos em uma imagem usando o cálculo da matriz de 
+                Detector de Harris: identifica cantos em uma imagem usando o cálculo da matriz de
                 autocorrelação e análise dos autovalores [2].
             </li>
             <li>
-                Detector de Shi-Tomasi: melhoria do método de Harris que considera 
+                Detector de Shi-Tomasi: melhoria do método de Harris que considera
                 o menor autovalor para selecionar os melhores cantos [3].
             </li>
             <li>
-                SIFT (Scale-Invariant Feature Transform): detecta e descreve pontos de interesse invariantes a escala e rotação [4].
+                SIFT (Scale-Invariant Feature Transform): detecta e descreve pontos de interesse invariantes a escala e
+                rotação [4].
             </li>
         </ul>
 
         <br>
-        <h4>Parte 2 – Implementação com SIFT</h4>
+        <h4>Parte 2 – Implementação</h4>
         <br>
 
         <ol type="A">
@@ -178,7 +185,8 @@
                 <ul>
                     <li>Carregar duas imagens contendo o mesmo objeto em posições diferentes.</li>
                     <li>Detectar pontos de interesse usando SIFT.</li>
-                    <li>Realizar feature matching com FLANN e calcular a homografia para localizar o objeto na segunda imagem.</li>
+                    <li>Realizar feature matching com FLANN e calcular a homografia para localizar o objeto na segunda
+                        imagem.</li>
                 </ul>
             </li>
 
@@ -241,7 +249,8 @@ plt.imshow(img3, 'gray'),plt.show()
             </code></pre>
 
             <li>
-                O código foi adaptado para capturar imagens de duas webcams (câmera estéreo) em tempo real e realizar o mesmo processo com fluxo contínuo de vídeo.
+                O código foi adaptado para capturar imagens de duas webcams (câmera estéreo) em tempo real e realizar o
+                mesmo processo com fluxo contínuo de vídeo.
             </li>
 
             <pre><code class="language-python">
@@ -458,7 +467,8 @@ cv2.destroyAllWindows()
             </code></pre>
 
             <li>
-                A solução foi adaptada para capturar imagens de duas webcams, detectando linhas e círculos em tempo real.
+                A solução foi adaptada para capturar imagens de duas webcams, detectando linhas e círculos em tempo
+                real.
             </li>
 
             <pre><code class="language-python">
@@ -536,20 +546,120 @@ cv2.destroyAllWindows()
         </ol>
 
         <br>
+        <h4>Parte 3 - Resultados</h4>
+
+        <p>
+            &emsp; Utilizando o código (A), foi possível detectar o objeto (cartão TOP) presente na imagem de referência
+            <strong>top_0.png</strong> dentro da imagem <strong>top_1.jpg</strong>. O algoritmo SIFT identificou pontos
+            de interesse em ambas as imagens e, por meio do FLANN e da homografia, localizou a posição do cartão na
+            segunda imagem, mesmo com mudanças de escala e rotação.
+        </p>
+        <div class="centered" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_0.png" alt="Imagem de referência (cartão TOP)"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Imagem de referência (top_0.png)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_1.jpg" alt="Imagem de busca (cartão TOP em outra posição)"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Imagem de busca (top_1.jpg)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_resultado.png" alt="Resultado do matching SIFT"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Matching SIFT e homografia (cartão detectado)</figcaption>
+            </figure>
+        </div>
+        <br>
+        <p>
+            &emsp; Na imagem acima, observa-se que as correspondências entre os pontos de interesse permitiram desenhar
+            o contorno do cartão TOP na imagem de busca, comprovando a eficácia do método.
+        </p>
+
+        <p>
+            &emsp; Com o código (B), foi possível realizar a detecção e o matching de características em tempo real
+            utilizando duas webcams, simulando um sistema de câmera estéreo. O algoritmo SIFT identificou os pontos de
+            interesse nos frames capturados e, por meio do FLANN e da homografia, foi possível localizar o objeto de
+            referência em ambas as imagens das câmeras, mesmo com variações de posição, escala e rotação.
+        </p>
+        <p>
+            &emsp; A fim de melhorar a compatibilidade do vídeo com diversos navegadores, utilizamos o FFMEG para
+            converter o vídeo para MP4. Para essa conversão, utilizamos o seguinte comando:
+        </p>
+        <br>
+        <p>&emsp;
+            &emsp;<code>ffmpeg -i entrada.webm -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx265 -crf 18 -c:a flac saida.mp4</code>
+        </p>
+
+        <video class="centered" width="972" height="270" controls>
+            <source src="arquivos/double_sift_resultado.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+
+        <br>
+        <p>
+            &emsp; O vídeo acima ilustram o resultado do matching em tempo real, evidenciando a robustez do método
+            mesmo em condições de iluminação e ângulos diferentes entre as câmeras.
+        </p>
+        <p>
+            &emsp; Com o código (C) e (D), a Transformada de Hough foi aplicada para detectar linhas e círculos em
+            imagens estáticas e em tempo real, respectivamente. Abaixo, exemplos dos resultados obtidos:
+        </p>
+        <div class="centered" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/teto_melhor_resultado.png" alt="Detecção de linhas com Hough"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de linhas (Hough)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/camisa_resultado.png" alt="Detecção de círculos com Hough"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de círculos (Hough)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/celular_resultado.png" alt="Detecção em tempo real nas webcams"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de ambos ao mesmo tempo</figcaption>
+            </figure>
+        </div>
+        <br>
+        <figure style="margin:0;">
+            <img class="centered" src="arquivos/parametros_para_resultados.png" alt="Detecção em tempo real nas webcams"
+                style="height:250px;">
+            <figcaption style="text-align:center;">Parâmetros utilizados para o resultado obtido</figcaption>
+        </figure>
+        <br>
+        <p>
+            &emsp; O código também foi modificado para funcionar com duas webcams em tempo real, permitindo a detecção
+            simultânea de linhas e círculos em tempo real em ambos os dispositivos. Isso possibilitou comparar os
+            resultados de cada câmera lado a lado, facilitando a análise do desempenho dos algoritmos em diferentes
+            ângulos e condições de iluminação.
+        </p>
+        <br>
+        <video class="centered" width="972" height="270" controls>
+            <source src="arquivos/hought_transform_resultado.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+
+        <br>
         <h2>Análise e discussão dos estudos realizados</h2>
         <br>
         <p>
-            &emsp; A aplicação do algoritmo SIFT demonstrou-se eficiente para identificar o mesmo objeto em diferentes posições e escalas, 
-            evidenciando a robustez do método para tarefas de reconhecimento. As correspondências (matches) obtidas mostraram alta precisão 
+            &emsp; A aplicação do algoritmo SIFT demonstrou-se eficiente para identificar o mesmo objeto em diferentes
+            posições e escalas,
+            evidenciando a robustez do método para tarefas de reconhecimento. As correspondências (matches) obtidas
+            mostraram alta precisão
             quando as imagens eram bem iluminadas e apresentavam pouco ruído.
         </p>
         <p>
-            &emsp; Na versão com webcams, a detecção em tempo real mostrou que o desempenho é afetado pela qualidade da calibração da câmera 
+            &emsp; Na versão com webcams, a detecção em tempo real mostrou que o desempenho é afetado pela qualidade da
+            calibração da câmera
             estéreo e pela presença de movimentos bruscos ou oclusões.
         </p>
         <p>
-            &emsp; A Transformada de Hough permitiu identificar com sucesso linhas e círculos nas imagens, 
-            sendo uma técnica eficaz para cenários com formas geométricas bem definidas. 
+            &emsp; A Transformada de Hough permitiu identificar com sucesso linhas e círculos nas imagens,
+            sendo uma técnica eficaz para cenários com formas geométricas bem definidas.
             Contudo, mostrou limitações em casos com ruídos ou bordas pouco contrastantes.
         </p>
         <p>
@@ -566,9 +676,11 @@ cv2.destroyAllWindows()
         <h2>Conclusões</h2>
         <br>
         <p>
-            &emsp; O laboratório permitiu consolidar o conhecimento teórico e prático sobre técnicas de detecção e 
-            descrição de características em imagens digitais. Os algoritmos implementados, especialmente o SIFT e a Transformada de Hough, 
-            demonstraram como é possível automatizar o reconhecimento de padrões e a análise de formas em imagens e vídeos.
+            &emsp; O laboratório permitiu consolidar o conhecimento teórico e prático sobre técnicas de detecção e
+            descrição de características em imagens digitais. Os algoritmos implementados, especialmente o SIFT e a
+            Transformada de Hough,
+            demonstraram como é possível automatizar o reconhecimento de padrões e a análise de formas em imagens e
+            vídeos.
         </p>
 
         <br>
@@ -578,7 +690,8 @@ cv2.destroyAllWindows()
             <li>
                 <p>[1] OpenCV – Feature Detection and Description:</p>
                 <p><a href="https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html"
-                        target="_blank">https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html</a></p>
+                        target="_blank">https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html</a>
+                </p>
             </li>
 
             <li>
