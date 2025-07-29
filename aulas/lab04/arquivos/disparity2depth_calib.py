@@ -1,6 +1,5 @@
 import numpy as np 
 import cv2
-import os
  
 # Check for left and right camera IDs
 # These values can change depending on the system
@@ -17,30 +16,6 @@ Left_Stereo_Map_y = cv_file.getNode("Left_Stereo_Map_y").mat()
 Right_Stereo_Map_x = cv_file.getNode("Right_Stereo_Map_x").mat()
 Right_Stereo_Map_y = cv_file.getNode("Right_Stereo_Map_y").mat()
 cv_file.release()
-
-# Default values for parameters
-params = {
-    "numDisparities": 1,
-    "blockSize": 5,
-    "preFilterType": 1,
-    "preFilterSize": 2,
-    "preFilterCap": 5,
-    "textureThreshold": 10,
-    "uniquenessRatio": 15,
-    "speckleRange": 0,
-    "speckleWindowSize": 3,
-    "disp12MaxDiff": 5,
-    "minDisparity": 5
-}
-
-# Try to read previous values if file exists
-if os.path.exists("depth_estmation_params_py.xml"):
-    cv_file_params = cv2.FileStorage("depth_estmation_params_py.xml", cv2.FILE_STORAGE_READ)
-    for key in params.keys():
-        node = cv_file_params.getNode(key)
-        if not node.empty():
-            params[key] = int(node.real())
-    cv_file_params.release()
  
 def nothing(x):
     pass
