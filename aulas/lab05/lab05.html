@@ -125,19 +125,25 @@
         <h2>Introdução</h2>
         <br>
         <p>
-            &emsp; Neste laboratório, exploramos técnicas fundamentais de detecção e descrição de características (features) em imagens digitais. 
-            A detecção de features é uma etapa essencial em tarefas de visão computacional como reconhecimento de objetos, 
+            &emsp; Neste laboratório, exploramos técnicas fundamentais de detecção e descrição de características
+            (features) em imagens digitais.
+            A detecção de features é uma etapa essencial em tarefas de visão computacional como reconhecimento de
+            objetos,
             reconstrução 3D e realidade aumentada.
         </p>
         <p>
-            &emsp; Primeiramente, foi realizado um estudo teórico sobre os principais métodos de detecção e descrição de características, 
-            incluindo os detectores Harris, Shi-Tomasi e o descritor SIFT (Scale-Invariant Feature Transform). 
-            Estes algoritmos permitem localizar pontos de interesse (keypoints) em uma imagem e gerar descritores robustos para comparação 
+            &emsp; Primeiramente, foi realizado um estudo teórico sobre os principais métodos de detecção e descrição de
+            características,
+            incluindo os detectores Harris, Shi-Tomasi e o descritor SIFT (Scale-Invariant Feature Transform).
+            Estes algoritmos permitem localizar pontos de interesse (keypoints) em uma imagem e gerar descritores
+            robustos para comparação
             entre diferentes cenas.
         </p>
         <p>
-            &emsp; Na segunda etapa, foi implementado um programa utilizando o algoritmo SIFT para realizar Feature Matching 
-            entre duas imagens, seguido de uma versão adaptada para processar vídeo em tempo real a partir de uma câmera estéreo. 
+            &emsp; Na segunda etapa, foi implementado um programa utilizando o algoritmo SIFT para realizar Feature
+            Matching
+            entre duas imagens, seguido de uma versão adaptada para processar vídeo em tempo real a partir de uma câmera
+            estéreo.
             Por fim, aplicamos a Transformada de Hough para detecção de linhas e círculos em imagens e vídeos.
         </p>
 
@@ -152,24 +158,25 @@
         </p>
         <ul>
             <li>
-                Features em visão computacional: pontos ou regiões distintas em uma imagem que podem ser extraídas e 
+                Features em visão computacional: pontos ou regiões distintas em uma imagem que podem ser extraídas e
                 comparadas entre imagens diferentes [1].
             </li>
             <li>
-                Detector de Harris: identifica cantos em uma imagem usando o cálculo da matriz de 
+                Detector de Harris: identifica cantos em uma imagem usando o cálculo da matriz de
                 autocorrelação e análise dos autovalores [2].
             </li>
             <li>
-                Detector de Shi-Tomasi: melhoria do método de Harris que considera 
+                Detector de Shi-Tomasi: melhoria do método de Harris que considera
                 o menor autovalor para selecionar os melhores cantos [3].
             </li>
             <li>
-                SIFT (Scale-Invariant Feature Transform): detecta e descreve pontos de interesse invariantes a escala e rotação [4].
+                SIFT (Scale-Invariant Feature Transform): detecta e descreve pontos de interesse invariantes a escala e
+                rotação [4].
             </li>
         </ul>
 
         <br>
-        <h4>Parte 2 – Implementação com SIFT</h4>
+        <h4>Parte 2 – Implementação</h4>
         <br>
 
         <ol type="A">
@@ -178,38 +185,481 @@
                 <ul>
                     <li>Carregar duas imagens contendo o mesmo objeto em posições diferentes.</li>
                     <li>Detectar pontos de interesse usando SIFT.</li>
-                    <li>Realizar feature matching com FLANN e calcular a homografia para localizar o objeto na segunda imagem.</li>
+                    <li>Realizar feature matching com FLANN e calcular a homografia para localizar o objeto na segunda
+                        imagem.</li>
                 </ul>
             </li>
 
+            <pre><code class="language-python">
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+ 
+MIN_MATCH_COUNT = 10
+ 
+img1 = cv.imread('top_0.png', cv.IMREAD_GRAYSCALE)          # queryImage
+img2 = cv.imread('top_1.jpg', cv.IMREAD_GRAYSCALE) # trainImage
+ 
+# Initiate SIFT detector
+sift = cv.SIFT_create()
+ 
+# find the keypoints and descriptors with SIFT
+kp1, des1 = sift.detectAndCompute(img1,None)
+kp2, des2 = sift.detectAndCompute(img2,None)
+ 
+FLANN_INDEX_KDTREE = 1
+index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+search_params = dict(checks = 50)
+ 
+flann = cv.FlannBasedMatcher(index_params, search_params)
+ 
+matches = flann.knnMatch(des1,des2,k=2)
+ 
+# store all the good matches as per Lowe's ratio test.
+good = []
+for m,n in matches:
+    if m.distance < 0.7*n.distance:
+        good.append(m)
+
+if len(good)>MIN_MATCH_COUNT:
+    src_pts = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
+    dst_pts = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
+ 
+    M, mask = cv.findHomography(src_pts, dst_pts, cv.RANSAC,5.0)
+    matchesMask = mask.ravel().tolist()
+ 
+    h,w = img1.shape
+    pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
+    dst = cv.perspectiveTransform(pts,M)
+ 
+    img2 = cv.polylines(img2,[np.int32(dst)],True,255,3, cv.LINE_AA)
+ 
+else:
+    print( "Not enough matches are found - {}/{}".format(len(good), MIN_MATCH_COUNT) )
+    matchesMask = None
+
+draw_params = dict(matchColor = (0,255,0), # draw matches in green color
+                   singlePointColor = None,
+                   matchesMask = matchesMask, # draw only inliers
+                   flags = 2)
+ 
+img3 = cv.drawMatches(img1,kp1,img2,kp2,good,None,**draw_params)
+ 
+plt.imshow(img3, 'gray'),plt.show()
+            </code></pre>
+
             <li>
-                O código foi adaptado para capturar imagens de duas webcams (câmera estéreo) em tempo real e realizar o mesmo processo com fluxo contínuo de vídeo.
+                O código foi adaptado para capturar imagens de duas webcams (câmera estéreo) em tempo real e realizar o
+                mesmo processo com fluxo contínuo de vídeo.
             </li>
+
+            <pre><code class="language-python">
+import cv2
+import numpy as np
+
+# === Carrega a imagem de referência ===
+ref_img = cv2.imread('top_0.png', cv2.IMREAD_GRAYSCALE)
+if ref_img is None:
+    raise ValueError("Não foi possível carregar a imagem de referência!")
+
+# Inicializa o detector SIFT
+sift = cv2.SIFT_create()
+
+# Detecta keypoints e descritores da imagem de referência
+kp_ref, des_ref = sift.detectAndCompute(ref_img, None)
+
+# Cria o matcher FLANN
+FLANN_INDEX_KDTREE = 1
+index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+search_params = dict(checks=50)
+flann = cv2.FlannBasedMatcher(index_params, search_params)
+
+# Inicializa as webcams
+cam1 = cv2.VideoCapture(0)  # Primeira câmera
+cam2 = cv2.VideoCapture(2)  # Segunda câmera
+
+while True:
+    ret1, frame1 = cam1.read()
+    ret2, frame2 = cam2.read()
+
+    if not ret1 or not ret2:
+        print("Erro ao capturar imagens das webcams!")
+        break
+
+    # Converte os frames para escala de cinza
+    gray1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+
+    # Detecta keypoints e descritores das câmeras
+    kp1, des1 = sift.detectAndCompute(gray1, None)
+    kp2, des2 = sift.detectAndCompute(gray2, None)
+
+    # Define função para encontrar matches e desenhar resultados
+    def match_and_draw(des_cam, kp_cam, frame_cam, window_name):
+        matches = flann.knnMatch(des_ref, des_cam, k=2)
+
+        # Aplica o teste de Lowe
+        good = []
+        for m, n in matches:
+            if m.distance < 0.7 * n.distance:
+                good.append(m)
+
+        result = frame_cam.copy()
+
+        if len(good) > 10:
+            src_pts = np.float32([kp_ref[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
+            dst_pts = np.float32([kp_cam[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+
+            # Calcula homografia
+            M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+            matchesMask = mask.ravel().tolist()
+
+            # Desenha o polígono ao redor do objeto encontrado
+            h, w = ref_img.shape
+            pts = np.float32([[0, 0], [0, h-1], [w-1, h-1], [w-1, 0]]).reshape(-1, 1, 2)
+            dst = cv2.perspectiveTransform(pts, M)
+            result = cv2.polylines(result, [np.int32(dst)], True, (0, 255, 0), 3, cv2.LINE_AA)
+        else:
+            matchesMask = None
+
+        # Desenha os matches
+        draw_params = dict(matchColor=(0, 255, 0),
+                           singlePointColor=None,
+                           matchesMask=matchesMask,
+                           flags=2)
+        img_matches = cv2.drawMatches(ref_img, kp_ref, frame_cam, kp_cam, good, None, **draw_params)
+
+        cv2.imshow(window_name, img_matches)
+
+    # Faz matching e desenha resultados para cada câmera
+    match_and_draw(des1, kp1, frame1, "Camera 1 - Matching")
+    match_and_draw(des2, kp2, frame2, "Camera 2 - Matching")
+
+    # Função para obter matches e imagem desenhada
+    def get_matches_img(des_cam, kp_cam, frame_cam, matchColor):
+        matches = flann.knnMatch(des_ref, des_cam, k=2)
+        good = []
+        for m, n in matches:
+            if m.distance < 0.7 * n.distance:
+                good.append(m)
+        matchesMask = None
+        if len(good) > 10:
+            src_pts = np.float32([kp_ref[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
+            dst_pts = np.float32([kp_cam[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+            M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+            matchesMask = mask.ravel().tolist()
+
+            # Desenha o polígono ao redor do objeto encontrado
+            h, w = ref_img.shape
+            pts = np.float32([[0, 0], [0, h-1], [w-1, h-1], [w-1, 0]]).reshape(-1, 1, 2)
+            dst = cv2.perspectiveTransform(pts, M)
+            frame_cam = cv2.polylines(frame_cam, [np.int32(dst)], True, matchColor, 3, cv2.LINE_AA)
+        else:
+            matchesMask = None
+        
+        draw_params = dict(matchColor=matchColor,
+                            singlePointColor=None,
+                            matchesMask=matchesMask,
+                            flags=2)
+        img_matches = cv2.drawMatches(ref_img, kp_ref, frame_cam, kp_cam, good, None, **draw_params)
+        return img_matches
+
+    # Gera imagens de matches para cada câmera com cores diferentes
+    img_matches1 = get_matches_img(des1, kp1, frame1, (0, 255, 0))   # Verde para Camera 1
+    img_matches2 = get_matches_img(des2, kp2, frame2, (0, 0, 255))   # Vermelho para Camera 2
+
+    # Redimensiona para garantir que tenham o mesmo tamanho
+    h = max(img_matches1.shape[0], img_matches2.shape[0])
+    w = max(img_matches1.shape[1], img_matches2.shape[1])
+    img_matches1 = cv2.resize(img_matches1, (w, h))
+    img_matches2 = cv2.resize(img_matches2, (w, h))
+
+    # Junta lado a lado
+    combined = np.hstack((img_matches1, img_matches2))
+
+    cv2.imshow("Camera 1 & 2 - Matching", combined)
+
+    # Pressione 'q' para sair
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Libera os recursos
+cam1.release()
+cam2.release()
+cv2.destroyAllWindows()
+            </code></pre>
 
             <li>
                 Um programa foi desenvolvido para aplicar a Transformada de Hough em imagens contendo linhas e círculos.
             </li>
 
+            <pre><code class="language-python">
+import cv2
+import numpy as np
+
+def nothing(x):
+    pass
+
+cap = cv2.VideoCapture(0)
+cv2.namedWindow("Result Image")
+
+cv2.createTrackbar("Line Rho", "Result Image", 1, 10, nothing)
+cv2.createTrackbar("Line Threshold", "Result Image", 184, 200, nothing)
+
+cv2.createTrackbar("Circle param1", "Result Image", 217, 500, nothing)
+cv2.createTrackbar("Circle param2", "Result Image", 56, 100, nothing)
+cv2.createTrackbar("Circle minRadius", "Result Image", 1, 100, nothing)
+cv2.createTrackbar("Circle maxRadius", "Result Image", 196, 200, nothing)
+
+
+while True:
+    ret, img = cap.read()
+    if not ret:
+        break
+
+    rho = cv2.getTrackbarPos("Line Rho", "Result Image")
+    threshold = cv2.getTrackbarPos("Line Threshold", "Result Image")
+
+    param1 = cv2.getTrackbarPos("Circle param1", "Result Image")
+    param2 = cv2.getTrackbarPos("Circle param2", "Result Image")
+    minRadius = cv2.getTrackbarPos("Circle minRadius", "Result Image")
+    maxRadius = cv2.getTrackbarPos("Circle maxRadius", "Result Image")
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray, 50, 200)
+
+    if rho < 1:
+        rho = 1
+    lines = cv2.HoughLinesP(edges, rho, np.pi/180, threshold, minLineLength=10, maxLineGap=250)
+
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
+
+    # --- Circle detection ---
+    img_blur = cv2.medianBlur(gray, 5)
+    circles = cv2.HoughCircles(
+        img_blur,
+        cv2.HOUGH_GRADIENT,
+        1,
+        img.shape[0] / 64,
+        param1=param1,
+        param2=param2,
+        minRadius=minRadius,
+        maxRadius=maxRadius
+    )
+    if circles is not None:
+        circles = np.uint16(np.around(circles))
+        for i in circles[0, :]:
+            # Draw outer circle
+            cv2.circle(img, (i[0], i[1]), i[2], (0, 255, 0), 2)
+            # Draw center of the circle
+            cv2.circle(img, (i[0], i[1]), 2, (0, 0, 255), 3)
+
+    cv2.imshow("Result Image", img)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+            </code></pre>
+
             <li>
-                A solução foi adaptada para capturar imagens de duas webcams, detectando linhas e círculos em tempo real.
+                A solução foi adaptada para capturar imagens de duas webcams, detectando linhas e círculos em tempo
+                real.
             </li>
+
+            <pre><code class="language-python">
+import cv2
+import numpy as np
+
+def nothing(x):
+    pass
+
+cap0 = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(2)
+cv2.namedWindow("Result Image")
+
+cv2.createTrackbar("Line Rho", "Result Image", 1, 10, nothing)
+cv2.createTrackbar("Line Threshold", "Result Image", 184, 200, nothing)
+
+cv2.createTrackbar("Circle param1", "Result Image", 217, 500, nothing)
+cv2.createTrackbar("Circle param2", "Result Image", 56, 100, nothing)
+cv2.createTrackbar("Circle minRadius", "Result Image", 1, 100, nothing)
+cv2.createTrackbar("Circle maxRadius", "Result Image", 196, 200, nothing)
+
+
+while True:
+    ret0, img0 = cap0.read()
+    ret2, img2 = cap2.read()
+    if not ret0 or not ret2:
+        break
+
+    for img in [img0, img2]:
+        rho = cv2.getTrackbarPos("Line Rho", "Result Image")
+        threshold = cv2.getTrackbarPos("Line Threshold", "Result Image")
+        param1 = cv2.getTrackbarPos("Circle param1", "Result Image")
+        param2 = cv2.getTrackbarPos("Circle param2", "Result Image")
+        minRadius = cv2.getTrackbarPos("Circle minRadius", "Result Image")
+        maxRadius = cv2.getTrackbarPos("Circle maxRadius", "Result Image")
+
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, 50, 200)
+        if rho < 1:
+            rho = 1
+        lines = cv2.HoughLinesP(edges, rho, np.pi/180, threshold, minLineLength=10, maxLineGap=250)
+        if lines is not None:
+            for line in lines:
+                x1, y1, x2, y2 = line[0]
+                cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
+
+        img_blur = cv2.medianBlur(gray, 5)
+        circles = cv2.HoughCircles(
+            img_blur,
+            cv2.HOUGH_GRADIENT,
+            1,
+            img.shape[0] / 64,
+            param1=param1,
+            param2=param2,
+            minRadius=minRadius,
+            maxRadius=maxRadius
+        )
+        if circles is not None:
+            circles = np.uint16(np.around(circles))
+            for i in circles[0, :]:
+                cv2.circle(img, (i[0], i[1]), i[2], (0, 255, 0), 2)
+                cv2.circle(img, (i[0], i[1]), 2, (0, 0, 255), 3)
+
+    # Junta as imagens lado a lado
+    combined = np.hstack((img0, img2))
+    cv2.imshow("Result Image", combined)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap0.release()
+cap2.release()
+cv2.destroyAllWindows()
+            </code></pre>
         </ol>
+
+        <br>
+        <h4>Parte 3 - Resultados</h4>
+
+        <p>
+            &emsp; Utilizando o código (A), foi possível detectar o objeto (cartão TOP) presente na imagem de referência
+            <strong>top_0.png</strong> dentro da imagem <strong>top_1.jpg</strong>. O algoritmo SIFT identificou pontos
+            de interesse em ambas as imagens e, por meio do FLANN e da homografia, localizou a posição do cartão na
+            segunda imagem, mesmo com mudanças de escala e rotação.
+        </p>
+        <div class="centered" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_0.png" alt="Imagem de referência (cartão TOP)"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Imagem de referência (top_0.png)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_1.jpg" alt="Imagem de busca (cartão TOP em outra posição)"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Imagem de busca (top_1.jpg)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/top_resultado.png" alt="Resultado do matching SIFT"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Matching SIFT e homografia (cartão detectado)</figcaption>
+            </figure>
+        </div>
+        <br>
+        <p>
+            &emsp; Na imagem acima, observa-se que as correspondências entre os pontos de interesse permitiram desenhar
+            o contorno do cartão TOP na imagem de busca, comprovando a eficácia do método.
+        </p>
+
+        <p>
+            &emsp; Com o código (B), foi possível realizar a detecção e o matching de características em tempo real
+            utilizando duas webcams, simulando um sistema de câmera estéreo. O algoritmo SIFT identificou os pontos de
+            interesse nos frames capturados e, por meio do FLANN e da homografia, foi possível localizar o objeto de
+            referência em ambas as imagens das câmeras, mesmo com variações de posição, escala e rotação.
+        </p>
+        <p>
+            &emsp; A fim de melhorar a compatibilidade do vídeo com diversos navegadores, utilizamos o FFMEG para
+            converter o vídeo para MP4. Para essa conversão, utilizamos o seguinte comando:
+        </p>
+        <br>
+        <p>&emsp;
+            &emsp;<code>ffmpeg -i entrada.webm -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx265 -crf 18 -c:a flac saida.mp4</code>
+        </p>
+
+        <video class="centered" width="972" height="270" controls>
+            <source src="arquivos/double_sift_resultado.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+
+        <br>
+        <p>
+            &emsp; O vídeo acima ilustram o resultado do matching em tempo real, evidenciando a robustez do método
+            mesmo em condições de iluminação e ângulos diferentes entre as câmeras.
+        </p>
+        <p>
+            &emsp; Com o código (C) e (D), a Transformada de Hough foi aplicada para detectar linhas e círculos em
+            imagens estáticas e em tempo real, respectivamente. Abaixo, exemplos dos resultados obtidos:
+        </p>
+        <div class="centered" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/teto_melhor_resultado.png" alt="Detecção de linhas com Hough"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de linhas (Hough)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/camisa_resultado.png" alt="Detecção de círculos com Hough"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de círculos (Hough)</figcaption>
+            </figure>
+            <figure style="margin:0;">
+                <img class="centered" src="arquivos/celular_resultado.png" alt="Detecção em tempo real nas webcams"
+                    style="height:250px;">
+                <figcaption style="text-align:center;">Detecção de ambos ao mesmo tempo</figcaption>
+            </figure>
+        </div>
+        <br>
+        <figure style="margin:0;">
+            <img class="centered" src="arquivos/parametros_para_resultados.png" alt="Detecção em tempo real nas webcams"
+                style="height:250px;">
+            <figcaption style="text-align:center;">Parâmetros utilizados para o resultado obtido</figcaption>
+        </figure>
+        <br>
+        <p>
+            &emsp; O código também foi modificado para funcionar com duas webcams em tempo real, permitindo a detecção
+            simultânea de linhas e círculos em tempo real em ambos os dispositivos. Isso possibilitou comparar os
+            resultados de cada câmera lado a lado, facilitando a análise do desempenho dos algoritmos em diferentes
+            ângulos e condições de iluminação.
+        </p>
+        <br>
+        <video class="centered" width="972" height="270" controls>
+            <source src="arquivos/hought_transform_resultado.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
 
         <br>
         <h2>Análise e discussão dos estudos realizados</h2>
         <br>
         <p>
-            &emsp; A aplicação do algoritmo SIFT demonstrou-se eficiente para identificar o mesmo objeto em diferentes posições e escalas, 
-            evidenciando a robustez do método para tarefas de reconhecimento. As correspondências (matches) obtidas mostraram alta precisão 
+            &emsp; A aplicação do algoritmo SIFT demonstrou-se eficiente para identificar o mesmo objeto em diferentes
+            posições e escalas,
+            evidenciando a robustez do método para tarefas de reconhecimento. As correspondências (matches) obtidas
+            mostraram alta precisão
             quando as imagens eram bem iluminadas e apresentavam pouco ruído.
         </p>
         <p>
-            &emsp; Na versão com webcams, a detecção em tempo real mostrou que o desempenho é afetado pela qualidade da calibração da câmera 
+            &emsp; Na versão com webcams, a detecção em tempo real mostrou que o desempenho é afetado pela qualidade da
+            calibração da câmera
             estéreo e pela presença de movimentos bruscos ou oclusões.
         </p>
         <p>
-            &emsp; A Transformada de Hough permitiu identificar com sucesso linhas e círculos nas imagens, 
-            sendo uma técnica eficaz para cenários com formas geométricas bem definidas. 
+            &emsp; A Transformada de Hough permitiu identificar com sucesso linhas e círculos nas imagens,
+            sendo uma técnica eficaz para cenários com formas geométricas bem definidas.
             Contudo, mostrou limitações em casos com ruídos ou bordas pouco contrastantes.
         </p>
         <p>
@@ -226,9 +676,11 @@
         <h2>Conclusões</h2>
         <br>
         <p>
-            &emsp; O laboratório permitiu consolidar o conhecimento teórico e prático sobre técnicas de detecção e 
-            descrição de características em imagens digitais. Os algoritmos implementados, especialmente o SIFT e a Transformada de Hough, 
-            demonstraram como é possível automatizar o reconhecimento de padrões e a análise de formas em imagens e vídeos.
+            &emsp; O laboratório permitiu consolidar o conhecimento teórico e prático sobre técnicas de detecção e
+            descrição de características em imagens digitais. Os algoritmos implementados, especialmente o SIFT e a
+            Transformada de Hough,
+            demonstraram como é possível automatizar o reconhecimento de padrões e a análise de formas em imagens e
+            vídeos.
         </p>
 
         <br>
@@ -238,7 +690,8 @@
             <li>
                 <p>[1] OpenCV – Feature Detection and Description:</p>
                 <p><a href="https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html"
-                        target="_blank">https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html</a></p>
+                        target="_blank">https://docs.opencv.org/4.x/db/d27/tutorial_py_table_of_contents_feature2d.html</a>
+                </p>
             </li>
 
             <li>

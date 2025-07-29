@@ -20,3 +20,7 @@ body {
 .center-align-text {
     text-align: center;
 }
+
+.centered {
+    max-width: 100% !important;
+}
