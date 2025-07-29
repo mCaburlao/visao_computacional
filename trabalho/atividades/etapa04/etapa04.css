@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .imagem-grande {
+    width: 100%;
+    height: auto;
+  }
+
+  .menu {
+    flex-direction: column;
+  }
+}
+
+body {
+    height: 200vh;
+    color: #fff;
+}
+
+.overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+}
+
+.popup {
+      background: #12192c;
+      padding: 20px;
+      max-width: 80%;
+      max-height: 80%;
+      overflow-y: auto;
+      border-radius: 10px;
+      color: white;
+      font-family: monospace;
+      white-space: pre-wrap;
+}
+
+.fechar {
+      background: #02c2fd;
+      color: black;
+      padding: 5px 10px;
+      margin-top: 10px;
+      border: none;
+      cursor: pointer;
+      float: right;
+}
+
+.btn-codigo {
+      /*margin: 10px 0;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50px;*/
+
+    margin: 10px 0;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-codigo:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.4);
+    color: white;
+    transform: scale(1.05);
+}
