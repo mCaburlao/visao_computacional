@@ -48,18 +48,18 @@ def nothing(x):
 cv2.namedWindow('disp',cv2.WINDOW_NORMAL)
 cv2.resizeWindow('disp',600,600)
  
-cv2.createTrackbar('numDisparities','disp',1,17,nothing)
-cv2.createTrackbar('blockSize','disp',5,50,nothing)
-cv2.createTrackbar('preFilterType','disp',1,1,nothing)
-cv2.createTrackbar('preFilterSize','disp',2,25,nothing)
-cv2.createTrackbar('preFilterCap','disp',5,62,nothing)
-cv2.createTrackbar('textureThreshold','disp',10,100,nothing)
-cv2.createTrackbar('uniquenessRatio','disp',15,100,nothing)
-cv2.createTrackbar('speckleRange','disp',0,100,nothing)
-cv2.createTrackbar('speckleWindowSize','disp',3,25,nothing)
-cv2.createTrackbar('disp12MaxDiff','disp',5,25,nothing)
-cv2.createTrackbar('minDisparity','disp',5,25,nothing)
- 
+cv2.createTrackbar('numDisparities','disp',params["numDisparities"],17,nothing)
+cv2.createTrackbar('blockSize','disp',params["blockSize"],50,nothing)
+cv2.createTrackbar('preFilterType','disp',params["preFilterType"],1,nothing)
+cv2.createTrackbar('preFilterSize','disp',params["preFilterSize"],25,nothing)
+cv2.createTrackbar('preFilterCap','disp',params["preFilterCap"],62,nothing)
+cv2.createTrackbar('textureThreshold','disp',params["textureThreshold"],100,nothing)
+cv2.createTrackbar('uniquenessRatio','disp',params["uniquenessRatio"],100,nothing)
+cv2.createTrackbar('speckleRange','disp',params["speckleRange"],100,nothing)
+cv2.createTrackbar('speckleWindowSize','disp',params["speckleWindowSize"],25,nothing)
+cv2.createTrackbar('disp12MaxDiff','disp',params["disp12MaxDiff"],25,nothing)
+cv2.createTrackbar('minDisparity','disp',params["minDisparity"],25,nothing)
+
 # Creating an object of StereoBM algorithm
 stereo = cv2.StereoBM_create()
  
@@ -129,6 +129,7 @@ while True:
   disparity = (disparity/16.0 - minDisparity)/numDisparities
 
   cv_file_out = cv2.FileStorage("depth_estmation_params_py.xml", cv2.FILE_STORAGE_WRITE)
+  cv_file_out.write("disparity_map", disparity)
   cv_file_out.write("numDisparities", numDisparities)
   cv_file_out.write("blockSize", blockSize)
   cv_file_out.write("preFilterType", preFilterType)
