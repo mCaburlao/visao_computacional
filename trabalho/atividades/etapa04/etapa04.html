@@ -209,105 +209,115 @@
       <button class="fechar" onclick="fecharPopup('popup1')">Fechar</button>
       <h3>id_cor.py</h3>
       <pre>
-        # ==============================================================================
-        # ESZA019 – Visão Computacional
-        #
-        # Lucas Sanchez Bitencourt - RA 11201921617
-        # Marcela Ceschim Caburlao - RA 11201920483
-        # Michael Franklin Saito da Silva - RA 11201810988
-        #
-        # ==============================================================================
-        # Programa: Identificação de cor, com botão
-        # Descrição: Verifica a cor dentro de uma região determinada no programa;
-        #            região circular no centro da tela
-        # ==============================================================================
-        import cv2
-        import numpy as np
-        import pyttsx3
-        import tkinter as tk
-        from PIL import Image, ImageTk
-        import threading
 
-        # Inicializa a engine de voz
-        voz = pyttsx3.init()
-        voz.setProperty('rate', 150)
+# ==============================================================================
+# ESZA019 – Visão Computacional
+#
+# Lucas Sanchez Bitencourt - RA 11201921617
+# Marcela Ceschim Caburlao - RA 11201920483
+# Michael Franklin Saito da Silva - RA 11201810988
+#
+# ==============================================================================
+# Programa: Identificação de cor, com botão
+# Descrição: Verifica a cor dentro de uma região determinada no programa;
+#            região circular no centro da tela
+# ==============================================================================
 
-        # Função para identificar o nome da cor
-        def nome_da_cor(h, s, v):
-            if s < 40 and v > 200:
-                return "branco"
-            elif v < 40:
-                return "preto"
-            elif h < 15 or h > 165:
-                return "vermelho"
-            elif 15 <= h < 35:
-                return "amarelo"
-            elif 35 <= h < 85:
-                return "verde"
-            elif 86 <= h < 135:
-                return "azul"
-            elif 135 <= h < 160:
-                return "roxo"
-            elif 161 <= h <= 169:
-                return "rosa"
-            return "indefinido"
+import cv2  # Biblioteca para processamento de imagem e acesso à webcam
+import numpy as np  # Biblioteca para operações numéricas com arrays
+import pyttsx3  # Biblioteca para conversão de texto em fala
+import tkinter as tk  # Biblioteca para criação de interfaces gráficas
+from PIL import Image, ImageTk  # Para converter imagens do OpenCV para Tkinter
+import threading  # Biblioteca para execução de tarefas em paralelo (threads)
 
-        # Função que fala a cor atual
-        def falar_cor():
-            global cor_atual
-            if cor_atual and cor_atual != "indefinido":
-                threading.Thread(target=lambda: voz.say(f"A cor é {cor_atual}") or voz.runAndWait()).start()
+# Inicializa a engine de voz
+voz = pyttsx3.init()
+voz.setProperty('rate', 150)  # Define a velocidade da fala
 
-        # Atualiza a imagem da webcam
-        def atualizar_video():
-            global cor_atual
-            ret, frame = cap.read()
-            if not ret:
-                return
+# Função para identificar o nome da cor com base nos valores HSV
+def nome_da_cor(h, s, v):
+    if s < 40 and v > 200:
+        return "branco"  # Baixa saturação e alto brilho → branco
+    elif v < 40:
+        return "preto"  # Baixo brilho → preto
+    elif h < 15 or h > 165:
+        return "vermelho"
+    elif 15 <= h < 35:
+        return "amarelo"
+    elif 35 <= h < 85:
+        return "verde"
+    elif 86 <= h < 135:
+        return "azul"
+    elif 135 <= h < 160:
+        return "roxo"
+    elif 161 <= h <= 169:
+        return "rosa"
+    return "indefinido"  # Caso não se encaixe em nenhuma faixa
 
-            frame = cv2.flip(frame, 1)
-            altura, largura, _ = frame.shape
-            cx, cy = largura // 2, altura // 2
+# Função que pronuncia o nome da cor atual usando uma thread para não travar a interface
+def falar_cor():
+    global cor_atual
+    if cor_atual and cor_atual != "indefinido":
+        # Cria uma thread para executar a fala sem bloquear o restante do programa
+        threading.Thread(target=lambda: voz.say(f"A cor é {cor_atual}") or voz.runAndWait()).start()
 
-            # Região para análise
-            roi = frame[cy-10:cy+10, cx-10:cx+10]
-            hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-            h, s, v = hsv[10, 10]
-            cor_atual = nome_da_cor(h, s, v)
+# Função que atualiza a imagem da webcam na interface gráfica
+def atualizar_video():
+    global cor_atual
+    ret, frame = cap.read()  # Captura um frame da câmera
+    if not ret:
+        return  # Se não capturou corretamente, retorna
 
-            # Desenha círculo e nome da cor
-            cv2.circle(frame, (cx, cy), 10, (255, 255, 255), 2)
-            cv2.putText(frame, cor_atual, (cx + 20, cy), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+    frame = cv2.flip(frame, 1)  # Espelha a imagem horizontalmente
+    altura, largura, _ = frame.shape  # Obtém dimensões da imagem
+    cx, cy = largura // 2, altura // 2  # Calcula o centro da imagem
 
-            # Converte para ImageTk e mostra no label
-            img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            img_pil = Image.fromarray(img_rgb)
-            img_tk = ImageTk.PhotoImage(image=img_pil)
-            video_label.imgtk = img_tk
-            video_label.configure(image=img_tk)
+    # Define a região de interesse (ROI) central de 20x20 pixels
+    roi = frame[cy-10:cy+10, cx-10:cx+10]
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)  # Converte ROI para o espaço de cor HSV
+    h, s, v = hsv[10, 10]  # Pega os valores HSV do pixel central da ROI
+    cor_atual = nome_da_cor(h, s, v)  # Identifica a cor
 
-            # Repetir após 20 ms
-            janela.after(20, atualizar_video)
+    # Desenha um círculo ao redor da ROI
+    cv2.circle(frame, (cx, cy), 10, (255, 255, 255), 2)
+    # Escreve o nome da cor na tela
+    cv2.putText(frame, cor_atual, (cx + 20, cy), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 
-        # Inicia a câmera
-        cap = cv2.VideoCapture(0)
-        cor_atual = ""
+    # Converte a imagem BGR do OpenCV para RGB e depois para formato ImageTk
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img_pil = Image.fromarray(img_rgb)
+    img_tk = ImageTk.PhotoImage(image=img_pil)
+    video_label.imgtk = img_tk  # Mantém referência da imagem
+    video_label.configure(image=img_tk)  # Atualiza o widget com a nova imagem
 
-        # Interface Tkinter
-        janela = tk.Tk()
-        janela.title("Detector de Cor com Botão")
+    # Chama novamente essa função após 20 milissegundos (loop de atualização da câmera)
+    janela.after(20, atualizar_video)
 
-        video_label = tk.Label(janela)
-        video_label.pack()
+# Inicia a captura da webcam (dispositivo 0 padrão)
+cap = cv2.VideoCapture(0)
+cor_atual = ""  # Variável global que armazena a cor atual detectada
 
-        botao = tk.Button(janela, text="Falar Cor", font=("Arial", 16), command=falar_cor, bg="lightblue")
-        botao.pack(pady=10)
+# Cria a janela principal da interface
+janela = tk.Tk()
+janela.title("Detector de Cor")
 
-        # Começa o loop de vídeo
-        atualizar_video()
-        janela.mainloop()
+# Widget para exibir o vídeo
+video_label = tk.Label(janela)
+video_label.pack()
 
-        cap.release()
+# Botão que chama a função para falar a cor
+botao = tk.Button(janela, text="Falar Cor", font=("Arial", 16), command=falar_cor, bg="lightblue")
+botao.pack(pady=10)
+
+# Inicia a atualização do vídeo
+atualizar_video()
+
+# Inicia o loop principal da interface gráfica
+janela.mainloop()
+
+# Libera a câmera após o fechamento da janela
+cap.release()
+
 
       </pre>
     </div>
@@ -318,106 +328,118 @@
       <button class="fechar" onclick="fecharPopup('popup2')">Fechar</button>
       <h3>calibrador_camera.py</h3>
       <pre>
-        # ==============================================================================
-        # ESZA019 – Visão Computacional
-        #
-        # Lucas Sanchez Bitencourt - RA 11201921617
-        # Marcela Ceschim Caburlao - RA 11201920483
-        # Michael Franklin Saito da Silva - RA 11201810988
-        #
-        # ==============================================================================
-        # Programa: Calibrador de Câmera com Tabuleiro de Xadrez
-        # Descrição: Captura imagens de um tabuleiro, calcula os parâmetros
-        #            da câmera e os salva em um arquivo.
-        # ==============================================================================
-        import cv2
-        import numpy as np
-        import glob
-        import os
 
-        # --- CONFIGURAÇÕES DO TABULEIRO ---
-        # Altere estes valores para o número de cantos INTERNOS do seu tabuleiro.
-        # Por exemplo, um tabuleiro 8x11 tem 7x10 cantos internos.
-        CHECKERBOARD = (8, 6) 
-        TAMANHO_ARQUIVO_CALIBRACAO = "calibracao_camera.npz"
-        # -----------------------------------
+# ==============================================================================
+# ESZA019 – Visão Computacional
+#
+# Lucas Sanchez Bitencourt - RA 11201921617
+# Marcela Ceschim Caburlao - RA 11201920483
+# Michael Franklin Saito da Silva - RA 11201810988
+#
+# ==============================================================================
+# Programa: Calibrador de Câmera com Tabuleiro de Xadrez
+# Descrição: Captura imagens de um tabuleiro, calcula os parâmetros
+#            da câmera e os salva em um arquivo.
+# ==============================================================================
 
-        # Critério para o refinamento dos cantos
-        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+import cv2  # Biblioteca de visão computacional
+import numpy as np  # Biblioteca para operações com arrays e matrizes
+import glob  # Biblioteca para lidar com arquivos e diretórios
+import os  # Biblioteca para manipulação do sistema de arquivos
 
-        # Preparar os "pontos do objeto", que são as coordenadas 3D ideais do tabuleiro.
-        # (0,0,0), (1,0,0), (2,0,0) ..., (6,9,0)
-        objp = np.zeros((CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
-        objp[:, :2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
+# --- CONFIGURAÇÕES DO TABULEIRO ---
+# Define o número de cantos internos do tabuleiro de xadrez (colunas, linhas)
+CHECKERBOARD = (8, 6)
+TAMANHO_ARQUIVO_CALIBRACAO = "calibracao_camera.npz"  # Nome do arquivo onde os parâmetros serão salvos
+# -----------------------------------
 
-        # Arrays para guardar os pontos do objeto e os pontos da imagem de todas as imagens.
-        objpoints = [] # Pontos no mundo 3D
-        imgpoints = [] # Pontos na imagem 2D
+# Critérios de parada para o algoritmo de refinamento dos cantos
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
-        captura = cv2.VideoCapture(0)
+# Criação da matriz de pontos 3D reais no espaço (0,0,0), (1,0,0), (2,0,0), ..., (7,5,0)
+objp = np.zeros((CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
+objp[:, :2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
 
-        print("\n--- Calibrador de Camera ---")
-        print("1. Mostre o tabuleiro de xadrez para a camera de varios angulos.")
-        print("2. Pressione a BARRA DE ESPACO para capturar uma imagem valida.")
-        print("3. Capture pelo menos 15 imagens para uma boa calibracao.")
-        print("4. Pressione a tecla 'c' para calibrar e salvar.")
-        print("5. Pressione a tecla 'q' para sair.")
+# Listas para armazenar os pontos do objeto 3D e seus correspondentes 2D nas imagens
+objpoints = []  # Coordenadas 3D no mundo real
+imgpoints = []  # Coordenadas 2D nas imagens capturadas
 
-        imagens_capturadas = 0
+# Inicializa a câmera
+captura = cv2.VideoCapture(0)
 
-        while True:
-            ret, quadro = captura.read()
-            if not ret:
+# Instruções ao usuário
+print("\n--- Calibrador de Camera ---")
+print("1. Mostre o tabuleiro de xadrez para a camera de varios angulos.")
+print("2. Pressione a BARRA DE ESPACO para capturar uma imagem valida.")
+print("3. Capture pelo menos 15 imagens para uma boa calibracao.")
+print("4. Pressione a tecla 'c' para calibrar e salvar.")
+print("5. Pressione a tecla 'q' para sair.")
+
+# Contador de imagens válidas capturadas
+imagens_capturadas = 0
+
+# Loop principal
+while True:
+    ret, quadro = captura.read()  # Captura um quadro da webcam
+    if not ret:
+        break  # Encerra o loop se a captura falhar
+    
+    quadro_cinza = cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY)  # Converte o quadro para escala de cinza
+    
+    # Tenta encontrar os cantos do tabuleiro de xadrez na imagem
+    ret_corners, corners = cv2.findChessboardCorners(quadro_cinza, CHECKERBOARD, None)
+    
+    # Mostra o número de imagens capturadas no vídeo
+    texto_info = f"Imagens capturadas: {imagens_capturadas}"
+    cv2.putText(quadro, texto_info, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+    # Se encontrou os cantos, desenha-os na imagem para feedback visual
+    if ret_corners:
+        cv2.drawChessboardCorners(quadro, CHECKERBOARD, corners, ret_corners)
+
+    # Exibe a imagem na janela chamada 'Calibracao'
+    cv2.imshow('Calibracao', quadro)
+    
+    # Lê a tecla pressionada
+    tecla = cv2.waitKey(1) & 0xFF
+
+    # Sai do programa se a tecla 'q' for pressionada
+    if tecla == ord('q'):
+        break
+    # Captura uma imagem se a barra de espaço for pressionada
+    elif tecla == ord(' '):
+        if ret_corners:
+            # Refina as coordenadas dos cantos detectados para maior precisão
+            corners2 = cv2.cornerSubPix(quadro_cinza, corners, (11, 11), (-1, -1), criteria)
+            objpoints.append(objp)  # Adiciona os pontos 3D do objeto
+            imgpoints.append(corners2)  # Adiciona os pontos 2D da imagem
+            imagens_capturadas += 1
+            print(f"Imagem {imagens_capturadas} capturada com sucesso!")
+        else:
+            print("Nenhum tabuleiro encontrado. Tente um angulo diferente.")
+    # Realiza a calibração se a tecla 'c' for pressionada
+    elif tecla == ord('c'):
+        if imagens_capturadas > 10:
+            print("\nRealizando a calibracao... Por favor, aguarde.")
+            # Executa a calibração da câmera com os pontos coletados
+            ret_calib, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
+                objpoints, imgpoints, quadro_cinza.shape[::-1], None, None)
+            
+            if ret_calib:
+                print("Calibracao bem-sucedida!")
+                # Salva os parâmetros da calibração em um arquivo .npz
+                np.savez(TAMANHO_ARQUIVO_CALIBRACAO, mtx=mtx, dist=dist)
+                print(f"Arquivo '{TAMANHO_ARQUIVO_CALIBRACAO}' salvo!")
                 break
-            
-            quadro_cinza = cv2.cvtColor(quadro, cv2.COLOR_BGR2GRAY)
-            
-            # Encontra os cantos do tabuleiro
-            ret_corners, corners = cv2.findChessboardCorners(quadro_cinza, CHECKERBOARD, None)
-            
-            # Desenha informações na tela
-            texto_info = f"Imagens capturadas: {imagens_capturadas}"
-            cv2.putText(quadro, texto_info, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            else:
+                print("A calibracao falhou. Tente capturar mais imagens.")
+        else:
+            print("Capture pelo menos 10-15 imagens antes de calibrar.")
 
-            # Se os cantos forem encontrados, desenha-os para dar feedback visual
-            if ret_corners:
-                cv2.drawChessboardCorners(quadro, CHECKERBOARD, corners, ret_corners)
+# Libera a câmera e fecha todas as janelas
+captura.release()
+cv2.destroyAllWindows()
 
-            cv2.imshow('Calibracao', quadro)
-            
-            tecla = cv2.waitKey(1) & 0xFF
-
-            if tecla == ord('q'):
-                break
-            elif tecla == ord(' '): # Captura com a barra de espaço
-                if ret_corners:
-                    # Refina a posição dos cantos para maior precisão
-                    corners2 = cv2.cornerSubPix(quadro_cinza, corners, (11, 11), (-1, -1), criteria)
-                    objpoints.append(objp)
-                    imgpoints.append(corners2)
-                    imagens_capturadas += 1
-                    print(f"Imagem {imagens_capturadas} capturada com sucesso!")
-                else:
-                    print("Nenhum tabuleiro encontrado. Tente um angulo diferente.")
-            elif tecla == ord('c'):
-                if imagens_capturadas > 10:
-                    print("\nRealizando a calibracao... Por favor, aguarde.")
-                    # Realiza a calibração
-                    ret_calib, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, quadro_cinza.shape[::-1], None, None)
-                    
-                    if ret_calib:
-                        print("Calibracao bem-sucedida!")
-                        # Salva os parâmetros em um arquivo
-                        np.savez(TAMANHO_ARQUIVO_CALIBRACAO, mtx=mtx, dist=dist)
-                        print(f"Arquivo '{TAMANHO_ARQUIVO_CALIBRACAO}' salvo!")
-                        break
-                    else:
-                        print("A calibracao falhou. Tente capturar mais imagens.")
-                else:
-                    print("Capture pelo menos 10-15 imagens antes de calibrar.")
-
-        captura.release()
-        cv2.destroyAllWindows()
       </pre>
     </div>
   </div>
@@ -427,103 +449,114 @@
       <button class="fechar" onclick="fecharPopup('popup3')">Fechar</button>
       <h3>calibrador_de_cor.py</h3>
       <pre>
-        # ==============================================================================
-        # ESZA019 – Visão Computacional
-        #
-        # Lucas Sanchez Bitencourt - RA 11201921617
-        # Marcela Ceschim Caburlao - RA 11201920483
-        # Michael Franklin Saito da Silva - RA 11201810988
-        #
-        # ==============================================================================
-        # Programa: Calibrador de cores HSV
-        # Descrição: Calibra a camera para detectar cores apresentadas
-        #            para a camera, necessário utilizar o mouse
-        # ==============================================================================
-        import cv2
-        import numpy as np
 
-        def funcao_vazia(x):
-            pass
+# ==============================================================================
+# ESZA019 – Visão Computacional
+#
+# Lucas Sanchez Bitencourt - RA 11201921617
+# Marcela Ceschim Caburlao - RA 11201920483
+# Michael Franklin Saito da Silva - RA 11201810988
+#
+# ==============================================================================
+# Programa: Calibrador de cores HSV
+# Descrição: Calibra a camera para detectar cores apresentadas
+#            para a camera, necessário utilizar o mouse
+# ==============================================================================
 
-        # --- FUNÇÃO PARA O MOUSE, SELECIONAR E VERIFICAR ---
-        def detectar_clique(event, x, y, flags, param):
-            if event == cv2.EVENT_LBUTTONDOWN: # Se o botão esquerdo do mouse for pressionado
-                # Pega o quadro HSV que passamos como parâmetro
-                quadro_hsv = param
-                # Pega o valor HSV do pixel (y, x)
-                pixel_hsv = quadro_hsv[y, x]
-                h, s, v = pixel_hsv[0], pixel_hsv[1], pixel_hsv[2]
-                
-                print(f"\nValores HSV do ponto clicado:")
-                print(f"H: {h}, S: {s}, V: {v}")
-                
-                # Sugestão: Atualizar os trackbars para valores próximos ao clicado
-                # Isso facilita o ajuste fino.
-                cv2.setTrackbarPos("H_min", "Trackbars", max(0, h - 10))
-                cv2.setTrackbarPos("H_max", "Trackbars", min(179, h + 10))
-                cv2.setTrackbarPos("S_min", "Trackbars", max(0, s - 40))
-                cv2.setTrackbarPos("S_max", "Trackbars", min(255, s + 40))
-                cv2.setTrackbarPos("V_min", "Trackbars", max(0, v - 40))
-                cv2.setTrackbarPos("V_max", "Trackbars", min(255, v + 40))
+import cv2  # Biblioteca para visão computacional
+import numpy as np  # Biblioteca para operações numéricas com arrays
 
-        captura = cv2.VideoCapture(0)
+# Função dummy usada para criar os trackbars (não faz nada ao ser chamada)
+def funcao_vazia(x):
+    pass
 
-        cv2.namedWindow("Trackbars")
-        cv2.resizeWindow("Trackbars", 600, 300)
-        cv2.namedWindow("Camera") # Nomeia a janela da câmera para o callback
+# --- NOVA FUNÇÃO PARA O MOUSE ---
+# Callback para detectar clique do mouse na janela da câmera
+def detectar_clique(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:  # Se o botão esquerdo for pressionado
+        quadro_hsv = param  # Recebe o quadro HSV da câmera como parâmetro
+        pixel_hsv = quadro_hsv[y, x]  # Pega os valores HSV do ponto clicado
+        h, s, v = pixel_hsv[0], pixel_hsv[1], pixel_hsv[2]
+        
+        print(f"\nValores HSV do ponto clicado:")
+        print(f"H: {h}, S: {s}, V: {v}")
+        
+        # Ajusta automaticamente os sliders com base no valor clicado (com margens)
+        cv2.setTrackbarPos("H_min", "Trackbars", max(0, h - 10))
+        cv2.setTrackbarPos("H_max", "Trackbars", min(179, h + 10))
+        cv2.setTrackbarPos("S_min", "Trackbars", max(0, s - 40))
+        cv2.setTrackbarPos("S_max", "Trackbars", min(255, s + 40))
+        cv2.setTrackbarPos("V_min", "Trackbars", max(0, v - 40))
+        cv2.setTrackbarPos("V_max", "Trackbars", min(255, v + 40))
 
-        # Cria os trackbars...
-        cv2.createTrackbar("H_min", "Trackbars", 0, 179, funcao_vazia)
-        cv2.createTrackbar("H_max", "Trackbars", 179, 179, funcao_vazia)
-        cv2.createTrackbar("S_min", "Trackbars", 0, 255, funcao_vazia)
-        cv2.createTrackbar("S_max", "Trackbars", 255, 255, funcao_vazia)
-        cv2.createTrackbar("V_min", "Trackbars", 0, 255, funcao_vazia)
-        cv2.createTrackbar("V_max", "Trackbars", 255, 255, funcao_vazia)
+# Inicializa a câmera (dispositivo padrão 0)
+captura = cv2.VideoCapture(0)
 
-        print("\nFerramenta de Calibracao de Cor HSV (v2.0)")
-        print("-----------------------------------------")
-        print("-> Clique com o botao esquerdo do mouse sobre uma cor na janela 'Camera'.")
-        print("-> Os sliders serao ajustados automaticamente para valores proximos.")
-        print("-> Faca o ajuste fino ate a mascara ficar perfeita.")
-        print("-> Pressione 's' para salvar e sair, ou 'q' para sair.")
+# Cria janelas para os sliders e para visualização da câmera
+cv2.namedWindow("Trackbars")
+cv2.resizeWindow("Trackbars", 600, 300)
+cv2.namedWindow("Camera")  # Janela principal da câmera para callback
 
-        while True:
-            ret, quadro = captura.read()
-            if not ret: break
-            
-            quadro = cv2.flip(quadro, 1)
-            quadro_hsv = cv2.cvtColor(quadro, cv2.COLOR_BGR2HSV)
-            
-            # --- ATIVA O DETECTOR DE CLIQUE ---
-            # Passamos 'quadro_hsv' como parâmetro para a função de callback
-            cv2.setMouseCallback("Camera", detectar_clique, quadro_hsv)
+# Criação dos sliders (trackbars) para ajustar os limites HSV
+cv2.createTrackbar("H_min", "Trackbars", 0, 179, funcao_vazia)
+cv2.createTrackbar("H_max", "Trackbars", 179, 179, funcao_vazia)
+cv2.createTrackbar("S_min", "Trackbars", 0, 255, funcao_vazia)
+cv2.createTrackbar("S_max", "Trackbars", 255, 255, funcao_vazia)
+cv2.createTrackbar("V_min", "Trackbars", 0, 255, funcao_vazia)
+cv2.createTrackbar("V_max", "Trackbars", 255, 255, funcao_vazia)
 
-            h_min, h_max, s_min, s_max, v_min, v_max = (
-                cv2.getTrackbarPos("H_min", "Trackbars"),
-                cv2.getTrackbarPos("H_max", "Trackbars"),
-                cv2.getTrackbarPos("S_min", "Trackbars"),
-                cv2.getTrackbarPos("S_max", "Trackbars"),
-                cv2.getTrackbarPos("V_min", "Trackbars"),
-                cv2.getTrackbarPos("V_max", "Trackbars"),
-            )
-            
-            limite_inferior = np.array([h_min, s_min, v_min])
-            limite_superior = np.array([h_max, s_max, v_max])
-            
-            mascara = cv2.inRange(quadro_hsv, limite_inferior, limite_superior)
-            
-            cv2.imshow("Camera", quadro)
-            cv2.imshow("Mascara", mascara)
-            
-            tecla = cv2.waitKey(1)
-            if tecla & 0xFF == ord('q'): break
-            if tecla & 0xFF == ord('s'):
-                print(f'\nValores salvos! Copie a linha abaixo para o seu dicionario:')
-                print(f'"nome_da_sua_cor": ([{h_min}, {s_min}, {v_min}], [{h_max}, {s_max}, {v_max}])')
-                break
+# Instruções no terminal
+print("\nFerramenta de Calibracao de Cor HSV (v2.0)")
+print("-----------------------------------------")
+print("-> Clique com o botao esquerdo do mouse sobre uma cor na janela 'Camera'.")
+print("-> Os sliders serao ajustados automaticamente para valores proximos.")
+print("-> Faca o ajuste fino ate a mascara ficar perfeita.")
+print("-> Pressione 's' para salvar e sair, ou 'q' para sair.")
 
-        captura.release()
-        cv2.destroyAllWindows()
+# Loop principal
+while True:
+    ret, quadro = captura.read()  # Lê um frame da câmera
+    if not ret: break  # Se não conseguiu ler, termina
+    
+    quadro = cv2.flip(quadro, 1)  # Espelha o frame horizontalmente
+    quadro_hsv = cv2.cvtColor(quadro, cv2.COLOR_BGR2HSV)  # Converte para HSV
+
+    # Ativa o detector de clique do mouse passando o frame HSV
+    cv2.setMouseCallback("Camera", detectar_clique, quadro_hsv)
+
+    # Lê os valores atuais dos sliders
+    h_min, h_max, s_min, s_max, v_min, v_max = (
+        cv2.getTrackbarPos("H_min", "Trackbars"),
+        cv2.getTrackbarPos("H_max", "Trackbars"),
+        cv2.getTrackbarPos("S_min", "Trackbars"),
+        cv2.getTrackbarPos("S_max", "Trackbars"),
+        cv2.getTrackbarPos("V_min", "Trackbars"),
+        cv2.getTrackbarPos("V_max", "Trackbars"),
+    )
+
+    # Cria os limites HSV a partir dos sliders
+    limite_inferior = np.array([h_min, s_min, v_min])
+    limite_superior = np.array([h_max, s_max, v_max])
+
+    # Cria uma máscara binária com base nos limites selecionados
+    mascara = cv2.inRange(quadro_hsv, limite_inferior, limite_superior)
+
+    # Mostra as janelas da câmera e da máscara
+    cv2.imshow("Camera", quadro)
+    cv2.imshow("Mascara", mascara)
+
+    tecla = cv2.waitKey(1)
+    if tecla & 0xFF == ord('q'): break  # Sai ao pressionar 'q'
+    if tecla & 0xFF == ord('s'):
+        # Ao pressionar 's', imprime os valores HSV ajustados para copiar no código
+        print(f'\nValores salvos! Copie a linha abaixo para o seu dicionario:')
+        print(f'"nome_da_sua_cor": ([{h_min}, {s_min}, {v_min}], [{h_max}, {s_max}, {v_max}])')
+        break
+
+# Libera a câmera e fecha todas as janelas
+captura.release()
+cv2.destroyAllWindows()
+
       </pre>
     </div>
   </div>
@@ -533,146 +566,165 @@
       <button class="fechar" onclick="fecharPopup('popup4')">Fechar</button>
       <h3>meu_detector.py</h3>
       <pre>
-        # ==============================================================================
-        # ESZA019 – Visão Computacional
-        #
-        # Lucas Sanchez Bitencourt - RA 11201921617
-        # Marcela Ceschim Caburlao - RA 11201920483
-        # Michael Franklin Saito da Silva - RA 11201810988
-        #
-        # ==============================================================================
-        # Programa: Detector de 'objeto'
-        # Descrição: Detecta formas e cores de objetos a frente da camera.
-        #            
-        # ==============================================================================
-        import cv2
-        import numpy as np
-        import pyttsx3
 
-        # --- 1. CARREGAR OS DADOS DE CALIBRAÇÃO ---
-        try:
-            with np.load('calibracao_camera.npz') as data:
-                mtx = data['mtx']
-                dist = data['dist']
-            print("Arquivo de calibracao carregado com sucesso!")
-        except FileNotFoundError:
-            print("ERRO: Arquivo de calibracao 'calibracao_camera.npz' nao encontrado.")
-            print("Por favor, execute o programa 'calibrador_camera.py' primeiro.")
-            mtx, dist = None, None
-        # ---------------------------------------------
+# ==============================================================================
+# ESZA019 – Visão Computacional
+#
+# Lucas Sanchez Bitencourt - RA 11201921617
+# Marcela Ceschim Caburlao - RA 11201920483
+# Michael Franklin Saito da Silva - RA 11201810988
+#
+# ==============================================================================
+# Programa: Detector de 'objeto'
+# Descrição: Detecta formas e cores de objetos a frente da camera.
+# ==============================================================================
 
+import cv2  # Biblioteca de visão computacional
+import numpy as np  # Biblioteca para operações com arrays
+import pyttsx3  # Biblioteca de conversão texto-para-fala
 
-        # --- INICIALIZAÇÃO DO MOTOR DE FALA ---
-        engine = pyttsx3.init()
-        engine.setProperty('rate', 150)
-        # ------------------------------------
+# --- 1. CARREGAR OS DADOS DE CALIBRAÇÃO ---
+try:
+    with np.load('calibracao_camera.npz') as data:
+        mtx = data['mtx']  # Matriz intrínseca da câmera
+        dist = data['dist']  # Vetor de distorção
+    print("Arquivo de calibracao carregado com sucesso!")
+except FileNotFoundError:
+    print("ERRO: Arquivo de calibracao 'calibracao_camera.npz' nao encontrado.")
+    print("Por favor, execute o programa 'calibrador_camera.py' primeiro.")
+    mtx, dist = None, None  # Define como None caso não encontre
+# ---------------------------------------------
 
-        # --- 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS ---
-        NOME_JANELA = "Detector Interativo - NOME DA EQUIPE"
-        texto_global_detectado = "" # Guarda o último texto detectado para a função do mouse usar
+# --- INICIALIZAÇÃO DO MOTOR DE FALA ---
+engine = pyttsx3.init()
+engine.setProperty('rate', 150)  # Velocidade da fala
+# ------------------------------------
 
-        # Define a área do nosso botão
-        botao_pos_inicial = (20, 400)
-        botao_pos_final = (220, 450)
-        # ---------------------------------------------
+# --- 2. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS ---
+NOME_JANELA = "Detector Interativo - NOME DA EQUIPE"
+texto_global_detectado = ""  # Guarda o último objeto detectado para fala
 
-        CORES_HSV = {
-            "vermelho": ([165, 129, 161], [179, 209, 241]),
-            "azul": ([97, 164, 120], [117, 244, 200]),
-            "verde": ([50, 70, 118], [70, 150, 198]),
-            # ... (suas outras cores aqui)
-        }
+# Define a posição do botão "Falar" na tela
+botao_pos_inicial = (20, 400)
+botao_pos_final = (220, 450)
+# ---------------------------------------------
 
-        def identificar_forma(contorno):
-            perimetro = cv2.arcLength(contorno, True)
-            aproximacao = cv2.approxPolyDP(contorno, 0.04 * perimetro, True)
-            num_vertices = len(aproximacao)
-            forma = "Nao identificado"
-            if num_vertices == 3: forma = "Triangulo"
-            elif num_vertices == 4:
-                (x, y, largura, altura) = cv2.boundingRect(aproximacao)
-                proporcao = float(largura) / altura
-                if 0.95 <= proporcao <= 1.05: forma = "Quadrado"
-                else: forma = "Retangulo"
-            elif num_vertices > 4: forma = "Circulo"
-            return forma
+# Dicionário com os limites HSV de cada cor
+CORES_HSV = {
+    "vermelho": ([165, 129, 161], [179, 209, 241]),
+    "azul": ([97, 164, 120], [117, 244, 200]),
+    "verde": ([50, 70, 118], [70, 150, 198]),
+    # ... outras cores podem ser adicionadas
+}
 
-        # --- 2. FUNÇÃO QUE LIDA COM O CLIQUE DO MOUSE ---
-        def acao_clique_botao(event, x, y, flags, param):
-            global texto_global_detectado
-            # Se o botão esquerdo do mouse for pressionado
-            if event == cv2.EVENT_LBUTTONDOWN:
-                # Verifica se as coordenadas (x, y) do clique estão dentro da área do botão
-                if botao_pos_inicial[0] < x < botao_pos_final[0] and botao_pos_inicial[1] < y < botao_pos_final[1]:
-                    print("Botao 'Falar' pressionado!")
-                    if texto_global_detectado != "":
-                        print(f"Falando: {texto_global_detectado}")
-                        engine.say(texto_global_detectado)
-                        engine.runAndWait()
-                    else:
-                        print("Nenhum objeto detectado para falar.")
+# Função para identificar o tipo de forma com base nos vértices
+def identificar_forma(contorno):
+    perimetro = cv2.arcLength(contorno, True)
+    aproximacao = cv2.approxPolyDP(contorno, 0.04 * perimetro, True)  # Aproxima o contorno
+    num_vertices = len(aproximacao)
+    forma = "Nao identificado"
+    if num_vertices == 3:
+        forma = "Triangulo"
+    elif num_vertices == 4:
+        (x, y, largura, altura) = cv2.boundingRect(aproximacao)
+        proporcao = float(largura) / altura
+        if 0.95 <= proporcao <= 1.05:
+            forma = "Quadrado"
+        else:
+            forma = "Retangulo"
+    elif num_vertices > 4:
+        forma = "Circulo"
+    return forma
 
-        # --- INÍCIO DO PROGRAMA PRINCIPAL ---
-        captura = cv2.VideoCapture(0)
-        # --- 3. REGISTRAR A FUNÇÃO DO MOUSE NA NOSSA JANELA ---
-        cv2.namedWindow(NOME_JANELA)
-        cv2.setMouseCallback(NOME_JANELA, acao_clique_botao)
-        # ----------------------------------------------------
+# --- 3. FUNÇÃO QUE LIDA COM O CLIQUE DO MOUSE ---
+def acao_clique_botao(event, x, y, flags, param):
+    global texto_global_detectado
+    if event == cv2.EVENT_LBUTTONDOWN:
+        # Verifica se o clique está dentro da área do botão
+        if botao_pos_inicial[0] < x < botao_pos_final[0] and botao_pos_inicial[1] < y < botao_pos_final[1]:
+            print("Botao 'Falar' pressionado!")
+            if texto_global_detectado != "":
+                print(f"Falando: {texto_global_detectado}")
+                engine.say(texto_global_detectado)
+                engine.runAndWait()
+            else:
+                print("Nenhum objeto detectado para falar.")
 
-        while True:
-            ret, quadro = captura.read()
-            if not ret: break
+# --- INÍCIO DO PROGRAMA PRINCIPAL ---
+captura = cv2.VideoCapture(0)  # Inicia a webcam
 
-            # --- 2. APLICAR A CORREÇÃO DE DISTORÇÃO ---
-            if mtx is not None and dist is not None:
-                quadro = cv2.undistort(quadro, mtx, dist, None, mtx)
-            # -------------------------------------------
+# --- 4. REGISTRA A FUNÇÃO DO MOUSE ---
+cv2.namedWindow(NOME_JANELA)
+cv2.setMouseCallback(NOME_JANELA, acao_clique_botao)
+# -------------------------------------
 
-            quadro = cv2.flip(quadro, 1) # Espelhar a imagem já corrigida
-            quadro_hsv = cv2.cvtColor(quadro, cv2.COLOR_BGR2HSV)
-            
-            objetos_encontrados = []
-            
-            # Resetar o texto se nenhum objeto for encontrado nesta rodada
-            texto_global_detectado = ""
+while True:
+    ret, quadro = captura.read()  # Captura o frame da câmera
+    if not ret:
+        break
 
-            for nome_cor, (limite_inferior, limite_superior) in CORES_HSV.items():
-                # ... (código de detecção de cor continua o mesmo) ...
-                mascara = cv2.inRange(quadro_hsv, np.array(limite_inferior), np.array(limite_superior))
-                if nome_cor == "vermelho2":
-                    mascara_vermelho1 = cv2.inRange(quadro_hsv, np.array(CORES_HSV["vermelho"][0]), np.array(CORES_HSV["vermelho"][1]))
-                    mascara = cv2.add(mascara_vermelho1, mascara)
-                    nome_cor = "vermelho"
-                contornos, _ = cv2.findContours(mascara, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                for contorno in contornos:
-                    if cv2.contourArea(contorno) > 500:
-                        objetos_encontrados.append((cv2.contourArea(contorno), contorno, nome_cor))
+    # --- 5. APLICA A CORREÇÃO DE DISTORÇÃO, SE DISPONÍVEL ---
+    if mtx is not None and dist is not None:
+        quadro = cv2.undistort(quadro, mtx, dist, None, mtx)
+    # --------------------------------------------------------
 
-            if len(objetos_encontrados) > 0:
-                area_maior, contorno_maior, cor_detectada = max(objetos_encontrados, key=lambda item: item[0])
-                forma_detectada = identificar_forma(contorno_maior)
-                
-                # --- 4. ATUALIZAR A VARIÁVEL GLOBAL QUANDO UM OBJETO É DETECTADO ---
-                texto_global_detectado = f"{forma_detectada} {cor_detectada}"
-                
-                (x, y, largura, altura) = cv2.boundingRect(contorno_maior)
-                cv2.rectangle(quadro, (x, y), (x + largura, y + altura), (0, 255, 0), 2)
-                cv2.putText(quadro, texto_global_detectado.capitalize(), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            
-            # --- 5. DESENHAR O BOTÃO EM CADA FRAME ---
-            cv2.rectangle(quadro, botao_pos_inicial, botao_pos_final, (200, 200, 200), -1) # Fundo do botão
-            cv2.putText(quadro, "Falar", (botao_pos_inicial[0] + 50, botao_pos_inicial[1] + 35), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
-            # -------------------------------------------
+    quadro = cv2.flip(quadro, 1)  # Espelha a imagem na horizontal
+    quadro_hsv = cv2.cvtColor(quadro, cv2.COLOR_BGR2HSV)  # Converte para HSV
 
-            cv2.imshow(NOME_JANELA, quadro)
+    objetos_encontrados = []  # Lista para armazenar objetos detectados
+    texto_global_detectado = ""  # Limpa o texto global a cada frame
 
-            # Captura a tecla pressionada (agora só para sair)
-            tecla = cv2.waitKey(1) & 0xFF
-            if tecla == ord('q'):
-                break
+    # Loop por cada cor configurada
+    for nome_cor, (limite_inferior, limite_superior) in CORES_HSV.items():
+        # Cria máscara para a cor atual
+        mascara = cv2.inRange(quadro_hsv, np.array(limite_inferior), np.array(limite_superior))
+        
+        # Caso especial: vermelho pode cruzar o limite de 0º na escala HSV
+        if nome_cor == "vermelho2":
+            mascara_vermelho1 = cv2.inRange(quadro_hsv, np.array(CORES_HSV["vermelho"][0]), np.array(CORES_HSV["vermelho"][1]))
+            mascara = cv2.add(mascara_vermelho1, mascara)
+            nome_cor = "vermelho"
 
-        captura.release()
-        cv2.destroyAllWindows()
+        # Encontra os contornos dos objetos da máscara
+        contornos, _ = cv2.findContours(mascara, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for contorno in contornos:
+            if cv2.contourArea(contorno) > 500:  # Filtra pequenos ruídos
+                objetos_encontrados.append((cv2.contourArea(contorno), contorno, nome_cor))
+
+    # Se pelo menos um objeto foi detectado
+    if len(objetos_encontrados) > 0:
+        # Seleciona o maior objeto
+        area_maior, contorno_maior, cor_detectada = max(objetos_encontrados, key=lambda item: item[0])
+        forma_detectada = identificar_forma(contorno_maior)
+
+        # --- 6. ATUALIZA O TEXTO GLOBAL COM A FORMA E COR ---
+        texto_global_detectado = f"{forma_detectada} {cor_detectada}"
+
+        # Desenha um retângulo ao redor do objeto e escreve a classificação
+        (x, y, largura, altura) = cv2.boundingRect(contorno_maior)
+        cv2.rectangle(quadro, (x, y), (x + largura, y + altura), (0, 255, 0), 2)
+        cv2.putText(quadro, texto_global_detectado.capitalize(), (x, y - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+    # --- 7. DESENHA O BOTÃO DE "FALAR" ---
+    cv2.rectangle(quadro, botao_pos_inicial, botao_pos_final, (200, 200, 200), -1)  # Fundo do botão
+    cv2.putText(quadro, "Falar", (botao_pos_inicial[0] + 50, botao_pos_inicial[1] + 35),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
+    # ---------------------------------------
+
+    # Exibe o quadro na janela
+    cv2.imshow(NOME_JANELA, quadro)
+
+    # Sai do programa se a tecla 'q' for pressionada
+    tecla = cv2.waitKey(1) & 0xFF
+    if tecla == ord('q'):
+        break
+
+# Libera a câmera e fecha todas as janelas
+captura.release()
+cv2.destroyAllWindows()
+
       </pre>
     </div>
   </div>
@@ -683,6 +735,7 @@
       <h3>calibracao_camera.npz</h3>
       <pre>
 
+        "Arquivo gerado pelo código - 'calibrador_camera.py'"
         
       </pre>
     </div>
