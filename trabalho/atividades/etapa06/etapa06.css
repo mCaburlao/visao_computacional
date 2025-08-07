@@ -25,3 +25,13 @@ body {
 p {
   text-align: justify;
 }
+
+.iframe-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+iframe {
+  border: none;
+}
