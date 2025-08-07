@@ -19,3 +19,7 @@ body {
 .center-align-text {
     text-align: center;
 }
+
+a.blue-link {
+    color: #a7e3ff;
+}
