@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .imagem-grande {
+    width: 100%;
+    height: auto;
+  }
+
+  .menu {
+    flex-direction: column;
+  }
+}
+
+body {
+    height: 200vh;
+    color: #fff;
+}
+
+p {
+  text-align: justify;
+}
+
+.iframe-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+iframe {
+  border: none;
+}
