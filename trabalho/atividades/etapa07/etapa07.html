@@ -122,67 +122,227 @@
       </div>
 
       <br />
-      <h2>Laboratório Experimental - Identificador de Cores com Participantes</h2>
+      <h2>Introdução</h2>
       <br>
 
-      <h3>Objetivo do Experimento</h3>
+      <h3>Cenário de Aplicação</h3>
       <br>
-      <p>Permitir que o usuário veja a cor predominante no centro da tela (em tempo real) 
-        e escute essa cor sendo dita ao clicar em um botão.
+      <p>
+        &emsp; Este projeto tem como objetivo principal o desenvolvimento de um sistema de identificação de cor em tempo real com feedback sonoro, 
+        voltado especialmente para acessibilidade de pessoas com deficiência visual. 
+        A proposta foi criar uma ferramenta simples e prática capaz de informar, por meio de áudio, a cor de objetos posicionados em frente à câmera. 
+        O sistema foi desenvolvido utilizando Python e OpenCV, com interface gráfica criada em Tkinter e uso de sintetizador de voz com pyttsx3.
       </p>
 
       <br>
-      <h3>Passo a passo para usar o sistema</h3>
-
+      <h3>Fundamentação Teórica</h3>
       <br>
-      <p>1. Abrir o programa:</p>
-      <ul>
-        <li>Clique duas vezes no ícone de execução do programa “Detector de Cor” que se encontra na área de trabalho do computador.</li>
-      </ul>
-
+      <p>
+        &emsp; Baseado em entrevistas com Dna. Helena, de 58 anos, identificamos a necessidade de uma ferramenta de tecnologia assistiva para auxiliar pessoas com deficiência visual 
+        para identificar cores de objetos do cotidiano, como roupas ou alimentos. Nosso sistema foi projetado para atender a essa demanda de forma simples e direta.
+      </p>
       <br>
-      <p>2. Ver a janela do sistema:</p>
-      <ul>
-        <li>Uma janela será aberta com a imagem da webcam conectada ao computador.</li>
-        <li>No centro da imagem, haverá um círculo branco que será utilizado como foco para identificação da cor.</li>
-      </ul>
-
-      <br>
-      <p>3. Centralizar a cor desejada:</p>
-      <ul>
-        <li>Pegue um Post it identificado com o número 1.</li>
-        <li>Coloque a cor bem no centro da imagem, onde está o círculo branco.</li>
-        <li>O nome da cor detectada (ex: “vermelho”, “azul”) será exibido na tela, ao lado do círculo.</li>
-      </ul>
-
-      <br>
-      <p>4. Ouvir o nome da cor:</p>
-      <ul>
-        <li>Clique no botão azul "Falar Cor" abaixo da imagem.</li>
-        <li>O sistema vai falar em voz alta o nome da cor atual.</li>
-      </ul>
-
-      <br>
-      <p>5. Testar com outras cores:</p>
-      <ul>
-        <li>Repita o processo com os Post it 2 e 3</li>
-        <li>Faça o mesmo processo agora para sua camisa.</li>
-      </ul>
-
-      <br>
-      <p>6. Finalizar:</p>
-      <ul>
-        <li>Quando quiser sair, feche a janela do programa normalmente (clique no X).</li>
-      </ul>
-
-      <br>
-      <h2>Fim do Laboratório Experimental - Por favor responder questionário</h2>
-      <br>
-
-      <div class="iframe-container">
-         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBKtL0UxmYOZP-Zu5YWtKLBImOeeBRNaOVL4G88OvNZhh6fQ/viewform?embedded=true" width="640" height="800">Carregando…</iframe>
-      </div>
       
+      <p>
+        &emsp; O projeto é baseado em conceitos fundamentais de visão computacional, como:
+      </p>
+      <ul>
+        <li>
+            Formação de imagem digital e captura via webcam;
+        </li>
+        <li>
+            Espaços de cor: conversão de BGR (default da OpenCV) para HSV, que é mais apropriado para segmentação por cor;
+        </li>
+        <li>
+            Segmentação e extração de características: análise de uma região de interesse (ROI) no centro da imagem;
+        </li>
+        <li>
+            Conversão de texto para fala (text-to-speech), usando a biblioteca pyttsx3;
+        </li>
+        <li>
+            Interface gráfica interativa desenvolvida com tkinter, promovendo interatividade ao usuário leigo.
+        </li>
+      </ul>
+
+      <br />
+      <h2>Materiais e Métodos</h2>
+      <br>
+      <h3>Modelagem Funcional do SPV</h3>
+      <br>
+      <p>
+        &emsp; O sistema segue o seguinte fluxo:
+      </p>
+      <ol>
+        <li>Captura de vídeo da webcam</li>
+        <li>Definição de uma região circular central (ROI) de 20x20 pixels</li>
+        <li>Conversão da imagem de BGR para HSV</li>
+        <li>Extração do pixel central da ROI</li>
+        <li>Determinação da cor com base nos valores HSV</li>
+        <li>Exibição da imagem com o nome da cor na tela</li>
+        <li>Fala da cor ao clicar no botão “Falar Cor”</li>
+      </ol>
+
+      <br>
+      <h3>Descrição da Implementação do SPV</h3>
+      <br>
+      <p>
+        &emsp; Bibliotecas Utilizadas:
+      </p>
+      <ul>
+        <li>OpenCV: Usada para capturar vídeo da webcam e processar imagens</li>
+            <ul>
+                É a base da visão computacional no projeto — permite:
+                <li>Capturar quadros da câmera</li>
+                <li>Converter cores de BGR para HSV</li>
+                <li>Detectar contornos e regiões de interesse (ROI)</li>
+                <li>Desenhar texto e formas na imagem</li>
+            </ul>
+        <li>NumPy: Utilizada para calcular médias de cores </li>
+        <li>tkinter: Utilizada para criar a interface gráfica (janela, botão, etc)</li>
+        <li>Pillow: Utilizada para converte o frame da câmera (OpenCV → RGB → ImageTk)</li>
+        <li>pyttsx3: Utilizada para ler a cor detectada em voz alta (Biblioteca de síntese de voz offline)</li>
+        <li>threading: Permite que a fala ocorra sem travar a interface - Evitar congelamento do vídeo enquanto o áudio é executado</li>
+      </ul>
+      
+      <br>
+      <h3>Arquivos Auxiliares:</h3>
+      <br>
+      <ul>
+        <li>calibrador_camera.py: Utilizado para calibrar manualmente a detecção de objetos durante testes (utilizar tabuleiro de xadrex)</li>
+        <li>calibrador_de_cor.py: Utilizado para calibrar manualmente faixas HSV durante testes</li>
+      </ul>
+
+      <br>
+      <h3>Análise Técnica e Resultados:</h3>
+      <br>
+      <p>
+        &emsp;🔸Medidas e métricas qualitativas:
+      </p>
+      <ul>
+        <li>O sistema se mostrou eficiente na detecção de cores básicas (vermelho, amarelo, verde, azul, roxo, branco, preto)</li>
+        <li>A latência entre a detecção e o feedback sonoro é praticamente instantânea</li>
+        <li>O uso da região central reduz interferências do fundo</li>
+      </ul>
+
+      <br>
+      <p>
+        &emsp;🔸Limitações observadas:
+      </p>
+      <ul>
+        <li>O sistema depende de boa iluminação para resultados mais estáveis</li>
+        <li>Ambientes com reflexo ou superfícies brilhantes podem afetar a acurácia da cor detectada</li>
+        <li>Apenas a cor central é analisada, o que pode limitar casos com objetos multicoloridos</li>
+      </ul>
+
+      <br>
+      <h2>Laboratorio Experimental</h2>
+      <br>
+      <h3>Roteiro do Laboratório Experimental:</h3>
+      <br>
+      <p>&emsp;🔸Roteiro:</p>
+      <ol>
+        <li>O usuário abre o sistema e posiciona um objeto em frente à webcam</li>
+        <li>Verifica se o objeto está centralizado no círculo da tela</li>
+        <li>Pressiona o botão "Falar Cor"</li>
+        <li>O sistema responde com áudio: "A cor é [cor]"</li>
+      </ol>
+
+      <p>&emsp; Observação: o roteiro detalhado pode ser encontrado na 'Etapa 6: Teste de Campodo SPV', na página do projeto.</p>
+      <p>&emsp; Link: <a href="../etapa06/etapa06.html" style="text-decoration: none; color: #00ccff;"><strong>Etapa 6</strong></a></p>
+
+      <br>
+      <h3>Análise dos Resultados do Teste de Campo:</h3>
+      <br>
+      <p>
+        &emsp; [####[Apresente os dados coletados na Etapa 6 de forma organizada.]###]
+      </p>
+
+      <br>
+      <h2>Conclusão</h2>
+      <br>
+      <h3>Objetivos Atingidos</h3>
+      <br>
+      <p>
+        &emsp; Ao final deste projeto, conclui-se que os objetivos delineados na introdução foram plenamente alcançados. 
+        Foi desenvolvido com sucesso um Sistema de Processamento Visual (SPV) funcional e interativo, que atende aos requisitos propostos pela disciplina de Visão Computacional.
+        Entregando uma solução funcional para identificação de cor com foco em acessibilidade.
+      </p>
+      <p>
+        &emsp; O sistema resolveu o problema proposto no Cenário de Aplicação, oferecendo uma ferramenta de tecnologia assistiva funcional, 
+        capaz de identificar e verbalizar cores de objetos do cotidiano em tempo real. 
+        A implementação do sistema em uma interface gráfica com tkinter e a adição de feedback de áudio com pyttsx3 foram cruciais para criar uma experiência de usuário acessível 
+        e intuitiva, validada pelos resultados positivos obtidos nos testes da Etapa 6. 
+        Os usuários demonstraram clara compreensão da proposta de valor do sistema e obtiveram os resultados esperados na maioria dos cenários de teste.
+      </p>
+
+      <br>
+      <h3>Pontos Positivos:</h3>
+      <br>
+      <ul>
+        <li>
+            A interface com tkinter foi bem recebida pelos usuários, que a consideraram mais amigável e profissional do que uma janela padrão do OpenCV. 
+            O uso de um botão nativo para acionar a fala foi um destaque.
+        </li>
+        <li>
+            A resposta de áudio foi considerada muito útil e essencial para o propósito do sistema como ferramenta assistiva, cumprindo o principal requisito do Cenário de Aplicação.
+        </li>
+        <li>
+            A implementação da fala em uma thread separada garantiu que a interface gráfica permanecesse responsiva e fluida, sem travar durante a verbalização, 
+            o que representa uma robustez técnica importante.
+        </li>
+      </ul>
+
+      <br>
+      <h3>Negativos/Desafios:</h3>
+      <br>
+      <ul>
+        <li>
+            A detecção baseada em um único pixel no centro da tela mostrou-se sensível a texturas, ruídos e variações de iluminação no objeto. 
+            Um objeto com múltiplas tonalidades ou um pequeno reflexo de luz na mira poderia levar a uma identificação incorreta.
+        </li>
+        <li>
+            A lógica de identificação de cores, baseada em regras if/elif fixas no código, torna a calibração de novas cores ou o ajuste fino das existentes um processo pouco flexível, 
+            exigindo alteração direta no código-fonte.
+        </li>
+      </ul>
+
+      <br>
+      <h3>Trabalhos Futuros</h3>
+      <br>
+
+      <p>
+        &emsp; O uso de técnicas básicas de visão computacional mostrou-se suficiente para a tarefa, e o projeto pode ser expandido no futuro para:
+      </p>
+      <ul>
+        <li>Reconhecimento de forma</li>
+        <li>Detecção de múltiplas cores</li>
+        <li>Aplicações móveis</li>
+      </ul>
+
+      <p>
+        &emsp; O projeto é uma demonstração clara de como a visão computacional pode ser aplicada de forma prática para resolver problemas do cotidiano.
+      </p>
+
+      <br>
+      <h2>Referências Bibliográficas</h2>
+      <br>
+      <ol>
+        <li>
+            OPENCV. OpenCV Documentation. Disponível em: https://docs.opencv.org/. Acesso em: 18 jun. 2025.
+        </li>
+        <li>
+            PYTTSX3. pyttsx3 Documentation. Disponível em: https://pyttsx3.readthedocs.io/. Acesso em: 20 jun. 2025.
+        </li>
+        <li>
+            UNIVERSIDADE FEDERAL DO ABC. Roteiro de Trabalhos da Disciplina ESZA019 – Visão Computacional. 
+            Santo André: UFABC, 2025. Disponível em: https://moodle.ufabc.edu.br/course/view.php?id=3989. Acesso em: 18 Jun. 2025.
+        </li>
+      </ol>
+
+
+
+      
+
       
           
     </div>
