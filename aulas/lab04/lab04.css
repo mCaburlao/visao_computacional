@@ -23,3 +23,37 @@ body {
 a.blue-link {
     color: #a7e3ff;
 }
+
+/* Tabela de parâmetros de estimação de profundidade */
+.params-table {
+    margin-left: auto;
+    margin-right: auto;
+    background: #222;
+    color: #eaf6ff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 24px;
+    border-collapse: collapse;
+}
+
+.params-table th,
+.params-table td {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    text-align: center;
+}
+
+.params-table th {
+    background: #333;
+    color: #a7e3ff;
+}
+
+.params-table tr:nth-child(even) {
+    background: #282828;
+}
+
+.params-table tr:nth-child(odd) {
+    background: #222;
+}

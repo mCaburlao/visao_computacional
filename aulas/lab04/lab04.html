@@ -102,7 +102,7 @@
       </div>
       <div class="integrante-card">
         <span class="integrante-nome">Data de publicação:</span>
-        <span class="integrante-ra">XX/07/2025</span>
+        <span class="integrante-ra">04/07/2025</span>
       </div>
     </div>
 
@@ -193,7 +193,9 @@
 
     <h2>Análise e discussão dos estudos realizados</h2>
     <br />
-    <p>&emsp;</p>
+    <h3>Calibração</h3>
+    <p>&emsp;A calibração, realizada da mesma forma que no <a href="../lab03/lab03.html" target="_blank">Laboratório
+        3</a>, foi realizada com as imagens abaixo: </p>
     <image-slider-2x images='[
                 {&quot;src&quot;:&quot;arquivos/data_you/stereoL/img1.png&quot;,&quot;alt&quot;:&quot;Esquerda 1&quot;},
                 {&quot;src&quot;:&quot;arquivos/data_you/stereoR/img1.png&quot;,&quot;alt&quot;:&quot;Direita 1&quot;},
@@ -226,11 +228,133 @@
                 {&quot;src&quot;:&quot;arquivos/data_you/stereoL/img15.png&quot;,&quot;alt&quot;:&quot;Esquerda 15&quot;},
                 {&quot;src&quot;:&quot;arquivos/data_you/stereoR/img15.png&quot;,&quot;alt&quot;:&quot;Direita 15&quot;}
             ]'></image-slider-2x>
-
+    <p>&emsp;Os parâmetros da calibração foram salvos no arquivo params_py.xml </p>
     <br />
+    <h3>Parâmetros do Mapa de Profundidade</h3>
+    <br />
+    <table class="params-table">
+      <thead>
+        <tr>
+          <th>Parâmetro</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>numDisparities</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>blockSize</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>preFilterType</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>preFilterSize</td>
+          <td>27</td>
+        </tr>
+        <tr>
+          <td>preFilterCap</td>
+          <td>59</td>
+        </tr>
+        <tr>
+          <td>textureThreshold</td>
+          <td>92</td>
+        </tr>
+        <tr>
+          <td>uniquenessRatio</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>speckleRange</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>speckleWindowSize</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>disp12MaxDiff</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>minDisparity</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>M</td>
+          <td>12.462179932687571</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Configuração das distâncias</h3>
+    <div class="centered" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+      <figure style="margin:0;">
+        <img class="centered" src="arquivos/distancia_10_cm.png" alt="Objeto a 10 cm de distância"
+          style="height:150px;">
+        <figcaption style="text-align:center;">Objeto a 10 cm de distância</figcaption>
+      </figure>
+      <figure style="margin:0;">
+        <img class="centered" src="arquivos/distancia_30_cm.png" alt="Objeto a 30 cm de distância"
+          style="height:150px;">
+        <figcaption style="text-align:center;">Objeto a 30 cm de distância</figcaption>
+      </figure>
+    </div>
+    <br>
+    <figure style="margin:0;">
+      <img class="centered" src="arquivos/grafico_resultado.png" alt="Detecção em tempo real nas webcams"
+        style="height:250px;">
+      <figcaption style="text-align:center;">Gráfico da distância pela disparidade resultante</figcaption>
+    </figure>
+    <br>
+
+    <h3>Validação da distância obtida em relação a realidade</h3>
+    <p>&emsp; Apesar da calibração ter sido executada corretamente, utilizando um conjunto adequado de imagens do padrão
+      xadrez e gerando os parâmetros necessários no arquivo params_py.xml, os resultados obtidos na fase final do
+      experimento não foram satisfatórios em termos de diferenciação de profundidade.</p>
+
+    <p>&emsp; Durante a execução dos testes com objetos posicionados a diferentes distâncias (10 cm e 30 cm, por
+      exemplo), o sistema não foi capaz de representar de forma clara e precisa a diferença entre essas posições no mapa
+      de disparidade. Como consequência, a estimativa de profundidade se mostrou inconsistente, com pouca ou nenhuma
+      variação nos valores gerados para objetos que estavam claramente em planos diferentes. Esse comportamento
+      inviabiliza o uso do sistema para medição real de distâncias, como demonstrado nas imagens abaixo.</p>
+    <image-slider images='[
+            {"src":"arquivos/problema_1.png","alt":"img300"},
+            {"src":"arquivos/problema_2.png","alt":"img350"},
+            {"src":"arquivos/problema_3.png","alt":"img400"}
+        ]'></image-slider>
+    <p>&emsp; Essa limitação pode ser atribuída a diversos fatores combinados, como:</p>
+
+    <ul>
+      <li><strong>Condições visuais limitantes:</strong><br>
+        A qualidade das imagens capturadas pelas webcams, aliada à iluminação do ambiente e à textura dos objetos
+        utilizados, pode não ter sido ideal. O algoritmo de correspondência depende fortemente da presença de padrões
+        visuais únicos em ambas as imagens para funcionar corretamente. Objetos reflexivos, sem textura, ou em ambientes
+        pouco iluminados tendem a gerar correspondências erradas ou ambíguas.
+      </li>
+      <li><strong>Base estereoscópica muito curta:</strong><br>
+        Se a distância entre as duas câmeras (baseline) for muito pequena, a diferença de disparidade entre planos
+        próximos e distantes também será pequena. Isso reduz a sensibilidade do sistema e dificulta a percepção de
+        profundidade, especialmente em ambientes com pouca variação de profundidade em escala real.
+      </li>
+    </ul>
+
     <h2>Conclusões</h2>
     <br />
-    <p>&emsp;</p>
+    <p>&emsp;Em suma, o experimento demonstrou que, embora a pipeline de calibração e geração de disparidade tenha sido
+      corretamente seguida, a escolha dos parâmetros e as limitações físicas e ópticas do sistema dificultaram a
+      obtenção de um mapa de profundidade confiável. Para resultados mais eficazes, recomenda-se:</p>
+    <ul>
+      <li>Ajustar os filtros para permitir maior flexibilidade em regiões homogêneas;</li>
+      <li>Melhorar a iluminação e o contraste dos objetos analisados;</li>
+      <li>Aumentar o baseline da câmera estéreo, se possível.</li>
+    </ul>
+    <p>&emsp;Essas alterações podem ampliar significativamente a capacidade do sistema de distinguir planos e fornecer
+      estimativas mais próximas da realidade.</p>
 
     <br />
     <h2>Referências</h2>
