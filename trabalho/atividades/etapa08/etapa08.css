@@ -172,3 +172,10 @@ body {
   height: auto;
   object-fit: contain;
 }
+
+.container-video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
